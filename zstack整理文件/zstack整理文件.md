@@ -2,7 +2,11 @@
 
 http://172.20.12.174/wiki/wiki.php
 
-0.254账号名和密码： admin /zstack.172.24.0.254 
+0.254账号名和密码： admin       zstack.172.24.0.254 
+
+0.10账号名和密码： admin       ZStack%SHYZ_6#418 
+
+0.10的cli password： ZStack.7499_172.20.0.10 
 
  vcenter的配置：172.20.57.11 、172.20.57.1  密码：Testing%123 
 
@@ -300,7 +304,7 @@ create: async function (paramList, cb) {
 
 ![1571368973424](C:/Users/getingting/Desktop/zstack加操作助手2.png)
 
-### 16、手写复制
+### 16、手写复制copy
 
 ```
 export function copyText (content) {
@@ -398,6 +402,26 @@ zstack-ctl clear_license
  http://jira.zstack.io/browse/ZSTAC-25838 
 
  http://gitlab.zstack.io/zstackio/mevoco-ui2/merge_requests/10295 
+
+
+
+### 22、i18n中出现zstack字样
+
+因为产品中不允许出现zstack字样，会影响OEM版本，所以这边为了防止疏忽，就写了一个pre-commit.js 脚本，脚本中会查询i18n新增代码中是否有zstack字样，如果查询到，则不允许commit到本地仓库，给予报错警告，就像这样
+
+![1588927995289](zstack整理文件image/i18n-zstack.png)
+
+如果必须要添加zstack字样，这边把这个脚本先注释（package.json文件中），commit进去，再取消注释，--amend，最后push到远端就好了
+
+![1588928131861](zstack整理文件image/i18n-zstack-resolve.png)
+
+
+
+### 23、本地跑0.10的环境
+
+ 10上不支持apical/query 
+
+![1589004248616](zstack整理文件image/本地跑0.10.png)
 
 
 
@@ -624,3 +648,10 @@ e8e247c87ded4512358887ab1a791a07fc8d6b9f
 如果通过已有VIP的方式创建且当前是第一次选择子网，会根据（vip.l3networkUuid + vip.peerL3NetworkUuids）去查询路由器，如果当前vip的useFor = ‘SANT’的话，会过滤掉virtualRouterVips = 当前vip的路由器，然后通过得到的路由器uuid去查询（category=Private', 'networkServices.networkServiceType=IPsec）的l3，过滤掉已选的
 
 如果通过已有VIP的方式创建且当前不是第一次选择子网，会根据（vip.l3networkUuid + 已选择的本子子网）去查询路由器，如果当前vip的useFor = ‘SANT’的话，会过滤掉virtualRouterVips = 当前vip的路由器，然后通过得到的路由器uuid去查询（category=Private', 'networkServices.networkServiceType=IPsec）的l3，过滤掉已选的
+
+
+
+
+
+
+

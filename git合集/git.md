@@ -4,7 +4,7 @@
 
 https://www.imooc.com/learn/208
 
-![1565079508440](C:/Users/getingting/Desktop/git1.png)
+![](img/git.png)
 
 ### 1、使用git在本地创建一个项目的过程
 
@@ -62,7 +62,7 @@ git push -u origin master                    //将本地项目更新到github项
 
 如果遇到下图这样的问题，直接git  add .  即可解决
 
-![1564989660172](C:/Users/getingting/Desktop/rebase异常2.png)
+![](img/rebase异常.png)
 
 
 
@@ -108,13 +108,13 @@ gitlab上请求merge，选择需要的远端分支
 
 根据（2）推到master 如果出现下面的问题，有可能是和master上面的代码有冲突
 
-![1563959587399](C:/Users/getingting/Desktop/推到master失败3.png)
+![](img/推到master失败.png)
 
 1、可以看一下，代码是否有冲突，如果有冲突，进行解冲突
 
 2、结完冲突后，看下状态 git  status   
 
-![1563959730595](C:/Users/getingting/Desktop/解完冲突后的状态4.png)
+![](img/解完冲突后的状态.png)
 
 3、git  add
 
@@ -158,7 +158,7 @@ gitlab上请求merge，选择需要的远端分支
 
 有时候pull代码，会pull不下来，会遇到以下这种情况
 
-![1564021345802](C:/Users/getingting/Desktop/pull不下来代码5.png)
+![](img/pull不下来代码.png)
 
 再次pull无果后，可以这样：git pull  origin master:master
 
@@ -170,7 +170,7 @@ gitlab上请求merge，选择需要的远端分支
 
 
 
-![1564040224723](C:/Users/getingting/Desktop/编译错误6.png)
+![](img/编译错误.png)
 
 ### 10、本地代码脏乱，一键搞定
 
@@ -180,7 +180,7 @@ git fetch --all && git reset --hard origin/master && git pull
 
 git    branch   -d   '分支名'             //注意：删除分支之前，先切换到其他分支
 
-![1564212216912](C:/Users/getingting/Desktop/删除本地分支7.png)
+![](img/删除本地分支.png)
 
 ### 12、pr冲突
 
@@ -225,7 +225,7 @@ git push origin master
 
 查询所需要回退的版本号：如图
 
-![1564465212024](C:/Users/getingting/Desktop/1564465212024.png)
+![](img/git版本回退.png)
 
 ```
 git reset –hard 83ff2785
@@ -257,11 +257,19 @@ git checkout  -- <file>(文件url)
 
 把工作区的修改全部清空，回到最近的一次add或者commit
 
+git clean -df 
+
+删除当前目录下没有被track过的文件和文件夹    删除一些没有被 git add 的文件
+
+
+
 
 
 ### 18、git reset HEAD <file>  （文件名）
 
 (use "git reset HEAD <file>..." to unstage) 可以把暂存区的修改撤销掉
+
+这边可以把提交到暂存区的代码clean掉  重新放回到工作区
 
 
 
@@ -275,7 +283,7 @@ git checkout  -- <file>(文件url)
 
 ### 20、没有权限改代码
 
-![1566640859029](C:/Users/getingting/Desktop/没有权限改代码.png)
+![](img/没有权限改代码.png)
 
 有时候，提交代码的时候会遇到冲突，可是在本地看的时候，看不见冲突，有可能是没有权限改代码，权限被禁掉了，这时候可以把node关了，再次git status就会发现冲突，这时候解冲突就可以了。
 
@@ -283,7 +291,7 @@ git checkout  -- <file>(文件url)
 
 ### 21、权限问题-2
 
-![1571033240379](C:/Users/getingting/Desktop/1571033240379.png)
+![](img/1571033240379.png)
 
 这边可以看到是因为公钥的原因，有可能是更新的电脑的公钥，把本地电脑的公钥，再次添加一下就可以了。
 
