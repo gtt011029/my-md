@@ -1,5 +1,6 @@
 .DS_Store
 node_modules/
+ignore/
 dist/
 npm-debug.log
 test/unit/coverage

@@ -210,4 +210,11 @@ query Hero($episode: Episode, $withFriends: Boolean!) {
 // 这边的意思就是 if withType = true的情况下，会有 type字段，否则没有type字段
 ```
 
-==@include==
+==@include==       就是如果xxx就包括此字段，否则不包括
+
+@include(if: Boolean) 仅在参数为true时，包含此字段
+
+==@skip==           就是如果xxx就跳过此字段，否则包括
+
+@skip(if: Boolean) 仅在参数为true时，跳过此字段
+
