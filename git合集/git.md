@@ -318,3 +318,29 @@ git stash apply 用于重新存储
 git stash pop 让保存的代码重新进入工作区（移除单个存储单元）
 
 git stash === git stash save
+
+
+
+### 24、push报错（the remote end hung up unexpectedly）
+
+问题描述：Git在推送项目时报错：fatal: The remote end hung up unexpectedly。
+
+问题原因：推送的文件太大。
+
+解决方法：
+
+1、修改git config 文件的postBuffer的大小
+
+```
+git config --local http.postBuffer 524288000
+```
+
+ps：--local 只对本地有效
+
+2、直接修改本地仓库的.config文件
+
+.git   => config 打开文件
+
+postBuffer 修改
+
+3、重新push一次     

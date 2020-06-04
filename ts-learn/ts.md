@@ -2,6 +2,8 @@
 
 深入理解ts： https://jkchao.github.io/typescript-book-chinese/typings/enums.html    感觉这本书不错
 
+快速介绍： [https://midwayjs.org/midway/ts_start.html#%E5%BA%94%E7%94%A8%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84](https://midwayjs.org/midway/ts_start.html#应用目录结构) 
+
 
 
 ## 理解：
@@ -119,6 +121,8 @@ myData = 7   //这边都是ok的
 
 它是==对行为的抽象==
 
+**注意：接口的命名必须首字母大写**
+
 而具体如何行动需要由类（classes）去实现
 
 ==ts中的接口是一个非常灵活的概念，除了可用于对类的一部分行为进行抽象以外，也常用于对对象的形状（shape）进行描述     -------------->不懂这句话是什么意思==
@@ -144,7 +148,7 @@ let tom: Person  {
 
 ### 4.1、可选属性 ？
 
-希望不完全匹配可以使用
+希望不完全匹配可以使用，加问号（？）
 
 ```js
 interface Person {
