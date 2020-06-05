@@ -8,13 +8,38 @@
 
 ## 理解：
 
-js的超集，主要提供类型系统和对es6的支持
+js的超集，主要提供类型系统和对es6的支持，提供静态类型系统
+
+增加代码的可读性和可维护性，类型系统是最好的文档
 
 有一定的学习成本：需要理解接口（interfaces）、泛型（Generics）、类（Classes）、枚举类型（Enums）等概念
 
 
 
-## 1、数据类型
+## 关于导入和导出：
+
+直接export就可以
+
+```js
+// js 写法
+function alert() {
+}
+exports.alert = alert;
+exports.config = { a: 1 };
+
+
+
+
+// ts 写法
+export function alert() {
+}
+
+export const config = { a: 1 };
+```
+
+
+
+## 1、数据类型（原始类型）
 
 基本数据类型：（原始类型）（值传递）
 
@@ -60,9 +85,9 @@ let num: number = undefined
 
 
 
-### 1.3、任意值：
+### 1.3、任意值：any
 
-这里就不做类型要求任意类型都是ok的
+这里就不做类型要求任意类型都是ok的，这边就好像ts开的一个后门，关闭ts，这边的类型可以随便定义
 
 如果有未声明类型的变量，默认为任意值
 
@@ -80,17 +105,17 @@ ts会在没有明确指定类型的时候进行类型推论
 
 例如：
 
-```js
+```tsx
 let myData = 'string'
-myData = 7    //这边会报错
+myData = 7    //这边会报错  这边给推论成string类型
 ```
 
 原因是：定义变量的时候给其默认值为string类型，那ts类型推论就会认为是string类型，再次赋值number类型就会报错
 
-```js
+```tsx
 let myData
 myData = 'string'
-myData = 7     //这边就不会报错
+myData = 7     //这边就不会报错  这边默认any了
 ```
 
 原因是：定义变量的时候没有给其赋初值，类型推论就会认为是any类型，后面赋任何类型的值都不会报错
@@ -117,15 +142,15 @@ myData = 7   //这边都是ok的
 
 ## 4、interfaces（对象的类型----接口）
 
-在面向对象的语言中，接口是一个重要的概念
+在面向对象的语言中，接口是一个重要的概念，它是==对行为的抽象==
 
-它是==对行为的抽象==
+解释为对对象形状的描述：ps：描述这个对象，里面有什么字段，每个字段是什么类型，就是一个对象的文档
 
 **注意：接口的命名必须首字母大写**
 
 而具体如何行动需要由类（classes）去实现
 
-==ts中的接口是一个非常灵活的概念，除了可用于对类的一部分行为进行抽象以外，也常用于对对象的形状（shape）进行描述     -------------->不懂这句话是什么意思==
+能合并众多类型声明至一个类型声明
 
 例：
 
@@ -149,6 +174,8 @@ let tom: Person  {
 ### 4.1、可选属性 ？
 
 希望不完全匹配可以使用，加问号（？）
+
+这边呢，就是可以有，也可以没有
 
 ```js
 interface Person {
@@ -223,7 +250,11 @@ let array: number[] = [1, 2, 3, 5]      //这边的类型是数组每项的类�
 
 ### 5.2、数组泛型
 
-。。。。。。
+用法：Array<eleType>
+
+```tsx
+let fibonacci: Array<number> = [1, 1, 2, 3, 5];
+```
 
 
 
@@ -270,11 +301,33 @@ let sum (x: number, y: number) => number = function (x: number, y: number): numb
 
 在ts中=>用来表示函数的定义，左边是输入类型，右边是输出类型
 
-### 6.3、重载
+
+
+### 6.3、用接口定义函数的形状
+
+```tsx
+interface SearchFunc {
+    (source: string, subString: string): boolean
+}
+let mySearch: SearchFunc;
+mySearch = function(source: string, subString: string) {
+    return source.search(subString) !== -1
+}
+
+// 就是把上面函数表达式的那一段提出来，感觉这样写比较干净明了，可读性较高
+```
+
+
+
+
+
+
+
+### 6.4、重载
 
 重载允许一个函数接受不同数量或类型的参数时，做出不同的处理
 
-自我感觉并不是什么大的新的概念
+ps：自我感觉并不是什么大的新的概念，感觉就是声明合并
 
 ```js
 function reverse(x: number): number;
@@ -324,7 +377,7 @@ function isFish(animal: Cat | Fish) {
 
 ## 8、类型别名
 
-用来给类型起一个别名
+用来给类型起一个别名，我们使用type创建一个类型别名，
 
 ```js
 type Name = string;
@@ -337,13 +390,21 @@ function getName(n: NameOrResolver): Name {
         return n();
     }
 }
+
+
+type sex = 'man' | 'woman'
+function getGender(gender: sex) {
+    return gender
+}
 ```
 
 
 
 ## 9、字符串字面量类型
 
-用来约束取值只能是某几个字符产中的一个
+用来约束取值只能是某几个字符产中的一个，
+
+ps：我擦勒，就在这，我还给忘记了
 
 ```js
 type EventNames = 'click' | 'scroll' | 'mousemove';
@@ -390,11 +451,15 @@ tom.push(true) //这边就会报错，true为boolean类型，不属于 string、
 
 
 
-## 11、枚举
+## ==11、枚举 enum（得加深了解）==
+
+ps：感觉脑袋里不怎么有枚举的概念呀，这边和字符串字面量类型有什么区别呢
 
 枚举（Enum）类型用于取值被限定在一定范围内的场景，比如一周只有七天，颜色限定为红绿蓝等
 
 是组织收集有关联变量的一种方式
+
+ps：感觉默认为数字枚举，但好像平常中大多用字符串枚举
 
 例：
 
@@ -520,7 +585,7 @@ let direction = [Directions.Up, Directions.Down, Directions.Left, Directions.Rig
 
 
 
-### ==12.1、es6中类的用法==
+### 12.1、es6中类的用法
 
 这边是仿照面向对象语言的class的方法
 
@@ -608,7 +673,7 @@ console.log(dog.sayHi())   // hi jack 这边获取名字的时候get改变了名
 使用static修饰符的方法称为静态方法，这边不需要实例化，直接通过类来调用即可
 
 ```js
-class Animal {
+ class Animal {
   constructor (name) {
     this.name = name
   }
@@ -634,6 +699,8 @@ console.log(dog.sayHi())
 
 
 ### 12.2、ts中类的用法
+
+ps：感觉和C++对于类的定义是一样的，这边没什么好看的，和类型系统基本上没有太大的关系，给类（class）加上类型系统和接口类似
 
 #### 12.2.1、访问修饰符
 
@@ -708,7 +775,7 @@ console.log(cat.sayHi())
 
 把不同的类之间的共同特性提取成接口，用inplements关键字来实现，大大提高了面向对象的灵活性
 
-感觉接口就是公有方法（name）的集合，但是这个方法实例是什么样的由每个类决定
+ps：感觉接口就是公有方法（name）的集合，但是这个方法实例是什么样的由每个类决定
 
 ### 13.1、类实现接口
 
@@ -785,7 +852,7 @@ class Car implements Alarm, LightHigh {
 
 
 
-### 13.3、接口继承类
+### 13.3、接口继承类（厉害！）
 
 ==常见的面向对象语言，接口是不能继承类的，但是ts这边可以==
 
@@ -834,31 +901,30 @@ let point3d: Point3d = {x:1, y: 2, z: 3}
 
 ## 14、泛型（Generics）
 
+### 14.1、泛型
+
 指在定义函数、接口或类的时候，不预先指定具体的类型，而在使用的时候再指定类型的一种特征
 
 例：
 
 ```tsx
-function createArray<T, N>(length: N, value: T): Array<T> {
-  let result: T[] = [];
-  if (typeof length === 'number' ) {
+function createArray<T>(length: number, value: T): Array<T> {
+    let result: T[] = [];
     for (let i = 0; i < length; i++) {
-      result[i] = value;
+        result[i] = value;
     }
     return result;
-  }
 }
-console.log(createArray(3, 'x')) // 等价，类型推论得到类型   多个类型参数
-console.log(createArray<string, number>(3, 'x')) //这边一定要把类型加全
-console.log(createArray<string>(3, 'x'))   //这样是会报错的
+
+createArray<string>(3, 'x'); // ['x', 'x', 'x']
 
 ```
 
-在函数名称后面加<T>，T代码任意输出的类型，在后面value：T 和array<T>中即可使用了，当然这边也可定义多个
+在函数名称后面加<T>，T指代任意输入的类型，在后面value：T 和Array<T>中即可使用了，当然这边也可定义多个
 
 
 
-### 14.1、泛型约束
+### 14.2、泛型约束
 
 由于实现不知道其类型，所以不能随意操作它的属性和方法。只能操作所有类型共有的属性和方法
 
@@ -873,11 +939,23 @@ function createArray<T, N>(length: N, value: T): Array<T> {
 }
 console.log(createArray(3, 'x'))
 
+
+
+// 可以进行泛型约束，只允许这个函数传入那些包括length属性的变量，使用extends约束了泛型T
+interface Lengthwise {
+    length: number;
+}
+
+function loggingIdentity<T extends Lengthwise>(arg: T): T {
+    console.log(arg.length);
+    return arg;
+}
+
 ```
 
 
 
-### 14.2、泛型接口
+### ==14.3、泛型接口 （得加深了解）==
 
 ```tsx
 interface CreateArrayFunc {
@@ -917,7 +995,7 @@ console.log(createArray(3, 'x'))
 
 
 
-### 14.3、泛型类
+### 14.4、泛型类
 
 泛型也可以用于类的类型定义中
 
@@ -937,7 +1015,7 @@ console.log(genericsNumber.add(2, 4))
 
 
 
-### 14.4、泛型参数的默认类型
+### 14.5、泛型参数的默认类型
 
 ts 2.3之后可以给其加上默认类型
 
@@ -961,7 +1039,9 @@ console.log(createArray(3, 6)) //像这样是不会报错的，先后级别依�
 
 ## 15、声明合并
 
-如果定义了名称相同的函数、接口、类，则会被合并
+如果定义了名称相同的函数、接口、类，则会被合并，
+
+ps：这个这个这个。。属于代码写的不规范吧，为什么使用相同的名字，一种类型声明对应一个名字，项目代码种应该避免这种情况
 
 ### 15.1、函数的合并
 
@@ -995,5 +1075,5 @@ interface Alarm {   //结果
 }
 ```
 
-其实合并就是把其合并成一个，如果有不同的，统统放进去，如果有相同的且类型也相同，也放进去，如果类型不同机会报错
+ps：其实合并就是把其合并成一个，如果有不同的，统统放进去，如果有相同的且类型也相同，也放进去，如果类型不同机会报错
 
