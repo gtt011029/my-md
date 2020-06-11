@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    #index1 {
+      width: 600px;
+      height: 600px;
+      font-size: 100px;
+      -webkit-text-stroke: 2px #f00;
+      /* color: transparent; */
+      border: 1px solid blue;
+      border-radius: 20px 30px 40px 50px;
+      box-shadow: 2px 5px blue;
+      text-shadow: 10px 10px 3px yellow;
+      background: linear-gradient( 45deg, red , yellow);
+      background: linear-gradient( to top, red , yellow);
+      background: linear-gradient( to left bottom, red 30%, yellow 70%);
+      background: radial-gradient( circle, red 60%, blue);
+      background: radial-gradient( at 20% 20%, red, blue);
+      background: radial-gradient( closest-side circle at 20% 20%, red, blue);
+    }
+    #transform {
+      width: 300px;
+      height: 300px;
+      border: 1px solid red;
+      margin: 200px 40px;
+    }
+    #transform:hover {
+      /* transform: translate(20px, 30px); */
+      /* transform: rotate(30deg); */
+      transform: scale(1.2, 0.9);
+      transform: skew(30deg, 45deg);
+    }
+    #transform3d {
+      width: 200px;
+      height: 200px;
+      background-color: pink;
+      perspective: 40px;
+    }
+    #transform3d>div {
+      width: 100%;
+      height: 100%;
+      background-color: blue;
+      transform: translate3d(100px, 300px, -400px);
+    }
+    div {
+      animation: myName 10s ease 1s;
+
+    }
+    @keyframes myName {
+      20% {
+        margin-left: -2100px;
+      }
+      40% {
+        margin-left: -4200px;
+      }
+      60% {
+        margin-left: -6300px;
+      }
+      80% {
+        margin-left: -8400px;
+      }
+      100% {
+        margin-left: -10500px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- <div id="index1">
+    流浪青年期
+  </div>
+  <div id="transform">
+
+  </div> -->
+  <div id="transform3d">
+    <div>
+
+    </div>
+  </div>
+</body>
+</html>

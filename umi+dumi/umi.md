@@ -31,3 +31,23 @@ umi这边很多地方参考了nextjs
 
 可以获取formatMessage等api来进行具体的值的绑定
 
+
+
+路由：
+
+1、在配置文件中通过router进行配置
+
+2、约定式路由，又叫文件路由，不需要手写配置，通过目录和文件及其命名分析出路由配置。如果没有routes配置，umi会进入约定式路由模式，然后分析src/pages目录拿到路由配置
+
+注意：以下不会被注册为路由
+
+1. 以.或_开头的文件或目录
+2. 以d.ts、spec.ts、e2e.ts结尾的测试文件
+3. componments、componment目录
+4. utils、util目录
+5. 文件内容不包含jsx元素
+
+
+
+
+

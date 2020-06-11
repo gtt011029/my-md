@@ -2,6 +2,8 @@
 
 # git  合集
 
+## 二、开发中遇到的问题总结
+
 https://www.imooc.com/learn/208
 
 ![](img/git.png)
@@ -306,6 +308,8 @@ git clean -df
 ### 23、git stash
 
 用于想要保存当前的修改，但是想回到之前最后一次提交的干净的工作仓库时进行的操作，
+
+最新的存储待在refs/stash
 
 将本地的修改保存起来，并且将当前代码切换到HEAD提交上
 

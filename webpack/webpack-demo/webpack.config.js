@@ -17,10 +17,10 @@ module.exports = {
     overlay: true,
     proxy: {
       '/api': {
-        target: '',
-        changeOrigin: true,
+        target: '',  // 服务端端口
+        changeOrigin: true,  // 解决跨域问题
         pathRewrite: {
-          '^/api': ''
+          '^/api': ''  // 忽略api
         }
       }
     }
