@@ -217,10 +217,6 @@ Dllplugin，happypack
 
 
 
-### 27、Nuxt.js的seo优化
-
-
-
 ### 28、Vue3.0与Vue2.0的数据绑定
 
 
@@ -251,4 +247,190 @@ Dllplugin，happypack
 
 优点是兼容性好，简单易用，支持浏览器与服务器双向通信。缺点是只支持GET请求。
 
-2、 服务器端对于CORS的支持，主要就是通过设置Access-Control-Allow-Origin来进行的。如果浏览器检测到相应的设置，就可以允许Ajax进行跨域的访问。 
+2、 服务器端对于CORS的支持，主要就是通过设置Access-Control-Allow-Origin来进行的。如果浏览器检测到相应的设置，就可以允许Ajax进行跨域的访问。 （服务端配置请求头）
+
+
+
+3、webpack 配置 deserver 中的proxy进行跨域
+
+
+
+
+
+
+
+
+
+
+
+## 有封装过组件吗
+
+特性：
+
+1、即使没有任何注释的情况下也易于理解
+
+2、比乱麻般的代码有更好的性能表现
+
+3、更易于进行bug追溯
+
+4、简洁明了，一句顶一万句
+
+
+
+
+
+## React和vue的区别
+
+ https://www.lagou.com/lgeduarticle/98851.html 
+
+ 1.设计思想   
+
+ vue的官网中说它是一款渐进式框架，采用自底向上增量开发的设计。        
+
+react主张函数式编程，所以推崇纯组件，数据不可变，单向数据流，当然需要双向的地方也可以手动实现，    比如借助 onChange 和 setState 来实现一个双向的数据流。 
+
+
+
+2.编写语法   
+
+ Vue推荐的做法是webpack+vue-loader的单文件组件格式，vue保留了html、css、js分离的写法        
+
+React的开发者可能知道，react是没有模板的，直接就是一个渲染函数，它中间返回的就是一个虚拟DOM树，    React推荐的做法是  JSX + inline style, 也就是把HTML和CSS全都写进JavaScript了,即'all in  js'。 
+
+
+
+3.构建工具    
+
+vue提供了CLI 脚手架，可以帮助你非常容易地构建项目。        
+
+React 在这方面也提供了 create-react-app，但是现在还存在一些局限性，不能配置等等 
+
+
+
+4.数据绑定    
+
+vue是实现了双向数据绑定的mvvm框架，当视图改变更新模型层，当模型层改变更新视图层。    
+
+在vue中，使用了双向绑定技术，就是View的变化能实时让Model发生变化，而Model的变化也能实时更新到View。    (这里我们可以继续深入讲解一下双向数据绑定的原理，我之前的文章手写Vue源码可参考)        
+
+react是单向数据流，react中属性是不允许更改的，状态是允许更改的。   
+
+react中组件不允许通过this.state这种方式直接更改组件的状态。自身设置的状态，可以通过setState来进行更改。    (注意：React中setState是异步的，导致获取dom可能拿的还是之前的内容，    所以我们需要在setState第二个参数（回调函数）中获取更新后的新的内容。)        【这里如果你了解深入的话可以尝试描述一下React中setState的异步操作是怎么实现的，Vue中的更新是通过微任务等】 
+
+
+
+5.diff算法    
+
+vue中diff算法实现流程：        
+
+1.在内存中构建虚拟dom树        
+
+2.将内存中虚拟dom树渲染成真实dom结构        
+
+3.数据改变的时候，将之前的虚拟dom树结合新的数据生成新的虚拟dom树       
+
+4.将此次生成好的虚拟dom树和上一次的虚拟dom树进行一次比对(diff算法进行比对)，来更新只需要被替换的DOM，        而不是全部重绘。在Diff算法中，只平层的比较前后两棵DOM树的节点，没有进行深度的遍历。        5.会将对比出来的差异进行重新渲染           
+
+ react中diff算法实现流程:        
+
+DOM结构发生改变-----直接卸载并重新create        
+
+DOM结构一样-----不会卸载,但是会update变化的内容        
+
+所有同一层级的子节点.他们都可以通过key来区分-----同时遵循1.2两点       
+
+ (其实这个key的存在与否只会影响diff算法的复杂度,换言之,你不加key的情况下,        
+
+diff算法就会以暴力的方式去根据一二的策略更新,但是你加了key,diff算法会引入一些另外的操作)
+
+
+
+ React会逐个对节点进行更新，转换到目标节点。而最后插入新的节点，涉及到的DOM操作非常多。diff总共就是移动、删除、增加三个操作，而如果给每个节点唯一的标识（key），那么React优先采用移动的方式，能够找到正确的位置去插入新的节点。 
+
+
+
+ vue会跟踪每一个组件的依赖关系，不需要重新渲染整个组件树。而对于React而言,每当应用的状态被改变时,全部组件都会重新渲染,所以react中会需要shouldComponentUpdate这个生命周期函数方法来进行控制。 
+
+
+
+
+
+##  Vue 的响应式原理？ 
+
+
+
+
+
+
+
+## 如何画出0.5px的线
+
+# 使用css画一条0.5px的线
+
+[2018-09-28](http://gentlecoder.cn/2018/09/28/使用css画一条0.5px的线/)
+
+> 理论上px的最小单位是1，但是会有几个特例，高清屏的显示就是一个特例。高清屏确实可以画0.5px，在布局方面 ， 0.5px的线看上去就比1px的线看上去要精致很多。
+
+
+
+#### 什么是像素？
+
+像素是屏幕显示最小的单位，在一个1080p的屏幕上，它的像素数量是1920 *1080，即横边有1920个像素，而竖边为1080个。一个像素就是一个单位色块，是由rgba四个通道混合而成。对于一个1200万像素的相机镜头来说，它有1200万个感光单元，它能输出的最大图片分辨率大约为3000* 4000。
+
+那么像素本身有大小吗，一个像素有多大？
+
+有的，如果一个像素越小，那么在同样大小的屏幕上，需要的像素点就越多，像素就越密集，如果一英寸有435个像素，那么它的dpi/ppi就达到了435。Macbook Pro 15寸的分辨率为2880 x 1800，15寸是指屏幕的对角线为15寸（具体为15.4），根据长宽比换算一下得到横边为13寸，所以ppi为2880 / 13 = 220 ppi. 像素越密集即ppi(pixel per inch)越高，那么屏幕看起来就越细腻越高清。
+
+#### 如何画一条0.5PX的直线？
+
+1、直接设置0.5px（不同浏览器效果不同，不推荐），代码如下所示：
+
+```
+<!DOCTYPE html><html lang="en"><head>    <meta charset="UTF-8">    <meta name="viewport" content="width=device-width, initial-scale=1.0">    <meta http-equiv="X-UA-Compatible" content="ie=edge">    <title>Document</title>    <style>        .hr {            width: 300px;            background-color: #000;        }        .hr.half-px {            height: 0.5px;        }        .hr.one-px {            height: 1px;        }    </style></head><body>    <p>0.5px</p>    <div class="hr half-px"></div>    <p>1px</p>    <div class="hr one-px"></div></body></html>
+```
+
+不同的浏览器有不同的表现，其中Chrome把0.5px四舍五入变成了1px，而firefox/safari能够画出半个像素的边，并且Chrome会把小于0.5px的当成0，而Firefox会把不小于0.55px当成1px，Safari是把不小于0.75px当成1px，进一步在手机上观察iOS的Chrome会画出0.5px的边，而安卓(5.0)原生浏览器是不行的。所以直接设置0.5px不同浏览器的差异比较大，并且我们看到不同系统的不同浏览器对小数点的px有不同的处理。所以如果我们把单位设置成小数的px包括宽高等，其实不太可靠，因为不同浏览器表现不一样。
+
+2、使用缩放
+
+```
+.hr.half-px {   height: 1px;   transform: scaleY(0.5);}
+```
+
+在PC上的不同浏览器上测试，我们发现Chrome/Safari都变虚了，只有Firefox比较完美看起来是实的而且还很细，效果和直接设置0.5px一样。所以通过transform: scale会导致Chrome变虚了，而粗细几乎没有变化，所以这个效果不好。
+
+3、使用渐变
+
+```
+.hr.gradient {  height: 1px;  background: linear-gradient(0deg, #fff, #000);}
+```
+
+linear-gradient(0deg, #fff, #000)的意思是：渐变的角度从下往上，从白色#fff渐变到黑色#000，而且是线性的，在高清屏上，1px的逻辑像素代表的物理（设备）像素有2px，由于是线性渐变，所以第1个px只能是#fff，而剩下的那个像素只能是#000，这样就达到了画一半的目的。实际效果和使用缩放类似
+
+4、使用box-shadow
+
+```
+.hr.boxshadow {  height: 1px;  background: none;  box-shadow: 0 0.5px 0 #000;}
+```
+
+设置box-shadow的第二个参数为0.5px，表示阴影垂直方向的偏移为0.5px，这个方法在Chrome和Firefox都非常完美，但是Safari不支持小于1px的boxshadow，所以完全没显示出来了。
+
+5、使用svg
+
+```
+<style>.hr.svg {  background: none;  height: 1px;  background: url("data:image/svg+xml;utf-8,<svg xmlns='http://www.w3.org/2000/svg' width='100%' height='1px'><line x1='0' y1='0' x2='100%' y2='0' stroke='black'></line></svg>");}</style><p>svg</p><div class="hr svg"></div>
+```
+
+使用svg的line元素画线，stroke表示描边颜色，默认的宽度stroke-width=”1”，由于svg的1px是物理像素的px，相当于高清屏的0.5px，另外还可以使用svg的rect等元素进行绘制。要注意firefox的background-image如果是svg的话只支持命名的颜色，如”black”、”red”等。
+
+
+
+
+
+
+
+
+
+
+
+### 公司的产品，前端起什么作用，项目框架

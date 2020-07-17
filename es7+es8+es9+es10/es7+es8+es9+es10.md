@@ -364,7 +364,7 @@ set: undefined
 
 ## ES9新特性
 
-### 1、for await of 
+### 1、for await of （异步遍历器）
 
 用来遍历异步迭代器，会等待前一位成员状态改变后才会遍历下一位成员
 

@@ -28,7 +28,23 @@ ps：这边现在也不怎么这样用了，现在基本上用websocket
 
 ## 函数库
 
-### 1、fs
+### 1、fs模块
+
+该模块主要执行文件操作，均有同步和异步版本
+
+例如：fs.readFile()    fs.readFileSync()
+
+fs.stat  获取文件信息
+
+fs.unink  删除文件
+
+```js
+fs.readFile(filename,[.options],callback(err,data))
+// err 错误信息
+// buu'f'fe'r
+```
+
+
 
 ```js
 var fs = require('fs');
@@ -142,3 +158,56 @@ http模块提供两种使用方式：
 
 
 
+### url输入到页面展示的过程
+
+1、DNS解析：将域名解析成IP地址，
+
+2、TCP连接：TCP三次握手
+
+3、发送HTTP请求
+
+4、服务器处理请求并返回HTTP报文
+
+5、浏览器解析渲染页面
+
+6、断开连接：TCP四次握手
+
+
+
+### Cookie
+
+set-Cookie响应头字段是服务器发送到浏览器或者其他客户端的一些信息，一般用于登录成功的情况下返回给客户端的凭证信息，然后下次请求时会带上这个cookie，这样服务器就能知道当前是来自哪个用户了
+
+
+
+cookie请求头字段是客户端发送请求到服务端时发送的信息
+
+
+
+express-session  获取session信息
+
+
+
+
+
+
+
+进程：系统进行资源分配和调度的基本单位，是线程的容器
+
+线程：操作系统能够进行运算调度的最小单位
+
+孤儿进程：父进程创建子进程后，父进程退出了，但是父进程对应的一个或多个子进程还在运行
+
+
+
+
+
+
+
+mongoDB
+
+文档、集合、数据库
+
+ mongoose.connect （‘path’, function(){}）//连接数据库
+
+mongoose：mongoDB的建模工具

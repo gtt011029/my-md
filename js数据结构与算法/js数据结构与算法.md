@@ -106,9 +106,9 @@ function initArr(n) {
 
 
 
-## 数据结构
+# 数据结构
 
- [http://www.conardli.top/docs/dataStructure/%E4%BA%8C%E5%8F%89%E6%A0%91/%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%91%E7%9A%84%E5%90%8E%E5%BA%8F%E9%81%8D%E5%8E%86.html#%E9%A2%98%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E5%90%8E%E7%BB%AD%E9%81%8D%E5%8E%86](http://www.conardli.top/docs/dataStructure/二叉树/二叉搜索树的后序遍历.html#题二叉树的后续遍历) 
+ http://www.conardli.top/docs     ps:  感觉这个文档比我买的那本算法书还要好
 
 分为逻辑结构和存储结构
 
@@ -130,7 +130,7 @@ function initArr(n) {
 
 
 
-### 数据结构-二叉树
+## 一、二叉树
 
 #### 遍历
 
@@ -472,5 +472,476 @@ function balanced(node) {
   return Math.max(left, right) + 1;
 }
 console.log(IsBalanced_Solution(tree))
+```
+
+
+
+
+
+## 二、链表
+
+链表的东西其实很多，这边就简单的看了下，应该仔细看的
+
+用一组任意存储的单元来存储线性表的数据元素。一个对象存储着本身的值和下一个元素的地址
+
+特点：1、需要遍历才能查询到元素，查询慢
+
+2、插入元素只需断开连接重新赋值，插入快
+
+
+
+### 用js实现一个单向链表
+
+```js
+function Node (data) {
+  this.data = data
+  this.next = null
+}
+
+function ListNode(x){
+  this.head = new Node(x)
+  this.size=1
+}
+ListNode.prototype = {
+  // 尾部插入
+  add: function(data) {
+    var current = this.head
+    while(current.next!=null) {
+      current = current.next
+    }
+    current.next = new Node(data)
+    this.size ++
+  },
+
+  // 查找链表元素的位置
+  indexOf: function (data) {
+    let pos = 0
+    let currentNode = this.head
+    for (let i = 1; i < this.size; i++) {
+      currentNode = currentNode.next
+      if (currentNode.data = data) {
+        pos = i+1
+        break
+      }
+    }
+    return pos
+  },
+  // 需要遍历找到该位置，以及该位置的上个节点，再跟换next的指向
+  inset: function(pos, data) {
+    if (pos < 0 || pos > this.size) {
+      return
+    }
+    dataNode = new Node(data)
+    let last = this.head
+    for (let i=0; i < pos-1; i++) {
+      last = last.next
+    }
+    let lastNext = last.next
+    last.next = dataNode
+    dataNode.next = lastNext
+    this.size ++
+  },
+  // 遍历找到要移除的位置，再跟换next   这边的功能是移除第几个元素
+  remove: function (index) {
+    if (index < 0 || index > this.size) {
+      return
+    }
+    let last = this.head
+    for (let i = 0; i < index -2; i++) {
+      last = last.next
+    }
+    let willRemove = last.next
+    last.next = willRemove.next
+    this.size --
+  }
+}
+
+let list = new ListNode(2)
+list.add(3)
+list.add(5)
+list.inset(2, 4)
+list.add(6)
+list.remove(4)
+console.log(list.indexOf(3))
+console.log(list)
+
+
+```
+
+
+
+输入一个链表，按链表从尾到头的顺序返回一个arrayList
+
+```js
+function Node (data) {
+  this.data = data
+  this.next = null
+}
+
+function ListNode(x){
+  this.head = new Node(x)
+  this.size=1
+}
+ListNode.prototype = {
+  // 尾部插入
+  add: function(data) {
+    var current = this.head
+    while(current.next!=null) {
+      current = current.next
+    }
+    current.next = new Node(data)
+    this.size ++
+  },
+
+  // 查找链表元素的位置
+  indexOf: function (data) {
+    let pos = 0
+    let currentNode = this.head
+    for (let i = 1; i < this.size; i++) {
+      currentNode = currentNode.next
+      if (currentNode.data = data) {
+        pos = i+1
+        break
+      }
+    }
+    return pos
+  },
+  // 需要遍历找到该位置，以及该位置的上个节点，再跟换next的指向
+  inset: function(pos, data) {
+    if (pos < 0 || pos > this.size) {
+      return
+    }
+    dataNode = new Node(data)
+    let last = this.head
+    for (let i=0; i < pos-1; i++) {
+      last = last.next
+    }
+    let lastNext = last.next
+    last.next = dataNode
+    dataNode.next = lastNext
+    this.size ++
+  },
+  // 遍历找到要移除的位置，再跟换next   这边的功能是移除第几个元素
+  remove: function (index) {
+    if (index < 0 || index > this.size) {
+      return
+    }
+    let last = this.head
+    for (let i = 0; i < index -2; i++) {
+      last = last.next
+    }
+    let willRemove = last.next
+    last.next = willRemove.next
+    this.size --
+  }
+}
+
+let list = new ListNode(1)
+list.add(2)
+list.add(3)
+list.add(4)
+list.add(5)
+list.add(6)
+list.add(7)
+
+function printListFromTailToHead (list) {
+  let arr = []
+  let current = list.head
+  for (let i =0 ; i < list.size; i++) {
+    arr.unshift(current.data)
+    current = current.next
+  }
+  return arr
+}
+console.log(printListFromTailToHead(list))
+```
+
+
+
+
+
+## 三、数组
+
+### 给定一个数组，使其组合成一个最小的数
+
+[3, 32, 321]
+
+思路：利用sort
+
+```js
+function PrintMinNumber (arr) {
+  if (arr.length < 1) {
+    return
+  }
+  return arr.sort((a, b) => {
+    const front = ''+ a + b
+    const behind = ''+ b + a
+    return front - behind
+  }).join('')
+}
+
+console.log(PrintMinNumber([3,32,321]))
+```
+
+
+
+### 给定一个字符串，找出只出现一次的字符
+
+思路：利用indexOf 和lastIndexOf 查看两者是否相同
+
+```js
+function onlyForst(str) {
+  let arr = str.split('')
+  let array = []
+  arr.forEach((item) => {
+    if (arr.indexOf(item) === arr.lastIndexOf(item)) {
+      array.push(item)
+    }
+  })
+  return array
+}
+
+console.log(onlyForst('aaswwtgdfhjfdghfdgzsdzshzshzsdhsfsafhklihnhgngnfn'))
+```
+
+
+
+### 把数组中的奇数排在前面，偶数排在后面
+
+```js
+function arrOrder(arr) {
+  if (!arr.length) {
+    return
+  }
+  let oddArr = []
+  let evenArr = []
+  arr.forEach((item) => {
+    if (item % 2 === 0) {
+      evenArr.push(item)
+    } else {
+      oddArr.push(item)
+    }
+  })
+  return oddArr.concat(evenArr)
+}
+
+console.log(arrOrder([1,14,,7,9,3,2,4,5,7,8,8,28]))
+```
+
+
+
+输入一个正数S，打印出所有和为s的正数有序序列
+
+例如：输入15， 1+2+3+4+5 = 4+5+6 = 7+8 所以打印出3个连续序列1-5，4-6，7-8
+
+思路：
+
+1、创建一个容器child，用于表示当前的子序列，初始元素为1，2
+
+2、记录子序列的开头元素small、尾元素big
+
+3、big向右移动子序列末尾增加一个数，small向右移动子序列减小一个数
+
+4、当子序列的和大于目标值，small向右移动，当子序列的和小于目标值，big向右移动
+
+```js
+function FindContinuousSequence(data) {
+  let result = []
+  let arr = [1,2]
+  let small = 1
+  let big = 2
+  while(big < data) {
+    if (arrSum(arr) < data) {
+      big++
+      arr.push(big)
+    }
+    if (arrSum(arr) > data) {
+      small ++
+      arr.shift()
+    }
+    if (arrSum(arr) == data) {
+      if(arr.length > 1) {
+        let newArr = [...arr]
+        result.push(newArr)
+      }
+      big ++
+      arr.push(big)
+    }
+  }
+  return result
+}
+
+function arrSum(arr) {
+  return arr.reduce((a, b) => {
+    return a+b
+  })
+}
+
+console.log(FindContinuousSequence(15))
+```
+
+
+
+## 四、堆
+
+堆的底层实际上是个完全二叉树，可以用数组实现
+
+最大堆：每个的节点元素值不小于其子节点（ps：从大到小）
+
+最小堆：每个的节点元素值不大于其子节点  （ps： 从小到大）
+
+
+
+
+
+
+
+# 算法
+
+
+
+## 一、排序
+
+### 1、快排排序
+
+解释：选择一个目标值（一般是第一个值），比目标值小的放左边，比目标值大的放右边，目标值的位置已经排好，将左右两侧再进行快排（这边可以递归）
+
+```js
+function quickSort(arr) {
+  if (arr.length < 2) {
+    return arr
+  }
+  let target = arr[0]
+  let left = []
+  let right = []
+  for (let i = 1; i<arr.length; i++) {
+    if (arr[i] < target) {
+      left.push(arr[i])
+    } else {
+      right.push(arr[i])
+    }
+  }
+  return quickSort(left).concat(target, quickSort(right))
+}
+
+let arr = [6,1,2,7,9,3,4,5,10,8]
+
+console.log(quickSort(arr))
+```
+
+
+
+### 2、归并（分治法）
+
+解释：将大序列二分成小序列，将小序列排序后再将排序后的小序列归并成大序列
+
+感觉有点绕脑。。。这个很重要一定要看
+
+### 3、选择排序
+
+解释：每次排序取一个最大或最小的数字放到前面的有序序列中
+
+ps：双层循环
+
+```js
+function selectSort(arr) {
+  for(let i = 0; i < arr.length; i++) {
+    for(let j = i+1; j < arr.length; j++) {
+      if (arr[j] < arr[i]) {
+        [arr[i], arr[j]] = [arr[j], arr[i]]
+      }
+    }
+  }
+  return arr
+}
+
+let arr = [6,1,2,7,9,3,4,5,10,8]
+
+console.log(selectSort(arr))
+```
+
+
+
+### 4、插入排序
+
+解释：将左侧序列看成一个有序序列，每次将一个数字插入该有序序列。插入时，从有序序列的最右侧开始比较，若比较的数较大，后移一位
+
+```js
+function insetSort(arr) {
+  for(let i = 1; i< arr.length; i++) {
+    let target = i
+    for (let j = i-1; j>=0; j--) {
+      if (arr[j]>arr[target]) {
+        [arr[target], arr[j]] = [arr[j], arr[target]]
+        target = j
+      } else {
+        break;
+      }
+    }
+  }
+  return arr
+}
+
+let arr = [6,1,2,7,9,3,4,5,10,8]
+console.log(insetSort(arr))
+```
+
+
+
+### 5、冒泡排序
+
+解释：循环序列，比较当前元素和下一个元素，如果当前元素比下一个元素大，向上冒泡。下一次循环继续上面的操作，不循环已经排序好的函数
+
+```js
+function bubbleSort(arr) {
+  for (let i =0; i<arr.length; i++) {
+    for (let j =0; j<arr.length-i; j++) {
+      if (arr[j]>arr[j+1]) {
+        [arr[j], arr[j+1]] = [arr[j+1], arr[j]]
+      }
+    }
+  }
+  return arr
+}
+
+let arr = [6,1,2,7,9,3,4,5,10,8]
+
+console.log(bubbleSort(arr))
+```
+
+
+
+### 6、堆排序
+
+解释：创建一个大顶堆xxxxxxxxx
+
+
+
+## 二、查找
+
+### 1、二分查找法
+
+限制条件：查找的条件必须有序
+
+和线性表的中点值进行比较，如果小于中点值就在小的序列中查找，如此递归直至找到相同的数值
+
+```js
+let arr = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]
+function erfen(arr, num, start, end) {
+  let target  = arr[Math.floor((start+end)/2)]
+  if (num<target) {
+    end = Math.floor((start+end)/2)
+    return erfen(arr, num, start, end)
+  }
+  if (num>target) {
+    start = Math.floor((start+end)/2)
+    return erfen(arr, num, start, end)
+  }
+  if (num=target) {
+    return Math.floor((start+end)/2)
+  }
+}
+
+console.log(erfen(arr, 12, 0, 15))
 ```
 

@@ -589,7 +589,9 @@ next中提供了两种构建GraphQL应用程序的方式：模式优先、代码
 
 模式优先：
 
-代码优先：ui-server-4.0用的就是代码优先
+代码优先：ui-server-4.0用的就是代码优先，将仅使用**装饰器**、ts来生成相应的Graphql架构
+
+
 
 下载过后，导入项目
 
@@ -667,6 +669,80 @@ export class ClusterResolver {
 
 ResolveField(Int32)：返回由指定元数据令牌标识的字段
 
+
+
+## 几大装饰器
+
+@Query
+
+@ResolveField
+
+@Mutation
+
+@ Subscription 
+
+@InputType
+
+@ArgsType
+
+@ObjectType
+
+@Field 字段装饰器， 表示一个字段，它可以接受一个类型函数，或者对象（对象内部可以包含类型函数）作为参数
+
+nullable： 是否为可控
+
+description：描述字符串
+
+```ts
+@Field(() => Int, { nullable: true })
+  l2NetworkCount?: number
+}
+```
+
+### @nestjs/graphql
+
+这个包导出了
+
+@Resolver
+
+@ResolverField        查询其他的数据
+
+@Args
+
+……
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ## cli指令
 
  https://docs.nestjs.cn/6/cli 
@@ -723,3 +799,71 @@ option中有一个比较实用
 
 ![1589965955285](img/zstack示例.png)
 
+
+
+
+
+
+
+## 遇到的问题的集合
+
+### 1、 Cannot read property 'typeFn' of undefined
+
+**这个问题我为什么会遇到两遍还想不起来**
+
+![1592298141781](img/1592298141781.png)
+
+c4709fe29e494804aa1ea5aeb8a0627c
+
+c2aeeba6cc8f479cbe4a4dc5ae0876d5
+
+
+
+da08765deee64a93a02bd99f65b7f2e2
+
+
+
+query VmNic {
+  getVmNic(conditions: [
+    {
+      key: "vmInstance.uuid",
+      value: "19f5b606647547e7912f63ebc74e8a07"
+    }
+  ]) {
+    uuid,
+    netmask,
+    usedIps {
+      ip
+    }
+  }
+}
+
+
+
+
+
+@Field({ description: '上下行带宽' })
+
+ nicQos: NicQos
+
+
+
+
+
+
+
+@ObjectType()
+
+class NicQos {
+
+ @Field(type => Number)
+
+ inboundBandwidth: number;
+
+
+
+ @Field(type => Number)
+
+ outboundBandwidth: number;
+
+}

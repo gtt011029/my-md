@@ -4,6 +4,8 @@
 
 ## 二、开发中遇到的问题总结
 
+每次进行切换的时候，实际上是切换的HEAD指针的指向
+
 https://www.imooc.com/learn/208
 
 ![](img/git.png)
@@ -229,10 +231,16 @@ git push origin master
 
 ![](img/git版本回退.png)
 
-```
+```js
 git reset –hard 83ff2785
 
 git push -f origin matser
+
+git reset HEAD 暂存区的恢复到工作区
+
+git reset --soft HEAD~1
+
+// --soft这行命令表示，将最近一次提交 HEAD~1 从本地仓库回退到暂存区，--soft 不会丢弃修改，而是将修改放到暂存区，后续继续修改，或者丢弃暂存区的修改就可以随意了。如果要撤销本地两次修改，则改成 HEAD~2 即可，其他同类。
 ```
 
 
@@ -348,3 +356,13 @@ ps：--local 只对本地有效
 postBuffer 修改
 
 3、重新push一次     
+
+
+
+
+
+git reabse和git merge的区别：
+
+git merge: 会保留所以commit的记录，无论是master分支还是git分支,commit会按照日期的从新到旧进行排列
+
+git rebase：改变feature分支从master上拉出分支的位置；没有多余的合并历史的记录；这边看起来会更清爽一些

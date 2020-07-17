@@ -224,6 +224,21 @@ query Hero($episode: Episode, $withFriends: Boolean!) {
 
 
 
+## query（查询）
+
+```
+@resolverField()
+
+function(parent, args, cts, info) {
+	...
+}
+
+// parent: 当前上一个resolver的返回值
+// args： 传入某个query中的函数（就是想要的参数）
+// ctx： 在resolver解析器中不断传递的中间变量（类似中间件架构的context）
+// info： 当前query的AST对象
+```
+
 
 
 ### 变更（Mutation）
@@ -634,4 +649,12 @@ app.listen(4000);
 console.log('Running a Graphql API server at http://localhost:4000/graphql')
 ```
 
-![1589270826263](graphQL-image/1589270826263.png)
+<img src="graphQL-image/1589270826263.png" alt="1589270826263" />
+
+
+
+
+
+
+
+![1592293776029](graphQL-image/graphQL.md)

@@ -18,6 +18,8 @@
 
 **ps：这边有个特别明显的缺点，就是直接拿新的DOM替换旧的DOM非常的消耗性能**
 
+  
+
 
 
 ### 二、改进步骤
@@ -368,6 +370,10 @@ function Counter({initialCount}) {
 
 #### 3、useCallback
 
+缓存一个函数
+
+子组件不会因为这个函数的变动而重新渲染
+
 作用：避免组件重复渲染，提高性能（useMemo）
 
 可以控制组件什么时候更新
@@ -393,6 +399,8 @@ desp： 依赖项数组
 #### 4、useMemo
 
 返回一个memoized值
+
+用来缓存数据的
 
 为了解决性能问题，用的是memoization来提高性能，
 
@@ -554,3 +562,199 @@ export default () => {
 **注意：以use开头**
 
 感觉就像new了一个对象
+
+
+
+
+
+
+
+
+
+## 与vue相比较
+
+1、模板渲染方式不同
+
+react是通过jsx渲染的。react是在组件js代码中，通过原生js实现模板中的常见语法，比如插值、条件、循环等都是通过js语法实现的
+
+而vue是通过一种扩展的HTML语法进行渲染。vue是在和组件js代码分离的单独的模板中，通过指令来实现的
+
+这边的话，react更加原生
+
+2、数据流的不同
+
+react是单项数据流，它称之为onChange/setState()模式
+
+vue是支持双向绑定的，组件与DOM之间可以通过v-model双向绑定
+
+3、HoC、mixins
+
+在vue中我们组合不同的功能的方式是通过mixins（这个很鸡肋），
+
+react：之前也是通过mixins，不过后来觉得这种对组件侵入太强会导致很多问题，就弃用mixins转而使用HoC
+
+vue不采用Hoc的方式的原因：
+
+高阶组件本质就是高阶函数，react的组件是一个纯粹的函数，所以高阶函数对react来说非常简单
+
+但是vue就不行了，vue组件是一个杯包装的函数，并不简单的就是我们定义组件的时候掺入的对象或者函数，比如我们能定义的模板是怎么被编译的，比如声明的props怎么被接收的，这些都是vue创建组件实例的时候隐式干的事
+
+
+
+
+
+vuex和readux的区别
+
+从表面来说，store注入和使用方式有一些区别
+
+在vuex中，$store被直接注入到了组件实例中，因此可以比较灵活的使用
+
+dispatch、commit提交更新
+
+通过mapState或者直接通过this.$store来取读数据。这边使用的是可变数据。vuex是直接修改
+
+
+
+在redux中，我们每一个组件都需要显示的用connect把需要的props、dispatch连接起来。而redux中只能进行dispatch，并不能直接调用reducer进行修改。原理上说，这边使用的是不可变数据，redux每次都是用新的sate替换旧的state，redux在检测数据变化的时候是通过diff的方式比较差异，而vuex其实和vue的原理一样是同构getter/setter来比较（其实内部直接创建一个vue实例用来跟踪数据变化）
+
+
+
+
+
+
+
+## 生命周期
+
+1、挂载阶段
+
+constructor：组件的构造函数，第一个被执行（初始化state对象、给自定义方法绑定this）
+
+getDeriverdStateFromProps    
+
+render
+
+componentDidMount
+
+2、更新阶段
+
+shouldComponentUpdate   当组件接收到新属性，或者组件的状态发生改变时触发，组件首次渲染时并不会触发
+
+componentDidUpdate  组件被更新完成后触发
+
+3、卸载阶段
+
+componentWillUnmount
+
+清除一些定时器、取消网络请求、清理无效的DOM操作等垃圾清理工作
+
+
+
+
+
+被废弃的生命周期：
+
+componentWillMount
+
+componentWillReceiveProps   组件接收到属性时触发
+
+ componentWillUpdate   组件即将更新时触发 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+要保证组件的可读性
+
+提高代码的复用性：灵活的配置项
+
+数据才父组件传入
+
+在父组件处理事件
+
+不依赖vuex
+
+
+
+
+
+
+
+**5、react性能优化是哪个周期函数？**
+
+shouldComponentUpdate 这个方法用来判断是否需要调用render方法重新描绘dom。因为dom的描绘非常消耗性能，如果我们能在shouldComponentUpdate方法中能够写出更优化的dom diff算法，可以极大的提高性能。
+
+
+
+
+
+
+
+## 服务端渲染：
+
+组件或页面通过服务器生成html字符串，再发送到浏览器
+
+1、更利于seo，因为其只会爬取源码
+
+2、更利于首屏渲染    首屏渲染的是node发送过来的html字符串，并不依赖js文件了，会使用户更快的看到页面的内容
+
+node服务端渲染
+
+优势：同构：实现一套代码在服务器跟客户端同时运行
+
+
+
+## react中的key的作用：
+
+用来追踪哪些列表被修改、添加或者被移除。diff算法会借助key来判断该元素是新创建的还是移动过来的，这样就可以减少不必要的渲染
+
+
+
+## 调用setState之后发生了什么
+
+setState（updater， callback）
+
+它是异步的
+
+通常react会把多个setState（）合并成一个setState，一次性更新，提高渲染的性能（所以说我们通过setsate更新完数据后，立刻通过this.state是拿不到最新数据的）
+
+解决方法：1、如果我们需要拿到最新数据，可以在componentDidUpdate或者setState的回调函数中获取
+
+2、如果下一个state会依赖前一个state，推荐在setstate中传function
+
+会执行一个事物，将新state放进一个队列中，当事物完成后，react就会刷新队列，然后启动另一个事物，这个事物包括shouldComponentUpdate方法来判断是否重新渲染，如果是，react就会进行state合并（state merge），生成新的state和props；如果不是，react仍然会更新this.state，只不过不会再render了
+
+react会将传入的参数对象与当前的状态合并，然后触发所谓的调和过程
+
+
+
+ https://segmentfault.com/a/1190000016885832?utm_source=tag-newest 
+
+
+
+setState是同步的还是异步的
+
+只在合成事件和钩子函数中异步的，
+
+但是其内部呢并不是通过异步代码实现，本身执行过程和代码都是同步的

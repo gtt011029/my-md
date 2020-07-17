@@ -18,6 +18,7 @@ debug.log
 mevoco-ui2.iml
 node_modules
 node_modules.nosync/
+web-title/
 node_modules.zip
 .gradle/
 gradle

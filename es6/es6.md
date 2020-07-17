@@ -223,9 +223,12 @@ function foo() {
 
 
 ```js
-const arrLike = { 0: 'foo', 1: 'bar', 2: 'baz', length: 3 };
-const arr = array.from(arrLike)
-//array.from()将一个类数组对象转化成一个对象
+const arrLike = { 0: 'foo', 1: 'bar', 2: 'baz', length: 3 }
+console.log(Array.from(arrLike))
+console.log([].slice.call(arrLike)) /// slice会把通过索引位置获取的新的数组，该方法不会修改原数组，只是返回一个新的子数组.call会把this的指向改为传进去的obj
+console.log([...arrLike]) // 我这了这个地方好像报错  三点运算符
+//array.from()将一个类数组对象转化成数组   
+// ["foo","bar","baz"]
 ```
 
 
@@ -361,7 +364,7 @@ n // { a: 3, b: 4 }
 
 #### 1、set
 
-新的数据结构，类似于数组，但是成员的值是唯一的，没有重复的值
+新的**数据结构**，类似于数组，但是成员的值是唯一的，没有重复的值
 
 Set本身是一个构造函数，用来生成Set数据结构
 
@@ -403,11 +406,19 @@ Array.from方法可以将Set结构转化为数组
 
 #### 2、WeakSet
 
-与set相似，但成员只能是对象
+与set相似，也是不重复的，但成员只能是对象，其中的对象都是弱引用（即垃圾回收机制不会考虑它，如果该函对象在其他地方不在引用了，就会被回收，不管weakSet是否引用，所以这边规定weakSet不可遍历）
+
+```js
+const ws = new WeakSet([[1,2], [3,4]])
+console.log(ws)
+// index 为key  value为value
+```
 
 
 
 #### 3、Map
+
+类似于对象，也是键值对的集合，但是‘键’的范围不限于字符串，各种类型的值（包括对象）都可以当作键，也就是说object结构提供了‘字符串----值’的对应，map提供了‘值----值’的对应
 
 相对于object结垢提供的‘字符串---值’，map提供了‘值–---值’
 
@@ -444,3 +455,120 @@ proxyExample： 生成的proxy的实例，这边写好之后，如果想要使�
 
 
 ### 十六、promise对象
+
+手写promise
+
+ https://www.jianshu.com/p/c633a22f9e8c 
+
+
+
+
+
+### 十七、装饰器(@decorator )
+
+解释：起源于python，主要作用是给一些已有的类和方法扩展一些新的行为，而不是去修改其本身
+
+用来修改类的行为
+
+是一个对类进行处理的函数（可以作用于类，也可以作用于类的属性）
+
+```js
+@decorator
+class A {
+
+}
+// 等同于
+class A {}
+A= decorator(A)
+```
+
+装饰器在JavaScript中仅仅可以修饰类和属性，不能修饰函数（原因：存在函数的提升）
+
+装饰器对类的行为的改变，是代表编译时发生的，而不是在运行时
+
+装饰器能在编译阶段运行代码
+
+装饰器是经典的AOP模式（设计模式----代理模式）的一种实现方式
+
+
+
+
+
+
+
+### 十八、class
+
+基本上，es6的class可以看作只是一个语法糖，它的绝大部分功能，es5都可以做到，新的class写法只是让对象原型的写法更加清晰、更像面向对象编程的语法而已
+
+构造函数的prototype属性，在es6的‘类’上面继续存在。事实上，类的所有方法都可以定义在类的prototype属性上面
+
+取值函数（getter）和存值函数（setter）
+
+与es5一样，在‘类’的内部可以使用get、set关键字，对某个属性设置存取函数和取值函数，拦截该属性的存取行为
+
+
+
+class可以通过extends关键字实现继承，这比ES5的通过修改原型链实现继承，要清晰和方便很多
+
+```
+class Point {
+
+}
+class ColorPoint extends Point {
+
+}
+```
+
+es5继承的实质：
+
+先创建子类的实例对象this，然后再将父亲的方法添加到this上面（Parent.apply(this)）
+
+es6的继承机制：
+
+和es5完全不同，实质是将父类实例对象的属性和方法，加到this上面（所以必须先调用super方法），然后再用子类的构造函数修改this
+
+```js
+class ColorPoint extends Point {
+    p() {
+        return 2
+    }
+}
+
+// 等同于
+class ColorPoint extends Point {
+  constructor(...args) {
+    super(...args); // 作为函数调用，代表父类的构造函数，只能用在子类的构造函数中，es6要求，子类的构造函数必须执行一次super函数，注意其虽然代表父类的构造函数，但是返回的是子类的实例，即super内部的this指的是子类的实例，相当于   父类.prototype.constructor.call(this)
+    console.log(super.p())   // 2
+      // 作为对象时，在普通方法中指向父类的原型，在静态方法中，指向父类
+  }
+}
+```
+
+```js
+class Point {
+  p() {
+    return 11
+  }
+}
+
+class PointColor extends Point {
+  constructor() {
+    super()    // 作为方法， 代表父类的构造函数
+    console.log(super.p)   // 最为对象，指向父类的原型
+  }
+  pp() {
+    return 33
+  }
+}
+
+const pointColor = new PointColor
+console.log(pointColor)
+```
+
+
+
+### 十九、async
+
+generator函数的语法糖
+
+就是将generator函数的*替换成async，yield替换成await

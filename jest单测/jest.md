@@ -12,6 +12,8 @@
 
 3、toEqual() ：可用来测试对象是否相等
 
+4、toBeCalled()   被调用到
+
 ```js
 test('object assignment', () => {
   const data = {one: 1};
@@ -202,7 +204,62 @@ function forEach(items, callback) {
 
 
 const mockCallback = jest.fn(x => 42 + x);
-forEach([0,1
-        ])
+forEach([0,1], mockCallback);
+
+expect(mockCallback.mock.calls.length).toBe(2)    // 此mock函数被调用了两次
+expect(mockCallback.mock.calls[0][0]).toBe(0)     //第一次调用函数时第一个参数是0
+expect(mockCallback.mock.calls[1][0]).toBe(1)      // 第二次调用函数第一个参数是1
+expect(mockCallback.mock.result[0].value).toBe(42)  //第一次函数调用的返回值是42
 ```
 
+
+
+
+
+
+
+## 模拟模块
+
+假定有个从api获取数据的类，现在为了测试该方法而不实际调用api，可以使用jest.mock(…)函数自动模拟axios模块
+
+在测试中调用api的缺点：使测试缓慢与脆弱
+
+
+
+
+
+## 快照测试
+
+toMatchSnapshot()
+
+```js
+import React from 'react';
+import Link from '../Link.react';
+import renderer from 'react-test-renderer';
+
+it('renders correctly', () => {
+  const tree = renderer
+    .create(<Link page="http://www.facebook.com">Facebook</Link>)
+    .toJSON();
+  expect(tree).toMatchSnapshot();
+});
+```
+
+
+
+第一次运行此测试文件，jest创建一个快照文件，如下
+
+```js
+exports[`renders correctly 1`] = `
+<a
+  className="normal"
+  href="http://www.facebook.com"
+  onMouseEnter={[Function]}
+  onMouseLeave={[Function]}
+>
+  Facebook
+</a>
+`;
+```
+
+快照文件应与代码更改一起提交，并在代码检查过程中进行检查。jest使用pretty-format使得在代码检查期间易于阅读。在随后的测试运行中，jest会将渲染的输出与先前的快照进行比较。如果它们匹配，则测试通过。如果它们不匹配，则测试运行器在代码中发现了错误，应给予修复，或者实现更改，并且更新快照
