@@ -1077,3 +1077,22 @@ interface Alarm {   //结果
 
 ps：其实合并就是把其合并成一个，如果有不同的，统统放进去，如果有相同的且类型也相同，也放进去，如果类型不同机会报错
 
+
+
+
+
+## 遇错解析
+
+1、ts报错Property 'id' does not exist on type 'EventTarget'. mouseEvent
+
+解析：event.target默认为eventTarget类型，但是id为string类型，所以会报错，
+
+这边可以转一下
+
+```ts
+let targetId: any = (e.target as any).result
+
+// 或者将target转一下类型
+const target = event.target as HTMLElement
+```
+

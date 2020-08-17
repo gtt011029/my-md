@@ -366,3 +366,33 @@ git reabse和git merge的区别：
 git merge: 会保留所以commit的记录，无论是master分支还是git分支,commit会按照日期的从新到旧进行排列
 
 git rebase：改变feature分支从master上拉出分支的位置；没有多余的合并历史的记录；这边看起来会更清爽一些
+
+
+
+### **25、多人协作开发**
+
+看了廖雪峰 的官网，觉得他写的多人协作开发并不是很好
+
+我觉得这样会好点：首先先从远端fetch一份远端仓库的代码下来，最好远端个本地的branch name相同，便于理解，，最好保持这个分支和远端同步，基于这个分支在创建一个新的分支用于自己的开发，然后就开始自己的开发，中间如果有别的紧急bug要处理，这边可以stash，或者commit，等开发完成之后，本地的commit可以rebase成一个commit，便于远端查看提交记录，切到featch下来的那个分支，拉下远端最新代码，把开发的commit cherry-pick进去，在push到远端，然后git pull --rebase（git fetch + git rebase：其实这边的rebase就可以看成是远端pull下来的commit和本地的commit合并了，这样的话就只有一个commit看起来就比较清晰，如果直接pull的话，你的commit中就有别人的commit记录，这样的话远端就很混乱，所以这边就把所有的commit合并一下成为一个新的commit就比较清晰）远端代码到本地，有冲突的解冲突，解完冲突push到远端
+
+git rebase 的作用：把一个分支的修改合并到当前分支
+
+在本地常见和远程分之对应的分支：
+
+```
+git checkout -b branch-name origin/branch-name
+```
+
+git branch --set-upstream-to=origin/dev dev   设置本地dev和远程origin/dev的连接
+
+多人协作的工作模式
+
+1、首先，可以试图 git push origin <branch-name>
+
+2、如果推送失败，则因为远程分支比你本地的更新，git pull 一下试图合并
+
+3、如果有冲突的话解决冲突，
+
+4、没有冲突或冲突解决掉以后，再次推送
+
+注意：如果 git pull 提示no traking information ，则说明本地分支和远端分支没有创建链接关系，用命令 git branch --set-upstream-to <branch-name> origin/<branch-name>
