@@ -1,0 +1,22 @@
+<p>form-control works!</p>
+<div>
+  <label> Name:</label>
+  <input type="text" [formControl]="name">
+  <button (click)="getCurrentName()">查看当前name</button>
+  <button (click)="changeName()">更改名字为哈哈哈哈</button>
+  <div>
+    <h1>控件组</h1>
+    <form action="" [formGroup]="profileForm2" (ngSubmit)="onSubmit()">
+      <div>profileForm 组件从用户那里获得输入，formGroup/ formBuilder指令</div>
+      <label>firstName</label>
+      <input type="text" formControlName="firstName" required="required"><br>
+      <label>lastName</label>
+      <input type="text" formControlName="lastName"><br>
+      <button (click)="getFormControlValue()">获取控件组的内容</button><br>
+      <button (click)="updateProfile()">更改控件组中的内容</button>
+      <button (click)="getFirst()">打印firstName相关信息</button>
+      <button type="submit">submit</button>
+      <p>Form Status: {{ profileForm2.status }}</p>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,6 @@
+<p>view-child works!</p>
+<div #myViewChild>
+  <span>hahaha</span><br>
+  <input type="text" #num (keyup)="0" value="0">
+  <h1>{{num.value | percent:1000: 2000: 3000 | percents}}</h1>
+</div>

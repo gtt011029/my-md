@@ -327,6 +327,8 @@ path = os.getcwd()   // 获取当前路径
 
 with open(path+'./containerFile/test.txt', 'r') as file
 
+
+
 # **python自带的常用的库**
 
 TCPServer
