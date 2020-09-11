@@ -1,8 +1,11 @@
 <p>canves works!</p>
 <div style="border: 1px solid red;">
   <canvas id="canvas"
-          #imageCanvas
+          #drawCanvas
+          (mousemove)="onMouseMove($event)"
+          (mouseup)="onMouseUp($event)"
           width="1000px"
           height="1000px">
+    这边是canvas的替换内容，不晓得看不看得见（看样子是看不见了，因为这边的浏览器支持canvas）
   </canvas>
 </div>
