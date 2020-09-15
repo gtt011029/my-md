@@ -1,7 +1,6 @@
+# ROS
 
-ROS
-
-### 简介：
+## 简介：
 
 https://www.ncnynl.com/archives/201608/501.html
 
@@ -19,7 +18,7 @@ ROS系统通常由大量的**节点**组成，其中任何一个节点均可以�
 
 
 
-### ROS通信（3种）：
+## ROS通信（3种）：
 
 1、单向消息发送 / 接收方式的话题（topic）；（异步单向，连续不断的发送数据）
 
@@ -63,7 +62,7 @@ TCPROS连接：
 
 
 
-### interactive marker（互动标记物）
+## interactive marker（互动标记物）
 
 允许用户通过改变其位置或旋转，还可以点击它们或从分配给每个标记的上下文菜单中选择东西与之互动
 
@@ -75,7 +74,112 @@ TCPROS连接：
 
 ![image-20200915135301533](/home/xyz/Documents/my-md/ROS/image/ROS.png)
 
-### ROS与js的交互：
+
+
+
+
+```html
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+
+<script type="text/javascript" src="http://cdn.robotwebtools.org/threejs/current/three.min.js"></script>
+<script type="text/javascript" src="http://cdn.robotwebtools.org/EventEmitter2/current/eventemitter2.min.js"></script>
+<script type="text/javascript" src="http://cdn.robotwebtools.org/roslibjs/current/roslib.min.js"></script>
+<script type="text/javascript" src="http://cdn.robotwebtools.org/ros3djs/current/ros3d.min.js"></script>
+
+<script type="text/javascript" type="text/javascript">
+  /**
+   * Setup all visualization elements when the page is loaded.
+   */
+  function init() {
+    // Connect to ROS.
+    var ros = new ROSLIB.Ros({
+      url : 'ws://localhost:9090'
+    });
+
+    // Create the main viewer.  // 创建ros3D view对象用于防止内容
+    var viewer = new ROS3D.Viewer({
+      divID : 'markers',
+      width : 800,
+      height : 600,
+      antialias : true
+    });
+
+    // Setup a client to listen to TFs.  // 创建TFClient对象，订阅TF树的变换
+    var tfClient = new ROSLIB.TFClient({
+      ros : ros,
+      angularThres : 0.01,
+      transThres : 0.01,
+      rate : 10.0,
+      fixedFrame : '/rotating_frame'
+    });
+
+    // Setup the marker client.  // 创建InteractiveMarkerClient 用于显示交互内容
+    var imClient = new ROS3D.InteractiveMarkerClient({
+      ros : ros,
+      tfClient : tfClient,
+      topic : '/basic_controls',
+      camera : viewer.camera,
+      rootObject : viewer.selectableObjects
+    });
+  }
+</script>
+</head>
+
+<body onload="init()">
+  <h1>Simple Marker Example</h1>
+  <div id="markers"></div>
+</body>
+</html>
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## ROS与js的交互：
 
 ```typescript
 // 连接ROS
@@ -190,4 +294,6 @@ ps：一般认为有map、base_link就可以了，而从网上的各种资料来
 T2 = T(world) * T1;
 
 当T1为map时，T2为base_link，这时的transform就是机器人在map上的坐标。即课可以看成以T1为坐标系，T2坐标系的坐标原点在T1坐标系上的位置。
+
+
 
