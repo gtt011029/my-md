@@ -334,3 +334,11 @@ with open(path+'./containerFile/test.txt', 'r') as file
 TCPServer
 
 UDPServer
+
+
+
+
+
+python--socketio
+
+https://www.yinxiang.com/everhub/note/5f033c0e-a565-416d-8878-1c5e094cb9b4
