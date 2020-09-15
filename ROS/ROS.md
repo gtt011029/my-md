@@ -7,6 +7,8 @@ https://www.ncnynl.com/archives/201608/501.html
 
 https://zhuanlan.zhihu.com/p/21252651
 
+https://www.ncnynl.com/archives/201709/2133.html
+
 （Robot Operating System）机器人操作系统，是一个在计算机上对机器人进行操作的一个开源系统。
 
 ROS系统通常由大量的**节点**组成，其中任何一个节点均可以通过**发布/订阅**的方式与其他节点进行通信。
@@ -144,5 +146,48 @@ addTwoIntsClient.callService(request, function(result) {
     // 这边得到请求的结果数据
     console.log('Result for service call on' + addTwoIntsClient.name + ': ' + result.sum);
 })
+
+// 获取和设置一个参数值
+ros.getParam(function(params) {
+    console.log(params);
+})
+
+var maxVelX = new ROSLIB.Param({
+    ros: ros,
+    name: 'max_vel_y'
+});
+
+maxVelX.set(0.8);  // 设置参数
+maxVelX.get(function(value) {
+    console.log('MAX VAL: ' value);
+});
 ```
+
+
+
+TF：TensorFlow（张量的流动），张量（tensor）即任意维度的数据，一维、二维、三维、四维等数据统称为张量
+
+张量的流动是指：保持计算节点不变，让数据进行流动。这样的设计是针对连接式机器学习算法
+
+连接式的机器学习算法可以把算法表达成一张图，张量从图中从前到后走一遍就完成了前向运算；而惨差从后往前走一遍就完成了后向传播
+
+Tensor：可以看做一个数组，其实就是流图中的边，数据要流过，就需要适合这个‘边’
+
+
+
+map：地图坐标，固定坐标系
+
+odom： 机器人初始位置坐标，固定坐标系
+
+base_link：机器人中心位置坐标
+
+ps：一般认为有map、base_link就可以了，而从网上的各种资料来看，之所以加odom因为在机器人导航运行过程中会出现视觉定位偏差，里程计误差积累等等问题，当算法纠正这些偏差时，base_link会出现机器人中心位置在map坐标上不连续发生跳跃，而有了odom
+
+
+
+查看任意两个坐标系之间的transform：
+
+T2 = T(world) * T1;
+
+当T1为map时，T2为base_link，这时的transform就是机器人在map上的坐标。即课可以看成以T1为坐标系，T2坐标系的坐标原点在T1坐标系上的位置。
 
