@@ -1,5 +1,7 @@
 # ROS
 
+https://blog.csdn.net/tennysonsky/article/details/45062079： 浅谈c/s b/s架构
+
 ## 简介：
 
 https://www.ncnynl.com/archives/201608/501.html
@@ -7,6 +9,8 @@ https://www.ncnynl.com/archives/201608/501.html
 https://zhuanlan.zhihu.com/p/21252651
 
 https://www.ncnynl.com/archives/201709/2133.html
+
+http://robotwebtools.org/jsdoc/roslibjs/current/Vector3.html
 
 （Robot Operating System）机器人操作系统，是一个在计算机上对机器人进行操作的一个开源系统。
 
@@ -99,7 +103,7 @@ TCPROS连接：
       url : 'ws://localhost:9090'
     });
 
-    // Create the main viewer.  // 创建ros3D view对象用于防止内容
+    // Create the main viewer.  // 创建ros3D view对象用于放置内容
     var viewer = new ROS3D.Viewer({
       divID : 'markers',
       width : 800,
@@ -116,7 +120,8 @@ TCPROS连接：
       fixedFrame : '/rotating_frame'
     });
 
-    // Setup the marker client.  // 创建InteractiveMarkerClient 用于显示交互内容
+    // Setup the marker client.  // 实例化InteractiveMarkerClient，创建InteractiveMarkerClient 用于显示交互内容
+      这里提供了上面创建的Ros节点对象、TF clent、要渲染到的查看器场景、摄影机的引用，以及要渲染的交互式编辑主题名称
     var imClient = new ROS3D.InteractiveMarkerClient({
       ros : ros,
       tfClient : tfClient,
@@ -187,7 +192,7 @@ var ros = new ROSLIB.Ros({
     url: 'ws://localhost:9090'
 });
 
-ros.on('connection', function() {
+ros.on('connection', function() {  // 增加监听事件
     console.log('Connected to websocket server.');
 });
 ros.on('error', function(error) {
@@ -205,7 +210,7 @@ var cmdVel = new ROSLIB.Topic({
     messageType: 'geometry_msga/Twist'
 });
 
-var twist = new ROSLIB.Message({   // 这边是要发送的消息
+var twist = new ROSLIB.Message({   // 创建消息内容并发布
     linear: {
         x: 0.1,
         y: 0.2,
@@ -296,4 +301,169 @@ T2 = T(world) * T1;
 当T1为map时，T2为base_link，这时的transform就是机器人在map上的坐标。即课可以看成以T1为坐标系，T2坐标系的坐标原点在T1坐标系上的位置。
 
 
+
+### roslib编写actionlib客户端
+
+```html
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<script type="text/javascript" src="http://cdn.robotwebtools.org/EventEmitter2/current/eventemitter2.js"></script>
+<script type="text/javascript" src="http://cdn.robotwebtools.org/roslibjs/current/roslib.js"></script>
+
+<script type="text/javascript" type="text/javascript">
+  var ros = new ROSLIB.Ros({
+    url : 'ws://localhost:9090'
+  });
+
+  var fibonacciClient = new ROSLIB.ActionClient({  // actionClient作为actionlib客户端，发送一个目标到actionlib服务器端并获取一个反馈
+    ros : ros,
+    serverName : '/fibonacci',
+    actionName : 'actionlib_tutorials/FibonacciAction'
+  });
+
+  var goal = new ROSLIB.Goal({   // goal是一个actionlib目标，用于发送到actionlib服务器端
+    actionClient : fibonacciClient,
+    goalMessage : {
+      order : 7
+    }
+  });
+
+  goal.on('feedback', function(feedback) {   // 回调函数获取feedback和result信息
+    console.log('Feedback: ' + feedback.sequence);
+  });
+
+  goal.on('result', function(result) {
+    console.log('Final Result: ' + result.sequence);
+  });
+
+  ros.on('connection', function() {
+    console.log('Connected to websocket server.');
+  });
+
+  ros.on('error', function(error) {
+    console.log('Error connecting to websocket server: ', error);
+  });
+
+  ros.on('close', function() {
+    console.log('Connection to websocket server closed.');
+  });
+
+  goal.send();
+</script>
+</head>
+
+<body>
+  <h1>Fibonacci ActionClient Example</h1>
+  <p>Check the Web Console for output</p>
+</body>
+</html>
+```
+
+
+
+### 在roslibjs中使用TF
+
+```html
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<script src="http://cdn.robotwebtools.org/EventEmitter2/current/eventemitter2.min.js"></script>
+<script src="http://cdn.robotwebtools.org/roslibjs/current/roslib.min.js"></script>
+
+<script type="text/javascript" type="text/javascript">
+  var ros = new ROSLIB.Ros({
+    url : 'ws://localhost:9090'
+  });
+
+  var tfClient = new ROSLIB.TFClient({    // 利用TFClient对象订阅TF
+    ros : ros,
+    fixedFrame : 'world',
+    angularThres : 0.01,
+    transThres : 0.01
+  });
+
+  tfClient.subscribe('turtle1', function(tf) {    // 订阅坐标系world和turtle之间的转换
+    console.log(tf);
+  });
+
+  ros.on('connection', function() {
+    console.log('Connected to websocket server.');
+  });
+
+  ros.on('error', function(error) {
+    console.log('Error connecting to websocket server: ', error);
+  });
+
+  ros.on('close', function() {
+    console.log('Connection to websocket server closed.');
+  });
+</script>
+</head>
+
+<body>
+  <h1>Simple TF Example</h1>
+  <p>Check the JavaScript console for the output.</p>
+</body>
+</html>
+```
+
+
+
+
+
+### 利用Roslibjs数学运算
+
+```html
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<script type="text/javascript" src="http://cdn.robotwebtools.org/EventEmitter2/current/eventemitter2.js"></script>
+<script type="text/javascript" src="http://cdn.robotwebtools.org/roslibjs/current/roslib.js"></script>
+
+<script type="text/javascript" type="text/javascript">
+  var v1 = new ROSLIB.Vector3({   // 创建3维的vector对象，并可进行不同函数的处理
+    x : 1,
+    y : 2,
+    z : 3
+  });
+  var v2 = v1.clone();
+  v1.add(v2);
+  console.log(v1);
+
+  var q1 = new ROSLIB.Quaternion({  // 创建Quaternion对象，并可进行不同函数的处理
+    x : 0.1,
+    y : 0.2,
+    z : 0.3,
+    w : 0.4
+  });
+  var q2 = q1.clone();
+  q1.multiply(q2);
+  q1.invert();
+  console.log(q1);
+
+  var p = new ROSLIB.Pose({
+    position : v1,
+    orientation : q1
+  });
+  console.log(p);
+
+  var tf = new ROSLIB.Transform({
+    translation : v2,
+    rotation : q2
+  });
+  p.applyTransform(tf);
+  console.log(p);
+</script>
+</head>
+
+<body>
+  <h1>Math Example with Roslibjs</h1>
+  <p>Check the JavaScript console for the output.</p>
+</body>
+</html>
+```
 

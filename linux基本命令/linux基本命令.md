@@ -42,3 +42,23 @@ cp file1 file2 复制一个文件     （copy）
 
 
 
+
+
+
+
+解压缩filename.tar.gz的压缩
+
+```
+tar -zxvf filename.tar.gz
+```
+
+其中zxvf含义如下：
+
+z： gzip  压缩格式
+
+x： extract    解压
+
+v： verbose  详细信息
+
+f： file      文件
+
