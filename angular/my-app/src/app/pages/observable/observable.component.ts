@@ -51,7 +51,7 @@ export class ObservableComponent implements OnInit {
         }
       };
     });
-    sequence.subscribe((resp) => {
+    return sequence.subscribe((resp) => {
       console.log('next返回的东西： ', resp);
     }, () => {
       console.log('第二个函数，返回error的msg');

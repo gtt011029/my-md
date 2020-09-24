@@ -479,7 +479,7 @@ input自带属性（required， minlength， maxlength，required， pattern）
 
 ### Observable（可观察对象）：
 
-Rxjs库里面的一个对象，可以用来处理异步事件，例如HTTP请求（事实上，在angular中，所有的HTTP请求返回的都是Observable），和promise本质相同，但其实还是有很大区别的：Observable可以发送**任意多值**，并且在**订阅之前**，是**不会被执行**的。这是promise不具备的特点。
+Rxjs库里面的一个对象，可以用来处理异步事件，例如HTTP请求（事实上，在angular中，所有的HTTP请求返回的都是Observable），和promise本质相同，但其实还是有很大区别的：Observable可以发送**任意多值**，并且在**订阅之前**，是**不会被执行**的。这是promise不具备的特点。（简单点说就是有人订阅才会发布）
 
 主要用于发送方和接收方之间传送消息。
 
@@ -507,6 +507,81 @@ promise1.then((resp) => {
     console.log('error') // reject的时候会执行这里
 })
 ```
+
+
+
+#### 定义观察者：
+
+observer对象定义了一些回调函数（处理可观察对象可能会发来的三种通知）：
+
+next： 必要的。用来处理每个送达者。在开始执行后可能执行0次或多次
+
+error：可选。用来处理错误通知。错误会中断这个可观察对象实例执行过程（这边就会调用 unsubscribe ）。
+
+complete：可选。用来处理执行完毕（complete）通知。当执行完毕后。这些值就会继续传给下一个处理器（听不太懂）
+
+```typescript
+  testObservable() {
+    const testObservableFn = new Observable((observer) => {
+      setTimeout(() => {
+        if (this.observableNumberValue === 10) {
+          observer.error('error msg');
+        }
+        observer.next(this.observableNumberValue);
+      }, 1000);
+      return {
+        unsubscribe() {
+          console.log('return unsubscribe 取消订阅');
+        }
+      };
+    });
+    testObservableFn.subscribe((resp) => {
+      console.log(resp);
+    }, (error) => {
+      console.log(error, '');
+    });
+  }
+```
+
+```typescript
+testObservable2() {
+    const sequence = new Observable((observer) => {
+      observer.next(1);
+      observer.next(2);
+      observer.next(3);
+      observer.complete();
+      return {
+        unsubscribe() {
+          console.log('取消订阅');
+        }
+      };
+    });
+    sequence.subscribe((resp) => {
+      console.log('next返回的东西： ', resp);
+    }, () => {
+      console.log('第二个函数，返回error的msg');
+    }, () => {
+      console.log('第三个函数：这边是执行处理完毕的通知');
+    });
+  }
+
+
+// next返回的东西：  1
+// observable.component.ts:50 next返回的东西：  2
+// observable.component.ts:50 next返回的东西：  3
+// observable.component.ts:54 第三个函数：这边是执行处理完毕的通知
+// observable.component.ts:45 取消订阅
+```
+
+
+
+### RxJS库
+
+响应式编程是一种面向数据流和变更传播的异步编程范式。RxJS（响应式扩展的JavaScript版）是一个使用可观察对象进行响应式编程的库
+
+
+
+Angular中的可观察对象
 
 
 
@@ -677,6 +752,45 @@ export class FirstChildComponent implements OnInit, AfterViewInit {
 ## **六、服务**
 
 创建服务：ng g service xx目录
+
+
+
+## NgModules
+
+用于配置注入器和编译器，并帮你把那些相关的东西组织在一起
+
+NgModules是一个带有@NgModule装饰器的类。@NgModule的参数是一个元数据对象，这些对象呢是用于描述如何编译组件的模板，以及如何在运行时创建注入器。它会标出该模块自己的组件、指令、管道。通过exports属性公开其中的一部分，以便外部组件使用它们。NgMOdule还能把一些服务提供者添加到应用的依赖注入器中。
+
+NgModule的元数据会做这些：
+
+1. declarations：声明某些组件、指令、管道属于这个模块
+2. imports：导入其他带有组件、指令和管道的模块，这些模块的元件都是本模块所需的
+3. providers：提供一些供应用中的其他组件使用的服务。
+
+```typescript
+// imports
+import { BrowserModule } from '@angular/platform-browser';
+import { NgModule } from '@angular/core';
+
+import { AppComponent } from './app.component';
+
+// @NgModule decorator with its metadata
+@NgModule({
+  declarations: [AppComponent],
+  imports: [BrowserModule],
+  providers: [],
+  bootstrap: [AppComponent]
+})
+export class AppModule {}
+
+// 每个angular应用都至少有一个模块，也就是根模块
+```
+
+
+
+
+
+
 
 ## **cli命令**
 
