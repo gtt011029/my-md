@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
-import { ReactiveFormsModule } from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ParentChildComponent } from './pages/parent-child/parent-child.component';
@@ -17,6 +17,7 @@ import { FormControlComponent } from './pages/form-control/form-control.componen
 import { ForbiddenNameDirective } from './shared/forbidden-name.directive';
 import { DynamicFormQuestionComponent } from './pages/form-control/dynamic-form-question/dynamic-form-question.component';
 import { DynamicFormComponent } from './pages/form-control/dynamic-form/dynamic-form.component';
+import { ObservableComponent } from './pages/observable/observable.component';
 
 @NgModule({
   declarations: [
@@ -33,12 +34,14 @@ import { DynamicFormComponent } from './pages/form-control/dynamic-form/dynamic-
     FormControlComponent,
     ForbiddenNameDirective,
     DynamicFormQuestionComponent,
-    DynamicFormComponent
+    DynamicFormComponent,
+    ObservableComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
