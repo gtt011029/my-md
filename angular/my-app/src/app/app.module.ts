@@ -15,6 +15,8 @@ import { AdDirective } from './directive/ad.directive';
 import { AdBannerComponent } from './pages/ad-banner/ad-banner.component';
 import { FormControlComponent } from './pages/form-control/form-control.component';
 import { ForbiddenNameDirective } from './shared/forbidden-name.directive';
+import { DynamicFormQuestionComponent } from './pages/form-control/dynamic-form-question/dynamic-form-question.component';
+import { DynamicFormComponent } from './pages/form-control/dynamic-form/dynamic-form.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +31,9 @@ import { ForbiddenNameDirective } from './shared/forbidden-name.directive';
     AdDirective,
     AdBannerComponent,
     FormControlComponent,
-    ForbiddenNameDirective
+    ForbiddenNameDirective,
+    DynamicFormQuestionComponent,
+    DynamicFormComponent
   ],
   imports: [
     BrowserModule,

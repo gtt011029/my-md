@@ -1,8 +1,9 @@
 <div *ngFor="let item of list; index as i">检查ngfor: {{item}} {{i}}</div>
-<p appHighlight highlightColor="yellow">我是父组件</p>
+<p appHighlight highlightColor="yellow">我是父组件(ps: 这边我使用了属性型指令，hover的时候高亮，高亮的颜色自定义)</p>
 <div class="theme-red">
   <p class="pp">我是和子组件并列的父组件中的p</p>
   <app-first-child [param]="data" (ok)="childOk($event)" >
      <h3>组件的样式ng-content 的内容</h3>
   </app-first-child>
+  <app-view-child></app-view-child>
 </div>

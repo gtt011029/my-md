@@ -1,13 +1,18 @@
 import { Component, OnInit } from '@angular/core';
+import { QuestionService } from '../../question.service';
+import { QuestionBase } from '../../question-base';
+import { Observable } from 'rxjs';
 import {FormControl, FormGroup, FormBuilder, Validators, ValidatorFn, AbstractControl} from '@angular/forms';
 // import { forbiddenNameValidator } from '../../shared/forbidden-name.directive';
 
 @Component({
   selector: 'app-form-control',
   templateUrl: './form-control.component.html',
-  styleUrls: ['./form-control.component.css']
+  styleUrls: ['./form-control.component.css'],
+  providers:  [QuestionService]
 })
 export class FormControlComponent implements OnInit {
+  questions$: Observable<QuestionBase<any>[]>;
   // validationMessage = {
   //   firstName: {
   //     required: '请填写first name',
@@ -41,8 +46,10 @@ export class FormControlComponent implements OnInit {
   //   })
   // });
 
-  constructor(
-  ) { }
+  constructor(service: QuestionService) {
+    this.questions$ = service.getQuestions();
+    console.log(this.questions$);
+  }
 
   ngOnInit() {
     // this.profileForm2.valueChanges.subscribe((data) => {

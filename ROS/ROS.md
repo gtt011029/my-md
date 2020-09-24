@@ -121,7 +121,7 @@ TCPROS连接：
     });
 
     // Setup the marker client.  // 实例化InteractiveMarkerClient，创建InteractiveMarkerClient 用于显示交互内容
-      这里提供了上面创建的Ros节点对象、TF clent、要渲染到的查看器场景、摄影机的引用，以及要渲染的交互式编辑主题名称
+    //  这里提供了上面创建的Ros节点对象、TF clent、要渲染到的查看器场景、摄影机的引用，以及要渲染的交互式编辑主题名称
     var imClient = new ROS3D.InteractiveMarkerClient({
       ros : ros,
       tfClient : tfClient,
