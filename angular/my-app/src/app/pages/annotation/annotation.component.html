@@ -1,0 +1,15 @@
+<p>annotation works!</p>
+<button (click)="toggle()">get state</button>
+<select name="" id="" [(ngModel)]="state">
+  <option value="open">open</option>
+  <option value="duration">duration</option>
+  <option value="closed">closed</option>
+</select>
+<div [@openClose]="state" class="open-close-container">
+  <p>这边展示的是转场与触发器</p>
+</div>
+
+
+<div>
+  <p>这边展示的是复杂动画</p>
+</div>

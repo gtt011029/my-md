@@ -790,6 +790,97 @@ export class AppModule {}
 
 
 
+## 动画
+
+angular的动画系统是基于css功能构建的。
+
+意味着，你可以‘动’浏览器认为可动的任何属性。包括位置、大小、变形、颜色、边框等
+
+module中导入 ‘BrowserAnimationsModule’
+
+```typescript
+import { Component, OnInit } from '@angular/core';
+import {
+  trigger,
+  state,
+  style,
+  animate, transition
+} from '@angular/animations';
+
+@Component({
+  selector: 'app-annotation',
+  templateUrl: './annotation.component.html',
+  styleUrls: ['./annotation.component.css'],
+  animations: [
+    trigger('openClose', [   // 动画需要触发器，方便知道何时触发。trigger函数会把一些状态和转场组合在一起
+      state('open', style({
+        height: '500px',
+        opacity: 1,
+        backgroundColor: 'yellow'
+      })),
+      state('closed', style({
+        height: '100px',
+        opacity: 0.5,
+        backgroundColor: 'green'
+      })),
+      state('duration', style({
+        height: '300px',
+        opacity: 0.8,
+        backgroundColor: 'pink'
+      })),
+      transition('open <=> closed, open <=> duration, closed <=> duration', [   // <=> 表示双向转场 , 这边可包括多个状态对
+        animate('1s 0.1s ease-in-out', )
+      ])
+    ])
+  ] // 添加动画的元数据属性，可以把用来定义动画的触发器放进animation元数据属性中
+  // 这边是两个状态之间添加简单的转场动画。
+  // transition 的 stateChangeExpr竟然是有作用的，表示是由哪个状态到哪个状态过渡时的动画
+})
+export class AnnotationComponent implements OnInit {
+  public isOPen = true;
+  public state = 'open';
+
+  constructor() { }
+
+  ngOnInit() {
+  }
+  toggle() {
+    console.log(this.state);
+  }
+
+}
+
+```
+
+
+
+```html
+
+<p>annotation works!</p>
+<button (click)="toggle()">get state</button>
+<select name="" id="" [(ngModel)]="state">
+  <option value="open">open</option>
+  <option value="duration">duration</option>
+  <option value="closed">closed</option>
+</select>
+<div [@openClose]="state" class="open-close-container">
+    // 把定义好的触发器附加到组件模板的元素上，【】中是触发器的名字，值为你想要当前state的名字，想要当前是什么状态
+  <p>the box is now {{ isOPen ? 'Open': 'Closed' }}</p>
+</div>
+
+
+```
+
+总结：
+
+trigger（）：开始动画，充当所有其他动画的容器
+
+state（）：定义不同的状态，供每次转场结束时调用，两个参数：name和style样式（小驼峰）
+
+transition（）：转场，两个参数：‘一个表达式’，定义两个转场状态之间的方向，一个或者多个animate的数组；注意：转场状态可以有多个
+
+animate（‘duration持续时间， delay延迟时间， easing运动曲线’）：就是css的动画
+
 
 
 ## **cli命令**
