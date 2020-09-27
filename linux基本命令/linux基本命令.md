@@ -1,3 +1,5 @@
+https://hackmd.io/@Eotones/Hy7LCIteE?type=view
+
 一、关机
 
 shutdown -h now 关机
@@ -42,6 +44,16 @@ cp file1 file2 复制一个文件     （copy）
 
 
 
+### cat：concatenate：连接
+
+英文全拼：concatenate： 连接
+
+用于连接文件并打印到标准输入设备上
+
+
+
+
+
 
 
 
@@ -61,4 +73,102 @@ x： extract    解压
 v： verbose  详细信息
 
 f： file      文件
+
+
+
+
+
+
+
+### find：find：查找
+
+https://blog.gtwang.org/linux/unix-linux-find-command-examples/
+
+#### 指定档案名查找：
+
+```typescript
+// 在当前目录底下寻找某个文件
+find . -name gtwang.txt     // 这边find会列出所有名字叫这个的档案列表
+find /home -name gtwang.txt  // 在home目录底下，找文件名为gtwang.txt的文件
+find /home -iname gtwang.txt  //在home目录下面，找该文件，文件名不区分大小写 
+find ./react -name react.md
+```
+
+
+
+#### 指定档案类型（type）查找：
+
+```typescript
+//  type的参数可以有一下几个
+// d: 目录（directive）
+// p：具名的pipe（FIFO）
+// f: file
+// l: 连结档？
+// s: socket档案
+
+find 【想要查找的路径】 -type 【指定类型，就是上面那几个参数】 -name 【名字：比如你选择的类型是d目录，那这边就是目录的名字】
+
+find /home/xyz/Documents/ -type d -name react
+// 输出：
+// /home/xyz/Documents/my-md/angular/animation/node_modules/@babel/types/lib/validators/react
+// /home/xyz/Documents/my-md/angular/animation/node_modules/@babel/types/lib/utils/react
+// /home/xyz/Documents/my-md/angular/animation/node_modules/@babel/types/lib/builders/react
+// /home/xyz/Documents/my-md/angular/my-app/node_modules/@babel/types/lib/validators/react
+// /home/xyz/Documents/my-md/angular/my-app/node_modules/@babel/types/lib/utils/react
+// /home/xyz/Documents/my-md/angular/my-app/node_modules/@babel/types/lib/builders/react
+// /home/xyz/Documents/my-md/react
+
+
+
+find /home/xyz/Documents/ -type f -name react.md
+// 输出：
+// /home/xyz/Documents/my-md/react/react.md
+
+
+find /home/xyz/Documents/my-md -type f -name "*.md"    // 查找md格式的文件
+
+
+
+ // 档案权限 -perm，可以指定档案权限，例如：列出所有权限是777的所有档案
+find  . -type f -perm 0777
+```
+
+
+
+
+
+### 档案权限详解
+
+http://linux.vbird.org/linux_basic/0210filepermission.php#filepermission_perm
+
+```typescript
+ls -al react/
+// drwxrwxr-x  2 xyz xyz  4096 8月  17 14:26 .
+// drwxrwxr-x 33 xyz xyz  4096 9月  27 16:38 ..
+// -rw-rw-r--  1 xyz xyz 18092 8月  17 14:26 react.md
+
+```
+
+分别解释一下这边输出的都是什么意思：
+  -rw-rw-r--：档案类型权限，共有10个字元。
+
+​						（1）档案类型：（d：目录）、（-：档案）、（l：连结档）、......
+
+​						（2、3、4：档案拥有者的权限）（2）可写、（3）可读、（4）可执行、
+
+​						（5、6、7：档案所属群组之权限）（5）可写、（6）可读、（7）可执行
+
+​						（8、9、10）其他人之权限
+
+1：连结数，表示有多少档名连结到此节点（i-node）。
+
+xyz：档案拥有者
+
+xyz：档案所属群组
+
+18092：档案容量
+
+18092 8月  17 14:26： 档案最后被修改时间
+
+react.md： 档案名 
 
