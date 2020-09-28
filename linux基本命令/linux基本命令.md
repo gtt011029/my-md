@@ -32,9 +32,7 @@ ls -a 显示隐藏资料
 
 tree 显示文件和目录由根目录开始的树形结构
 
-mkdir  dir1  创建一个叫dir1的目录           （make   directory）
 
-mkdir p /tmp/dir1/dir2  创建一个目录树
 
 rm -f  file1    删除文件file1            （remove  file   ‘filename’）
 
@@ -42,15 +40,55 @@ rmdir dir1   删除目录 dir1      （remove   directory   ‘directory Name’
 
 cp file1 file2 复制一个文件     （copy）
 
+vi filename 创建一个文件
 
 
-### cat：concatenate：连接
+
+### rm：删除
+
+：remove
+
+格式： rm  【option】  name
+
+option：1、 -i    删除前逐一询问
+
+​				2、-f    即使原档案属性为只读，依旧删除不考虑不留情
+
+​				3、-r    将目录及以下之档案亦逐一删除
+
+rm -f  file1    删除文件file1            （remove  -force   ‘filename’）
+
+rmdir dir1   删除目录 dir1      （remove   directory   ‘directory Name’）
+
+
+
+### mkdir： 创建文件夹
+
+：make directive
+
+格式： mkdir [选项] DirName
+
+选项： 1、-m 用于对新建目录设施存取权限，也可以用chmod命令进行设置
+
+​			2、-p 需要时创建上层文件夹（或目录），如果文件夹已存在则不视为报错（ps：就是当前文件树已经存在一部分的话，会继续往内延伸，不会新建一份dir tree）
+
+mkdir  dir1  创建一个叫dir1的目录           （make   directory）
+
+mkdir -p /tmp/dir1/dir2  创建一个目录树
+
+
+
+### cat：连接
 
 英文全拼：concatenate： 连接
 
 用于连接文件并打印到标准输入设备上
 
 
+
+
+
+### touch：
 
 
 
@@ -80,7 +118,7 @@ f： file      文件
 
 
 
-### find：find：查找
+### find：查找
 
 https://blog.gtwang.org/linux/unix-linux-find-command-examples/
 
@@ -166,9 +204,25 @@ xyz：档案拥有者
 
 xyz：档案所属群组
 
-18092：档案容量
+18092：档案容量，预设单位bytes
 
 18092 8月  17 14:26： 档案最后被修改时间
 
 react.md： 档案名 
+
+
+
+
+
+### service：服务
+
+service --status-all : 列出运行中的服务
+
+service [service name] status :   查看某项服务的。例如：service nginx status
+
+service [service name] start/ stop/ restart:    启动、暂停、重启
+
+
+
+ 
 
