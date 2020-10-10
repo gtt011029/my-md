@@ -1,5 +1,7 @@
 https://hackmd.io/@Eotones/Hy7LCIteE?type=view
 
+### 杂记
+
 一、关机
 
 shutdown -h now 关机
@@ -20,7 +22,7 @@ cd ../..
 
 cd - 返回上次所在目录
 
-pwd 显示工作路径
+pwd 显示工作路径（print work directive）
 
 ls 查看目录中的文件          ls = list
 
@@ -90,7 +92,21 @@ mkdir -p /tmp/dir1/dir2  创建一个目录树
 
 ### touch：
 
+用于修改文件或者目录的时间属性，包括存取时间和更改时间。若文件不存在，系统会新建一个文件
 
+语法：touch 【-acfm】【-d<日期时间>】【-r<参考文件或目录>】【-t<日期时间>】【--help】【--version】【文件或目录】
+
+参数：1、a：改变时间记录
+
+​			2、m：改变修改时间记录
+
+​			3、c：假如目标档案不存在不会新建档案。与--no-create的效果一样
+
+​			4、f：不使用，是为了与其他的unix系统相容性而保留
+
+​			5、r：使用参考档的时间记录，与--file的效果一样
+
+​			6、d：（date）设定时间与日期
 
 
 
@@ -225,4 +241,62 @@ service [service name] start/ stop/ restart:    启动、暂停、重启
 
 
  
+
+### dpkg
+
+https://man.linuxde.net/dpkg
+
+dpkg命令是Debian Linux 系统用来安装、创建、和管理软件包的实用工具
+
+
+
+语法：dpkg（选项）（参数）
+
+例子：dpkg -l | grep xyz      （ps：|grep ： global regular expression print ）
+
+
+
+选项：
+
+-i ：安装软件包（install）
+
+-r：删除软件包（remove）
+
+-P：删除软件包的同时删除其配置文件
+
+-L：显示于软件包关联的文件
+
+-l：显示已安装软件包列表
+
+--unpack：解开软件包
+
+-c：显示软件包文件列表
+
+--confiugre：配置软件包
+
+
+
+
+
+
+
+### grep
+
+全局正则表达式版本
+
+ps：|grep ： global regular expression print ）
+
+https://www.cnblogs.com/peida/archive/2012/12/17/2821195.html
+
+
+
+
+
+
+
+
+
+ssh
+
+ps -aux |grep vision_sensor
 

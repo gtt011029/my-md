@@ -9,3 +9,9 @@
 四元数：本质上是一种高阶复数，是一个四维空间 ，虚部，x = a + bi + cj + dk
 
 q = x + xi + yj + zk    =》 q = ((x,y,z),w) = (v,w)， 其中v是向量，w是实数
+
+
+
+
+
+visor sensor 编译：catkin_make -DCATKIN_WHITELIST_PACKAGES="xyz_vision_sensor" 

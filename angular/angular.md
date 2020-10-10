@@ -671,6 +671,18 @@ ps:感觉这边就是帮忙处理一些ngOnChanges没有检测到变化的数据
 
 
 
+标记要翻译的属性
+
+i18n-属性名
+
+```html
+<img [src]="logo" i18n-title title="Angular logo" />
+```
+
+
+
+
+
 ## **五、父子组件传递数据**
 
 父元素文件。html

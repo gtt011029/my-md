@@ -400,3 +400,34 @@ git branch --set-upstream-to=origin/dev dev   设置本地dev和远程origin/dev
 4、没有冲突或冲突解决掉以后，再次推送
 
 注意：如果 git pull 提示no traking information ，则说明本地分支和远端分支没有创建链接关系，用命令 git branch --set-upstream-to <branch-name> origin/<branch-name>
+
+
+
+
+
+### 26、关联和取消远程仓库
+
+1.在本地目录下关联远程repository ：
+
+```
+git remote add origin git@github.com:git_username/repository_name.git
+```
+
+
+
+2.取消本地目录下关联的远程库：
+
+```
+git remote remove origin
+```
+
+
+
+
+
+### 27、本地分支与远端分支进行关联
+
+```
+git branch --set-upstream-to=origin/gw-refactor  gw-refactor
+```
+

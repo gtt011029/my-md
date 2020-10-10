@@ -342,3 +342,150 @@ UDPServer
 python--socketio
 
 https://www.yinxiang.com/everhub/note/5f033c0e-a565-416d-8878-1c5e094cb9b4
+
+
+
+
+
+
+
+
+
+# 字符串操作
+
+（截取、替换、查找、分割）
+
+```python
+str = '123456789'
+print str[0:1]
+print str[-5] // 字符串右5位
+
+// 替换
+str = 'akakakak'
+str = str.replace('k', '8')
+print str // a8a8a8a8
+
+// 查找
+str = 'a,hello'
+print str.find('hello')   // 2 输出结果
+
+// 分割
+str = 'a,b,c,d'
+strlist = str.split(',') // 用逗号分割字符串并保存到列表
+strlist = str.split(',', 1) // 注意这边第二个参数代表它分割的次数['a', 'b, c, d'] 
+
+// 头尾删除
+str = 'xyz_template_config'
+str.strip('xyz_')  //去除头尾指定字符 template_config
+```
+
+
+
+# list常用操作
+
+
+
+``` python
+// 索引
+li = ['q', 'w', 't']
+print li[0]
+print li[0:2]
+print li[-1] // t 负数索引
+
+// 增加元素
+li = ['a', 'b', 'mpilgrim', 'z', 'example']
+li.append('new')
+li.inset(2, 'new')
+li.extend(['two', 'elements'])   // ['a', 'b', 'mpilgrim', 'z', 'example', 'two', 'elements']
+
+
+// 搜索
+li.index('example')
+'c' in li
+
+// 删除元素
+li.remove('z')
+li.pop() //删除list的最后一个元素，然后返回删除的元素的值
+
+// 运算符
+li = li + ['example', 'new']
+li += ['two']
+li = [1, 2] *3  // [1, 2, 1, 2, 1, 2]
+
+// 使用join链接list成为字符串
+li = ['server=mpilgrim', 'uid=sa', 'database=master', 'pwd=secret']
+s = ';'.join(li)  // 'server=mpilgrim;uid=sa;database=master;pwd=secret'(ps: 感觉和js是相反的用法)
+
+// 映射解析
+li = [1, 9, 8, 4]
+li = [elem*2 for elem in li] // [2, 18, 16, 8]
+
+// dictionary中的解析
+params = {'server': 'milgrim', 'database': 'master', 'uid': 'sa', 'pwd': 'secret'}
+params.keys() // ['server', 'database', 'master', 'uid', 'pwd']
+params.values() // ['milgrim', 'master', 'sa', 'secret']
+params.items() // [('server', 'milgrim'), (...)]
+[v for k, v in params.items()] //  ['milgrim', 'master', 'sa', 'secret']
+["%s=%s" % (k, v) for k, v in params.items()] // ['server=mpilgrim', 'database=master', ...]
+
+
+// 过滤
+li = ["a", "mpilgrim", "foo", "b", "c", "b", "d", "d"]
+[elem for elem in li if len(elem) > 1]  // ['mpilgrim', 'foo']
+[elem for elem in li if elem != 'b']
+[elem for elem in li if li.count(elem) == 1]  // 在列表中出现一次的
+
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+注意：python中没有三目运算符
+
+
+
+
+
+
+
+```
+activate_app()
+{
+  if [ $# -ne 1 ]; then
+    echo "missing app_name"
+    return
+  fi
+  if [ -d $CODE_BASE/catkin_ws/src/xyz_app_config/$1 ]; then
+    if [ -d $CODE_BASE/app ]; then
+      echo "deactivate current app"
+      rm $CODE_BASE/app
+    fi
+    ln -s $CODE_BASE/catkin_ws/src/xyz_app_config/$1 $CODE_BASE/app
+    echo "activate $1"
+  else
+    echo "target app not exist, availabe apps:"
+    ls $CODE_BASE/catkin_ws/src/xyz_app_config/
+  fi
+  update_app_name
+}
+
+```
+
+```
+shell = 'if [ -d $CODE_BASE/catkin_ws/src/xyz_app_config/'+config_package_name+' ]; then ' +\
+                'rm $CODE_BASE/app fi ln -s $CODE_BASE/catkin_ws/src/xyz_app_config/'+config_package_name +\
+                ' $CODE_BASE/app '+'echo "success" else echo "false"'
+```
+
