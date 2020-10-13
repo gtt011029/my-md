@@ -40,7 +40,7 @@ rm -f  file1    删除文件file1            （remove  file   ‘filename’）
 
 rmdir dir1   删除目录 dir1      （remove   directory   ‘directory Name’）
 
-cp file1 file2 复制一个文件     （copy）
+cp file1 file2 复制一个文件     （copy） 将源文件复制到目标文件内
 
 vi filename 创建一个文件
 
@@ -109,6 +109,14 @@ mkdir -p /tmp/dir1/dir2  创建一个目录树
 ​			6、d：（date）设定时间与日期
 
 
+
+
+
+### tar：
+
+用来压缩和解压文件。tar本身不具有压缩功能，只是具有打包的功能，有关压缩及解压是调用其它的功能来完成
+
+打包：将一大堆文件或目录变成一个总的文件
 
 
 
@@ -284,6 +292,18 @@ dpkg命令是Debian Linux 系统用来安装、创建、和管理软件包的实
 
 全局正则表达式版本
 
+
+
+
+
+### ps: 查看进程信息
+
+ 查看进程信息并通过less分页显示
+
+ps -aux |less -N
+
+ps -aux |grep vision_sensor
+
 ps：|grep ： global regular expression print ）
 
 https://www.cnblogs.com/peida/archive/2012/12/17/2821195.html
@@ -292,11 +312,67 @@ https://www.cnblogs.com/peida/archive/2012/12/17/2821195.html
 
 
 
+### ssh：远程连接工具
+
+可以给予ssh加密协议实现安全的远程登录服务器
+
+ssh(选项)(参数)
 
 
 
 
-ssh
 
-ps -aux |grep vision_sensor
+### ln命令：
+
+https://www.cnblogs.com/peida/archive/2012/12/11/2812294.html
+
+ln是linux中一个较为重要的命令，该功能为：为某一个文件在另外的位置建立一个同步的链接，当我们需要在不同的目录，用到相同的文件时，我们不需要在每一个目录下面都放一个相同的文件，只需要把需要的文件放在固定位置，然后在其它需要该文件的地方用ln命令link链接它就可以了，不必重复的占用磁盘空间。
+
+```python
+# 格式：
+
+ln [参数][源文件或目录][目标文件或目录]
+```
+
+参数：
+
+-b  删除，覆盖以前建立的链接
+
+-d 允许超级用户制作目录的硬链接
+
+-f 强制执行
+
+-i 交互模式，文件存在则提示用户是否覆盖
+
+-n 把符号链接视为一般目录
+
+-s 软连接（符号链接）
+
+-v 显示详细的处理过程
+
+
+
+在linux系统中，所谓的链接（link），可以将其视为档案的别名，而链接分为两种：硬链接（hard link）与软连接（symbolic link）
+
+（ps：无论是硬链接还是软链接，文件都保持同步变化）
+
+硬链接：
+
+1. 一个档案可以有多个名称，
+2. 以文件副本的形式存在，但不占用实际空间
+3. 不可以给目录创建硬链接
+4. 只能存在于同一个文件系统中
+
+软连接：
+
+1. 产生一种特殊的档案，该档案的内容是指向另一个档案的位置，
+2. 可以跨越不同的文件系统
+3. 以路径的形式存在。类似于windows操作系统的快捷方式
+4. 可以对一个不存在的文件名进行链接
+5. 可以对目录进行链接
+
+```python
+# 创建软链接
+ln -s log.log linklog
+```
 

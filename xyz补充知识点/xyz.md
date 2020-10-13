@@ -15,3 +15,9 @@ q = x + xi + yj + zk    =》 q = ((x,y,z),w) = (v,w)， 其中v是向量，w是�
 
 
 visor sensor 编译：catkin_make -DCATKIN_WHITELIST_PACKAGES="xyz_vision_sensor" 
+
+
+
+
+
+'rosrun', 'xyz_vision_sensor', 'xyz_vision_sensor_node', '--noHikvision'
