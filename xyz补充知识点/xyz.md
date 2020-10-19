@@ -21,3 +21,27 @@ visor sensor 编译：catkin_make -DCATKIN_WHITELIST_PACKAGES="xyz_vision_sensor
 
 
 'rosrun', 'xyz_vision_sensor', 'xyz_vision_sensor_node', '--noHikvision'
+
+
+
+
+
+
+
+```python
+# app_path = os.popen('readlink which $CODE_BASE/app').read().strip()
+```
+
+
+
+
+
+标注：训练模板
+
+
+
+
+
+问题：切换到标注页面，标注相机的图片卡住报错
+
+![image-20201015165041534](../xyz补充知识点/image/image-20201015165041534.png)

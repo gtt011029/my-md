@@ -915,3 +915,37 @@ animate（‘duration持续时间， delay延迟时间， easing运动曲线’�
 ## **cli命令**
 
 ng generate component xxx路径   //创建组件 ng generate pipe xxx路径     // 创建自定义管道 ng generate directive  xxx路径   // 创建自定义指令
+
+
+
+
+
+
+
+## css作用域问题
+
+https://blog.csdn.net/qq_17165949/article/details/91854822
+
+
+
+
+
+
+
+
+
+## 奇怪的操作
+
+### 通过get方式赋值变量
+
+```ts
+get showFullLogo() {
+    return true
+}
+// 这边就有一个值为true的showFullLogo变量
+```
+
+```html
+<span i18n>Updated {minutes, plural, =0 {just now} =1 {one minute ago} other {{{minutes}} minutes ago}}</span>
+```
+

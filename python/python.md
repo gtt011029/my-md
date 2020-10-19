@@ -428,6 +428,8 @@ class是一种抽象概念，比如我们定义的class-student
 
 # **面向对象高级编程**
 
+oop程序设计（object oriented programming）
+
 动态绑定允许我们在程序运行的过程中给class加上功能，这在静态语言中很难实现
 
 __slots__   = ('name', 'age') 限制实例的属性，这边的话就允许该class实例，只能添加 name 、age
@@ -471,7 +473,25 @@ print(tina.score)
 
 ps：类的括号中填写的是所继承的类，如果不继承别的定义好的类，就继承object原型
 
-class Animal(object):    pass class Runnable(object):    def run(self):        print('runnig...') class Flyable(object):    def fly(self):        print('flying....') class Dog(Animal, Runnable):    pass dog = Dog() dog.run()
+当子类和父类拥有同名的方法时，子类中的方法会覆盖父类的方法
+
+理解多态：当我们定义一个class的时候，我们实际上就定义了一种数据类型（这边可以把class name理解为一种自定义的数据类型）。我们定义的数据类型和python自带的数据类型，比如str、list、dict没什么两样。
+
+```python
+class Animal(object):    
+    pass class Runnable(object):    
+    def run(self):        
+        print('runnig...') 
+class Flyable(object):    
+    def fly(self):        
+        print('flying....') 
+class Dog(Animal, Runnable):    
+    pass 
+dog = Dog() 
+dog.run()
+```
+
+
 
 # **定制类**
 
@@ -840,34 +860,6 @@ file.close() # 关闭文件
 
 
 
+# supervisor
 
-
-```
-activate_app()
-{
-  if [ $# -ne 1 ]; then
-    echo "missing app_name"
-    return
-  fi
-  if [ -d $CODE_BASE/catkin_ws/src/xyz_app_config/$1 ]; then
-    if [ -d $CODE_BASE/app ]; then
-      echo "deactivate current app"
-      rm $CODE_BASE/app
-    fi
-    ln -s $CODE_BASE/catkin_ws/src/xyz_app_config/$1 $CODE_BASE/app
-    echo "activate $1"
-  else
-    echo "target app not exist, availabe apps:"
-    ls $CODE_BASE/catkin_ws/src/xyz_app_config/
-  fi
-  update_app_name
-}
-
-```
-
-```
-shell = 'if [ -d $CODE_BASE/catkin_ws/src/xyz_app_config/'+config_package_name+' ]; then ' +\
-                'rm $CODE_BASE/app fi ln -s $CODE_BASE/catkin_ws/src/xyz_app_config/'+config_package_name +\
-                ' $CODE_BASE/app '+'echo "success" else echo "false"'
-```
-
+supervisor是用python开发的一套通用的进程管理程序，能将一个普通的命令京城变为后台daemon，并监控进程状态，异常退出时能自动重启。他说通过fork/exec的方式把这些被管理的进程当做supervisor的子进程来启动，这样只要在supervisor的配置文件中，把要管理的进程的可执行文件的路径写进去即可。也实现了当子进程挂掉的时候，父进程可以准确获取子进程挂掉的信息，可以选择是否自己启动或报警。supervisor还提供了一个功能，可以为supervisor或者每个子进程设置一个非root的user，这个user就可以管理它对应的进程。
