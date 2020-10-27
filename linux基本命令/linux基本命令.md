@@ -405,3 +405,7 @@ pip install --upgrade tornado==4.5.0
 
 
 vision_system_backend/ros_params_path
+
+
+
+sudo systemctl status nginx.service

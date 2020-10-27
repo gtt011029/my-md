@@ -58,7 +58,7 @@ angular的基本构造块NgModule（用于配置注入器和编辑器，并帮�
 
 属性装饰器，用于配置一个视图查询。变更检测会在视图的DOM中查找能匹配的上该选择器的第一个元素或指令。如果视图的dom发生了改变，出现了匹配该选择器的新的子节点，该属性就会被更新
 
-angular提供给我们的装饰器，用于从模板视图获取匹配的元素，需要注意的是，其会在福组件方法的ngAfterViewInit调用之前赋值	
+angular提供给我们的装饰器，用于从模板视图获取匹配的元素，需要注意的是，其会在父组件方法的ngAfterViewInit调用之前赋值	
 
 在标识符前加上井号（#）就能声明一个模板引用变量，ps：光记下来根本没用，不用的话，过两天就忘了。
 
@@ -948,6 +948,16 @@ get showFullLogo() {
 ```html
 <span i18n>Updated {minutes, plural, =0 {just now} =1 {one minute ago} other {{{minutes}} minutes ago}}</span>
 ```
+
+
+
+### 使用i18n翻译插值表达式
+
+奇怪的操作又增加了。
+
+https://www.366service.com/zh-tw/qa/22e1751ba5c4e9997800f6eacacb6550
+
+
 
 
 
