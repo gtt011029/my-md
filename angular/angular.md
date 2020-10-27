@@ -949,3 +949,10 @@ get showFullLogo() {
 <span i18n>Updated {minutes, plural, =0 {just now} =1 {one minute ago} other {{{minutes}} minutes ago}}</span>
 ```
 
+
+
+
+
+
+
+注意：app module中如果要插入新的组件的话，要重新编译，不然不会渲染。

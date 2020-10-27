@@ -862,4 +862,81 @@ file.close() # 关闭文件
 
 # supervisor
 
-supervisor是用python开发的一套通用的进程管理程序，能将一个普通的命令京城变为后台daemon，并监控进程状态，异常退出时能自动重启。他说通过fork/exec的方式把这些被管理的进程当做supervisor的子进程来启动，这样只要在supervisor的配置文件中，把要管理的进程的可执行文件的路径写进去即可。也实现了当子进程挂掉的时候，父进程可以准确获取子进程挂掉的信息，可以选择是否自己启动或报警。supervisor还提供了一个功能，可以为supervisor或者每个子进程设置一个非root的user，这个user就可以管理它对应的进程。
+supervisor是用python开发的一套通用的进程管理程序，能将一个普通的命令进程变为后台daemon，并监控进程状态，异常退出时能自动重启。他说通过fork/exec的方式把这些被管理的进程当做supervisor的子进程来启动，这样只要在supervisor的配置文件中，把要管理的进程的可执行文件的路径写进去即可。也实现了当子进程挂掉的时候，父进程可以准确获取子进程挂掉的信息，可以选择是否自己启动或报警。supervisor还提供了一个功能，可以为supervisor或者每个子进程设置一个非root的user，这个user就可以管理它对应的进程。
+
+
+
+
+
+# JSON模块解析
+
+json是一种轻量级的数据交换格式。python中的json模块是json格式的编码器实现的。
+
+
+
+
+
+| Python     | JSON   |
+| ---------- | ------ |
+| dict       | object |
+| list,tuple | array  |
+| str        | string |
+| int,float, | number |
+| True       | true   |
+| False      | false  |
+| None       | null   |
+|            |        |
+
+
+
+方法：
+
+dump()
+
+序列化一个Python对象为文本流
+
+将Python中的dict类型对象obj转换为JSON格式的字符流fp（fp的内容为一个有效的json文档），如果序列化失败，跑出TypeError异常。
+
+
+
+dumps()
+
+该返回一个str对象
+
+将python对象obj转换为json格式的str
+
+
+
+load（）
+
+实际上是调用loads（fp.read(), ...）实现的
+
+如果序列化失败，抛出JSONDecodeError异常
+
+
+
+loads（）
+
+json解码为Python对应的类型转换
+
+
+
+如果要处理的是文件而不是字符串，可以使用json.dump()、json.load()来编码和解码json数据
+
+```python
+# 写入json数据
+with open('data.json', 'w') as f:
+    json.dump(data, f)
+    
+# 读取数据
+with open('data.json', 'r') as f:
+    data = json.load(f)
+```
+
+
+
+
+
+```
+enumerate
+```

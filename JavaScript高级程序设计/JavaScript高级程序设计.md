@@ -1,3 +1,5 @@
+https://cloud.tencent.com/developer/chapter/13608
+
 ## 1、防抖
 
 无论触发频率多高，一定在事件触发n秒后再执行
@@ -275,3 +277,78 @@ Btn3.removeEventLister('mouseover', addFn, false) // 这边的事件名和事件
 ```
 clearBtnDisabled
 ```
+
+
+
+
+
+## Intl.Collator
+
+Intl.Collator 对象是collators的构造函数，用于启用对语言敏感的字符串比较对象。
+
+语法：new Intl.Collator([locales[, options]])
+
+
+
+locales：可选的。一个带有BCP 47语言标签的字符串或这种字符串的数组。
+
+co：某些语言的变体排序规则。可能的值包括：“big5han”，“dict”，“direct”，“ducet”，“gb312”，“phonebk”，“phonetic”，“pinyin”，“reformed”，“searchj1”，“storke”，“trad”，“unihan”
+
+kn：是否应使用数字整理。例如：“1”<"2"<"10"，可能的值true、false
+
+kf：大写还是小写先排。可能的值”upper“，”lower“，”false“
+
+
+
+
+
+options：可选的，具有以下所有全部虎部分属性的对象{}
+
+localeMatcher：要使用的语言匹配算法。可能的值是”lookup“，”best fit“ 默认是”best fit“
+
+usage：比较是用于排序还是用于搜索的字符串，可能的值为”sort“，”search“，默认”sort“
+
+sensitivity：字符串中的哪些差异应导致非零结果值，可能的值是：
+
+​		”base“：只有基数不同的字符串比较不等。例如：a ≠ b，a = á ， a = A
+
+​		"accent"：只有在只有在基本字母或重音和其他变音符号不同的字符串之间进行比较才是不相等的。例如：a ≠ b，a ≠ á ， a = A
+
+​		”case“：只有基数不同或大小写不同的字符串比较不等。例如：a ≠ b，a = á ， a ≠ A
+
+​		”Variant“：基本字母，重音符号和其他变音符号不同的字符串，或案例比较不等的字符串。其他差异也可能被考虑在内。例如：a ≠ b，a ≠ á ， a ≠ A
+
+ignorePunctuation：是否应该忽略标点符号。true、false
+
+numeric：是否使用数字整理，可kn作用相同。
+
+caseFirst：大写还是小写应该先排序，upper、lower、false
+
+
+
+Intl.collator.compare
+
+返回一个getter函数，该函数根据此Collator对象的排序呢顺序比较两个字符串
+
+
+
+
+
+```ts
+const collator = new Intl.Collator();
+console.log(collator.compare('a', 'c')); // → a negative value
+console.log(collator.compare('c', 'a')); // → a positive value
+console.log(collator.compare('a', 'a')); // → 0
+```
+
+
+
+```ts
+objectSort(objectList: ObjectName2Image[]): ObjectName2Image[] {
+  const collator = new Intl.Collator(undefined, {numeric: true, sensitivity: 'base'});
+  return objectList.sort((object1, object2) => {
+    return collator.compare(object1.name, object2.name);
+  });
+}
+```
+

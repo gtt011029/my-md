@@ -1,7 +1,13 @@
-"""
-Copyright (c) XYZ Robotics Inc. - All Rights Reserved
-Unauthorized copying of this file, via any medium is strictly prohibited
-Proprietary and confidential
-Author: congying jiang <congying.jiang@xyzrobotics.ai>, 12/17/2019
-"""
-print 'first'
+import json
+print ('first')
+py_data = {
+    'aa': 'aa',
+    'bb': 'bb',
+    'cc': 'cc'
+}
+print('py_data:', repr(py_data))
+
+json_data = json.dumps(py_data)
+
+print('json_data: ', json_data)
+

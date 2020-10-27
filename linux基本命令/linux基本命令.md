@@ -254,6 +254,8 @@ service [service name] start/ stop/ restart:    启动、暂停、重启
 
 https://man.linuxde.net/dpkg
 
+dpkg是Debian Packager的简写 是Debian软件包管理器的基础
+
 dpkg命令是Debian Linux 系统用来安装、创建、和管理软件包的实用工具
 
 
@@ -376,3 +378,30 @@ ln [参数][源文件或目录][目标文件或目录]
 ln -s log.log linklog
 ```
 
+
+
+
+
+
+
+### systemctl
+
+
+
+
+
+
+
+pip install --upgrade tornado==4.5.0
+
+
+
+
+
+
+
+
+
+
+
+vision_system_backend/ros_params_path
