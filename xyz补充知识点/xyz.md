@@ -112,3 +112,531 @@ def default_error_handler(e):
     print (e)
 ```
 
+
+
+
+
+通信协议XYZ机器人视觉系统为各种机器人应用程序提供了底层TCP套接字通信。协议XYZ机器人视觉系统是一个TCP服务器，监听端口54321。所有消息都按网络字节序（Big Endian）排列。数据类型参考C编程语言定义。常量
+名称值KEEP_ALIVE0CAPTURE_BLANK_WORKSPACE1FIND_OBJECTS2REQUEST_OBJECTS_FINDING3OBJECTS_FINDING_RESPONSE4STATUS_OK1STATUS_FAIL0SCALE_FACTOR100000
+消息格式请求报文。struct client_to_vision_system {  unsigned char cmd;  unsigned char workspace;};
+回应报文。struct vision_system_to_client { int status; int best_point [3]; int second_candidate_point [3];};
+通信命令获取空白工作空间。客户端发送此命令获取空白工作区快照。该快照播放用于物体识别的参考背景噪声过滤。通常用户端只需执行一次此命令。如果工作环境，比如灯光照明有明显变化，才需要再次执行获取空白工作区快照。请求数据结构如下。
+请求类型描述CAPTURE_BLANK_WORKSPACEunsigned char从客户端发送到视觉系统的一字节请求。工作区Unsigned char炒锅空间ID（）
+响应类型描述statusint视觉系统返回STATUS_OK或STATUS_FAIL0〜8best_pointint [3]{0，0，0}second_candidate_pointint [3]{0，0，0}
+查找对象。客户端发送该命令查询抓取对象所在的位置。通常，它将返回具有最高置信度的“最佳”点和具有较低置信度的“第二候选”点。这是一个同步请求，这意味着它将阻塞调用者，直到找到对象为止。
+请求类型描述FIND_OBJECTSunsigned char从客户端向视觉系统发送的一字节请求。工作区Unsigned char工作空间ID（）
+
+0〜8best_point和second_candidate_point中的值在视觉系统中按比例放大为整数。客户端必须将X，Y，Z除以SCALE_FACTOR，以获得以浮点数表示的米为单位的检测对象的位置。
+响应值描述状态STATUS_OK / STATUS_FAILSTATUS FAIL指示未检测到对象。best_point [3][X，Y，Z]。 （米）best_point [0]，best_point [1]和best_point [2]是相对于机器人世界框架的X，Y，Z坐标。second_candidate_point [3][X，Y，Z]或[0，0，0]该点的定义与“ best_point”相同。如果客户难以掌握best_point，它可以提供第二要点。全零表示没有可用的候选者。
+请求查找对象。类似于 [2查找对象](https://docs.google.com/document/d/1hwnXgGCzoIl-p5Z45SS5ja6t0_wYHUUET4L77U8lDrQ/edit#bookmark=id.8zigkr6h6a5b) 上面的。但是，这是一个非阻塞调用，它将立即返回而不会检测到对象。它只是在后台触发对象检测。用户必须调用 [4获取发现对象响应](https://docs.google.com/document/d/1hwnXgGCzoIl-p5Z45SS5ja6t0_wYHUUET4L77U8lDrQ/edit#bookmark=id.hb48yep9hqtq) 以检索检测到的对象的坐标。
+请求类型描述REQUEST_OBJECTS_FINDINGunsigned char从客户端向视觉系统发送的一字节请求。工作区Unsigned char工作空间ID（）
+
+响应类型描述statusint视觉系统返回STATUS_OK或STATUS_FAIL0〜8best_pointint [3]{0，0，0}second_candidate_pointint [3]{0，0，0}
+获取查找对象响应。此命令是在之后获取检测到的对象的后续操作 [3个请求查找对象](https://docs.google.com/document/d/1hwnXgGCzoIl-p5Z45SS5ja6t0_wYHUUET4L77U8lDrQ/edit#bookmark=id.n5bn83shvl6w) 已经发送。
+请求类型描述OBJECTS_FINDING_RESPONSEunsigned char从客户端发送到视觉系统的一字节请求。工作区无符号字符工作空间ID（）
+
+响应值描述状态0〜8STATUS_OK / STATUS_FAILSTATUS FAIL表示未检测到对象。best_point [3][X，Y，Z]。 （米）best_point [0]，best_point [1]和best_point [2]是相对于机器人世界框架的X，Y，Z坐标。second_candidate_point [3][X，Y，Z]或[0，0，0]该点的定义与“ best_point”相同。如果客户难以掌握best_point，它可以提供第二要点。全零表示没有可用的候选者。
+的示例代码在Python示例代码
+''”进口SYS进口插座进口结构
+
+CMD_KEEPALIVE = 0CMD_CAPTURE_BLANK_WORKSPACE = 1CMD_FIND_OBJECTS = 2CMD_REQUEST_OBJECTS_FINDING = 3CMD_OBJECTS_FINDING_RESPONSE = 4
+RESP_STATUS_OK = 1RESP_STATUS_FAIL = 0
+SCALE_FACTOR = 100000.0
+MAX_MESSAGE_SIZE = 28
+“””在C请求structized格式struct client_to_vision_system { unsigned char cmd; unsigned char工作区；}
+
+以C结构化格式响应struct vision_system_to_client { int status; int best_point [3]; int second_candidate_point [3];}“”“
+
+def get_input（prompt）：  如果sys.version_info> =（3，）：    返回输入（提示）
+  返回raw_input（提示）
+
+def capture_blank_background（sock）：  工作区= get_input（'请输入工作区：'）  sock.sendall（struct.pack（'BB'，               CMD_CAPTURE_BLANK_WORKSPACE，               int（workspace） ）               ）         ）  print（'\ r \ n'）
+  resp = sock.recv（MAX_MESSAGE_SIZE）  status = struct.unpack（'！7i'，resp）  if status [0] == RESP_STATUS_OK：    print（'获取工作区的空白背景{}成功！'。format（有效步调））  否则：    print（'无法获取工作空间{}'。format（workspace）的空白背景）
+  print（'\ r \ n \ r \ n'）
+  返回
+
+def find_objects（sock）：  工作空间= get_input（'请输入工作区：'）  sock.sendall（struct.pack（'BB'，               CMD_FIND_OBJECTS，               int（workspace）               ）         ）  print（'\ r \ n'）
+  resp = sock.recv（MAX_MESSAGE_SIZE）  data = struct.unpack（'！ 7i'，分别）  如果data [0] == RESP_STATUS_FAIL：    print（'无法获取对象在工作空间{}'。format（workspace））中的    print（'\ r \ n \ r \ n'）    返回
+  first_point = {    'x'：数据[1] / SCALE_FACTOR，    'y'：数据[2] / SCALE_FACTOR，    'z'：数据[3] / SCALE_FACTOR  }  second_candidate_point = {    'x'：数据[4] / SCALE_FACTOR，    'y' ：data [5] / SCALE_FACTOR，    'z'：data [6] / SCALE_FACTOR  }  print（first_point）  print（second_candidate_point）  print（'\ r \ n \ r \ n'）
+  return
+
+def async_find_objects（sock）：  工作空间= get_input （'请输入工作空间：'）  sock.sendall（struct.pack（'BB'，               CMD_REQUEST_OBJECTS_FINDING，               int（workspace）               ）         ）  print（'\ r \ n'）
+  resp = sock.recv（MAX_MESSAGE_SIZE）  status = struct.unpack （'！7i'，r esp）  如果status [0] == RESP_STATUS_OK：    print（'请求成功在工作空间{}中找到对象！'。format（workspace））  else：    print（'在工作空间{}中未能找到对象'.format（workspace））
+  print（'\ r \ n \ r \ n'）
+  return
+
+def async_get_objects_position（sock）：  工作空间= get_input（'请输入工作空间：'）  sock.sendall（struct.pack（'BB'，               CMD_OBJECTS_FINDING_RESPONSE，               int（workspace）               ））         ）  print（'\ r \ n'）
+  resp = sock.recv（MAX_MESSAGE_SIZE）  data = struct.unpack（'！7i'，resp）  如果data [0] == RESP_STATUS_FAIL：    print（'无法获取对象在工作空间中的位置{}'。format（workspace））    print（'\ r \ n \ r \ n'）    返回
+  first_point = {    'x'：data [1] / SCALE_FACTOR，    'y'：data [2] / SCALE_FACTOR，    'z '：数据[3] / SCALE_FACTOR  }  second_candidate_point = {    'x'：数据[4] / SCALE_FACTOR，    'y'：数据[5] / SCALE_FACTOR，    'z'：数据[6] / SCALE_FACTOR  }  打印（first_point）  打印（second_candidate_point）  print（'\ r \ n \ r \ n'）  return
+
+def main（）：  server_addr = get_input（'请输入服务器IP：'）  try：    s = socket.create_connection（（（server_addr ，54321），6），  除了socket.error以外为err：    print（err）    返回，
+  而True：    print（'1.捕获空白背景\ r \       .查找对象\ r \       n''2n''3.要求找到对象（立即返回）\ r \       通过先前的请求获取找到的对象（立即返回）\ r \       .退出\ r \ n'）
+    n''4.n''5option = get_input（'请选择：'）    如果选择=，='5'：      中断    elif选项=='1'：      capture_blank_background（s）    elif选项=='2'：      find_objects    elif选项=='3'：      async_find_objects（s）    elif选项=='4'：      async_get_objects_position（s）    else：      继续
+  s.close（）  返回
+
+如果__name__ =='__main__'：  main（）
+'''
+
+```
+通信协议
+XYZ机器人视觉系统为各种机器人应用程序提供了底层TCP套接字通信。
+协议
+XYZ机器人视觉系统是一个TCP服务器，监听端口54321。
+所有消息都按网络字节序（Big Endian）排列。
+数据类型参考C编程语言定义。
+常量
+
+名称
+值
+KEEP_ALIVE
+0
+CAPTURE_BLANK_WORKSPACE
+1
+FIND_OBJECTS
+2
+REQUEST_OBJECTS_FINDING
+3
+OBJECTS_FINDING_RESPONSE
+4
+STATUS_OK
+1
+STATUS_FAIL
+0
+SCALE_FACTOR
+100000
+
+消息格式
+请求报文。
+struct client_to_vision_system {
+    unsigned char cmd;
+    unsigned char workspace;
+};
+
+回应报文。
+struct vision_system_to_client {
+  int status;
+  int best_point [3];
+  int second_candidate_point [3];
+};
+
+通信命令
+获取空白工作空间。客户端发送此命令获取空白工作区快照。该快照播放用于物体识别的参考背景噪声过滤。通常用户端只需执行一次此命令。如果工作环境，比如灯光照明有明显变化，才需要再次执行获取空白工作区快照。请求数据结构如下。
+
+请求
+类型
+描述
+CAPTURE_BLANK_WORKSPACE
+unsigned char
+从客户端发送到视觉系统的一字节请求。
+工作区
+Unsigned char
+炒锅空间ID（）
+
+响应
+类型
+描述
+status
+int
+视觉系统返回STATUS_OK或STATUS_FAIL
+0〜8best_point
+int [3]
+{0，0，0}
+second_candidate_point
+int [3]
+{0，0，0}
+
+查找对象。客户端发送该命令查询抓取对象所在的位置。通常，它将返回具有最高置信度的“最佳”点和具有较低置信度的“第二候选”点。这是一个同步请求，这意味着它将阻塞调用者，直到找到对象为止。
+
+请求
+类型
+描述
+FIND_OBJECTS
+unsigned char
+从客户端向视觉系统发送的一字节请求。
+工作区
+Unsigned char
+工作空间ID（）
+
+
+0〜8best_point和second_candidate_point中的值在视觉系统中按比例放大为整数。客户端必须将X，Y，Z除以SCALE_FACTOR，以获得以浮点数表示的米为单位的检测对象的位置。
+
+响应
+值
+描述
+状态
+STATUS_OK / STATUS_FAIL
+STATUS FAIL指示未检测到对象。
+best_point [3]
+[X，Y，Z]。 （米）
+best_point [0]，best_point [1]和best_point [2]是相对于机器人世界框架的X，Y，Z坐标。
+second_candidate_point [3]
+[X，Y，Z]或[0，0，0]
+该点的定义与“ best_point”相同。如果客户难以掌握best_point，它可以提供第二要点。全零表示没有可用的候选者。
+
+请求查找对象。类似于 2查找对象 上面的。但是，这是一个非阻塞调用，它将立即返回而不会检测到对象。它只是在后台触发对象检测。用户必须调用 4获取发现对象响应 以检索检测到的对象的坐标。
+
+请求
+类型
+描述
+REQUEST_OBJECTS_FINDING
+unsigned char
+从客户端向视觉系统发送的一字节请求。
+工作区
+Unsigned char
+工作空间ID（）
+
+
+响应
+类型
+描述
+status
+int
+视觉系统返回STATUS_OK或STATUS_FAIL
+0〜8best_point
+int [3]
+{0，0，0}
+second_candidate_point
+int [3]
+{0，0，0}
+
+获取查找对象响应。此命令是在之后获取检测到的对象的后续操作 3个请求查找对象 已经发送。
+
+请求
+类型
+描述
+OBJECTS_FINDING_RESPONSE
+unsigned char
+从客户端发送到视觉系统的一字节请求。
+工作区
+无符号字符
+工作空间ID（）
+
+
+响应
+值
+描述
+状态
+0〜8STATUS_OK / STATUS_FAIL
+STATUS FAIL表示未检测到对象。
+best_point [3]
+[X，Y，Z]。 （米）
+best_point [0]，best_point [1]和best_point [2]是相对于机器人世界框架的X，Y，Z坐标。
+second_candidate_point [3]
+[X，Y，Z]或[0，0，0]
+该点的定义与“ best_point”相同。如果客户难以掌握best_point，它可以提供第二要点。全零表示没有可用的候选者。
+
+的示例代码
+在Python示例代码
+
+''”
+进口SYS
+进口插座
+进口结构
+
+
+CMD_KEEPALIVE = 0
+CMD_CAPTURE_BLANK_WORKSPACE = 1
+CMD_FIND_OBJECTS = 2
+CMD_REQUEST_OBJECTS_FINDING = 3
+CMD_OBJECTS_FINDING_RESPONSE = 4
+
+RESP_STATUS_OK = 1
+RESP_STATUS_FAIL = 0
+
+SCALE_FACTOR = 100000.0
+
+MAX_MESSAGE_SIZE = 28
+
+“””
+在C请求structized格式
+struct client_to_vision_system {
+  unsigned char cmd;
+  unsigned char工作区；
+}
+
+
+以C结构化格式响应
+struct vision_system_to_client {
+  int status;
+  int best_point [3];
+  int second_candidate_point [3];
+}
+“”“
+
+
+def get_input（prompt）：
+    如果sys.version_info> =（3，）：
+        返回输入（提示）
+
+    返回raw_input（提示）
+
+
+def capture_blank_background（sock）：
+    工作区= get_input（'请输入工作区：'）
+    sock.sendall（struct.pack（'BB'，
+                             CMD_CAPTURE_BLANK_WORKSPACE，
+                             int（workspace） ）
+                             ）
+                 ）
+    print（'\ r \ n'）
+
+    resp = sock.recv（MAX_MESSAGE_SIZE）
+    status = struct.unpack（'！7i'，resp）
+    if status [0] == RESP_STATUS_OK：
+        print（'获取工作区的空白背景{}成功！'。format（有效步调））
+    否则：
+        print（'无法获取工作空间{}'。format（workspace）的空白背景）
+
+    print（'\ r \ n \ r \ n'）
+
+    返回
+
+
+def find_objects（sock）：
+    工作空间= get_input（'请输入工作区：'）
+    sock.sendall（struct.pack（'BB'，
+                             CMD_FIND_OBJECTS，
+                             int（workspace）
+                             ）
+                 ）
+    print（'\ r \ n'）
+
+    resp = sock.recv（MAX_MESSAGE_SIZE）
+    data = struct.unpack（'！ 7i'，分别）
+    如果data [0] == RESP_STATUS_FAIL：
+        print（'无法获取对象在工作空间{}'。format（workspace））中的
+        print（'\ r \ n \ r \ n'）
+        返回
+
+    first_point = {
+        'x'：数据[1] / SCALE_FACTOR，
+        'y'：数据[2] / SCALE_FACTOR，
+        'z'：数据[3] / SCALE_FACTOR
+    }
+    second_candidate_point = {
+        'x'：数据[4] / SCALE_FACTOR，
+        'y' ：data [5] / SCALE_FACTOR，
+        'z'：data [6] / SCALE_FACTOR
+    }
+    print（first_point）
+    print（second_candidate_point）
+    print（'\ r \ n \ r \ n'）
+
+    return
+
+
+def async_find_objects（sock）：
+    工作空间= get_input （'请输入工作空间：'）
+    sock.sendall（struct.pack（'BB'，
+                             CMD_REQUEST_OBJECTS_FINDING，
+                             int（workspace）
+                             ）
+                 ）
+    print（'\ r \ n'）
+
+    resp = sock.recv（MAX_MESSAGE_SIZE）
+    status = struct.unpack （'！7i'，r esp）
+    如果status [0] == RESP_STATUS_OK：
+        print（'请求成功在工作空间{}中找到对象！'。format（workspace））
+    else：
+        print（'在工作空间{}中未能找到对象'.format（workspace））
+
+    print（'\ r \ n \ r \ n'）
+
+    return
+
+
+def async_get_objects_position（sock）：
+    工作空间= get_input（'请输入工作空间：'）
+    sock.sendall（struct.pack（'BB'，
+                             CMD_OBJECTS_FINDING_RESPONSE，
+                             int（workspace）
+                             ））
+                 ）
+    print（'\ r \ n'）
+
+    resp = sock.recv（MAX_MESSAGE_SIZE）
+    data = struct.unpack（'！7i'，resp）
+    如果data [0] == RESP_STATUS_FAIL：
+        print（'无法获取对象在工作空间中的位置{}'。format（workspace））
+        print（'\ r \ n \ r \ n'）
+        返回
+
+    first_point = {
+        'x'：data [1] / SCALE_FACTOR，
+        'y'：data [2] / SCALE_FACTOR，
+        'z '：数据[3] / SCALE_FACTOR
+    }
+    second_candidate_point = {
+        'x'：数据[4] / SCALE_FACTOR，
+        'y'：数据[5] / SCALE_FACTOR，
+        'z'：数据[6] / SCALE_FACTOR
+    }
+    打印（first_point）
+    打印（second_candidate_point）
+    print（'\ r \ n \ r \ n'）
+    return
+
+
+def main（）：
+    server_addr = get_input（'请输入服务器IP：'）
+    try：
+        s = socket.create_connection（（（server_addr ，54321），6），
+    除了socket.error以外为err：
+        print（err）
+        返回，
+
+    而True：
+        print（'1.捕获空白背景\ r \
+              .查找对象\ r \
+              n''2n''3.要求找到对象（立即返回）\ r \
+              通过先前的请求获取找到的对象（立即返回）\ r \
+              .退出\ r \ n'）
+
+        n''4.n''5option = get_input（'请选择：'）
+        如果选择=，='5'：
+            中断
+        elif选项=='1'：
+            capture_blank_background（s）
+        elif选项=='2'：
+            find_objects
+        elif选项=='3'：
+            async_find_objects（s）
+        elif选项=='4'：
+            async_get_objects_position（s）
+        else：
+            继续
+
+    s.close（）
+    返回
+
+
+如果__name__ =='__main__'：
+    main（）
+
+'''
+
+```
+
+![img](/home/xyz/Pictures/object-annotation.png)
+
+
+
+
+
+```
+ <h2 class="mat-h2 configuration-title" i18n>Annotation Configurations</h2>
+  <div class="vision-type">
+    <mat-form-field>
+      <mat-label i18n="@@vision-type">Vision Type</mat-label>
+      <mat-select [(value)]="currentVisionType">
+        <mat-option *ngFor="let visionType of visionTypeList" [value]="visionType">
+          {{visionType}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+</div>
+```
+
+
+
+
+
+```
+<!--<mat-list *ngFor="let params of dictParams | keyvalue" class="mat-list-padding-left">-->
+<!--  <mat-list-item *ngIf="params.value.type==='number'">-->
+<!--    <mat-form-field>-->
+<!--      <mat-icon-->
+<!--        *ngIf="params.value[language]"-->
+<!--        class="help-icon"-->
+<!--        i18n-matTooltip-->
+<!--        [matTooltip]="params.value[language]"-->
+<!--        matTooltipClass="help-tool-tip"-->
+<!--        matTooltipPosition="right"-->
+<!--      >help</mat-icon>-->
+<!--      <input matInput-->
+<!--             autocomplete="off"-->
+<!--             type="number"-->
+<!--             [ngModel]="params.value.value"-->
+<!--             (ngModelChange)="changeValue(params, $event)"-->
+<!--             placeholder="{{params.key}}">-->
+<!--    </mat-form-field>-->
+<!--    <span class="error-msg" *ngIf="!checkValue(params)" >range is [{{params.value.range}}]</span>-->
+<!--  </mat-list-item>-->
+
+<!--  <mat-list-item *ngIf="params.value.type==='string'">-->
+<!--    <mat-form-field>-->
+<!--      <mat-icon-->
+<!--        *ngIf="params.value[language]"-->
+<!--        class="help-icon"-->
+<!--        i18n-matTooltip-->
+<!--        [matTooltip]="params.value[language]"-->
+<!--        matTooltipClass="help-tool-tip"-->
+<!--        matTooltipPosition="right"-->
+<!--      >help</mat-icon>-->
+<!--      <input matInput-->
+<!--             autocomplete="off"-->
+<!--             type="text"-->
+<!--             [ngModel]="params.value.value"-->
+<!--             (ngModelChange)="changeValue(params, $event)"-->
+<!--             placeholder="{{params.key}}">-->
+<!--    </mat-form-field>-->
+<!--  </mat-list-item>-->
+
+<!--  <mat-list-item *ngIf="params.value.type==='boolean'" class="radio-container">-->
+<!--    <mat-icon-->
+<!--      *ngIf="params.value[language]"-->
+<!--      class="help-icon-radio"-->
+<!--      i18n-matTooltip-->
+<!--      [matTooltip]="params.value[language]"-->
+<!--      matTooltipClass="help-tool-tip"-->
+<!--      matTooltipPosition="right"-->
+<!--      >help</mat-icon>-->
+<!--    <div mat-line>{{params.key}}</div>-->
+<!--    <mat-radio-group mat-line-->
+<!--                     [ngModel]="params.value.value"-->
+<!--                     (ngModelChange)="changeValue(params, $event)">-->
+<!--      <mat-radio-button color="primary" [value]="true">True</mat-radio-button>-->
+<!--      <mat-radio-button color="primary" [value]="false">False</mat-radio-button>-->
+<!--    </mat-radio-group>-->
+<!--  </mat-list-item>-->
+
+<!--  <mat-list-item *ngIf="params.value.type==='select'">-->
+<!--    <mat-form-field>-->
+<!--        <mat-label>{{params.key}}</mat-label>-->
+<!--        <mat-icon-->
+<!--            *ngIf="params.value[language]"-->
+<!--            class="help-icon"-->
+<!--            i18n-matTooltip-->
+<!--            [matTooltip]="params.value[language]"-->
+<!--            matTooltipClass="help-tool-tip"-->
+<!--            matTooltipPosition="right"-->
+<!--          >help</mat-icon>-->
+<!--        <mat-select [ngModel]="params.value.value"-->
+<!--                    (ngModelChange)="changeValue(params, $event)">-->
+<!--          <mat-option *ngFor="let item of params.value.select"-->
+<!--                      [value]="item">-->
+<!--            {{ item }}-->
+<!--          </mat-option>-->
+<!--        </mat-select>-->
+<!--    </mat-form-field>-->
+<!--  </mat-list-item>-->
+
+<!--  <ng-container *ngIf="!params.value.value && !params.value.type">-->
+<!--    <h4>{{params.key}}</h4>-->
+<!--   <app-object-template [dictParams]="params.value" [validList]="validList"></app-object-template>-->
+<!--  </ng-container>-->
+<!--</mat-list>-->
+```
+
+
+
+
+
+更改电脑IP
+
+```
+nmcli connection modify ToLan ipv4.addresses 192.168.1.192 ipv4.gateway 192.168.1.1 ipv4.method manual
+```
+

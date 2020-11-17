@@ -352,3 +352,323 @@ objectSort(objectList: ObjectName2Image[]): ObjectName2Image[] {
 }
 ```
 
+
+
+
+
+
+
+
+
+# js模块化
+
+简介：模块又称构件，是能够单独命名并独立地完成一定功能的程序语句的集合（即程序代码和数据结构的集合体）
+
+基本特征：
+
+​	1、外部特征：模块跟外部环境联系的结构（即其他模块或程序调用该模块的方式，包括有输入输出参数、引用的全局变量）和模块的功能
+
+​	2、内部特征：模块的内部环境具有的特点（即该模块的局部数据、程序代码）
+
+简而言之，该模块就是一个具有独立作用域，对外暴露特定功能接口的代码集合。
+
+
+
+
+
+
+
+## 模块化规范：
+
+commonJS、AMD、CMD、ES6 Module
+
+
+
+1、commonjs
+
+一个单独的文件就是一个模块，
+
+每一个模块都是一个单独的作用域，
+
+必须通过module.exports 导出对外的变量或接口
+
+通过require（）来导入
+
+主要在nodejs中常用到
+
+```js
+// 模块定义 add.js
+module.eports.add = function(a, b) {
+  return a + b;
+};
+
+// 模块定义 decrease.js
+module.exports.decrease = function(a, b) {
+  return a - b;
+};
+
+// formula.js,模块使用，利用 require() 方法加载模块,require 导出的即是 module.exports 的内容
+var addJs = require("./add.js")
+var decreaseJs = require("./decrease.js").decrease
+const add = addJs.add;
+const decrease = decreaseJs.decrease;
+module.exports.square_difference = function(a, b) {
+  return add(a, b) * decrease(a, b);
+};
+```
+
+
+
+
+
+2、AMD ---- 异步模块加载机制
+
+目前主要有两个javaScript库实现了AMD规范：require.js  、curl.js
+
+采用异步的方式加载模块
+
+模块的加载不影响它后面的语句的运行
+
+所有依赖这个模块的语句都定义在一个回调函数中，等到依赖加载完成之后，这个回调函数才会运行
+
+其诞生主要为了解决两个问题：
+
+1、实现javaScript文件的**异步加载**，避免网页失去响应
+
+2、模块管理之间的依赖性，便于代码的编写和维护
+
+也采用require()语句加载模块，但是不同于commonjs，它要求两个参数
+
+```js
+require([module], callback);
+
+// module 是一个数组，里面的成员就是要加载的模块
+// 第二个是callback，则是加载成功后的回调函数
+
+require(['math'], function (math) {
+    math.add(2, 3)
+})
+```
+
+
+
+
+
+
+
+3、CMD ---- （Common Module Definition） 通用模块定义
+
+实现该规范的有：SeaJS
+
+需要用到的地方才进行依赖加载
+
+```js
+// CMD 在执行以下代码的时候， SeaJS 会首先用正则匹配出代码里面所有的 require 语句，拿到依赖，然后依次加载，加载完成再执行回调函数
+define(function(require) {
+  let add = require("add");
+  let result1 = add(9, 7);
+  let add = require("decrease");
+  let result2 = decrease(9, 7);
+  console.log(result1 * result2);
+});
+```
+
+
+
+
+
+4、ES Module
+
+异步加载
+
+设计思想就是在编译的时候就能确定模块的依赖关系，以及输入和输出的变量
+
+export：导出
+
+import：导入
+
+as  起别名
+
+
+
+export  *  from "methods"   导出全部
+
+
+
+自动开启严格模式（不管在模块的头部有没有加上use strict）
+
+每个模块都有自己的上下文，每隔模块内声明的变量都是局部变量，不会污染全局作用域
+
+
+
+
+
+# 推荐JavaScript经典实例学习资料文章
+
+《可视化的 JS：动态图演示 - 事件循环 Event Loop的过程》
+
+《教你如何用动态规划和贪心算法实现前端瀑布流布局「实践」》
+
+《可视化的 js：动态图演示 Promises & Async/Await 的过程》
+
+《原生JS封装拖动验证滑块你会吗？「实践」》
+
+《如何实现高性能的在线 PDF 预览》
+
+《细说使用字体库加密数据-仿58同城》
+
+《Node.js要完了吗？》
+
+《Pug 3.0.0正式发布，不再支持 Node.js 6/8》
+
+《纯JS手写轮播图（代码逻辑清晰，通俗易懂）》
+
+《JavaScript 20 年 中文版之创立标准》
+
+《值得收藏的前端常用60余种工具方法「JS篇」》
+
+《箭头函数和常规函数之间的 5 个区别》
+
+《通过发布/订阅的设计模式搞懂 Node.js 核心模块 Events》
+
+《「前端篇」不再为正则烦恼》
+
+《「速围」Node.js V14.3.0 发布支持顶级 Await 和 REPL 增强功能》
+
+《深入细品浏览器原理「流程图」》
+
+《JavaScript 已进入第三个时代，未来将何去何从？》
+
+《前端上传前预览文件 image、text、json、video、audio「实践」》
+
+《深入细品 EventLoop 和浏览器渲染、帧动画、空闲回调的关系》
+
+《推荐13个有用的JavaScript数组技巧「值得收藏」》
+
+《前端必备基础知识：window.location 详解》
+
+《不要再依赖CommonJS了》
+
+《犀牛书作者：最该忘记的JavaScript特性》
+
+《36个工作中常用的JavaScript函数片段「值得收藏」》
+
+《Node + H5 实现大文件分片上传、断点续传》
+
+《一文了解文件上传全过程（1.8w字深度解析）「前端进阶必备」》
+
+《【实践总结】关于小程序挣脱枷锁实现批量上传》
+
+《手把手教你前端的各种文件上传攻略和大文件断点续传》
+
+《字节跳动面试官：请你实现一个大文件上传和断点续传》
+
+《谈谈前端关于文件上传下载那些事【实践】》
+
+《手把手教你如何编写一个前端图片压缩、方向纠正、预览、上传插件》
+
+《最全的 JavaScript 模块化方案和工具》
+
+《「前端进阶」JS中的内存管理》
+
+《JavaScript正则深入以及10个非常有意思的正则实战》
+
+《前端面试者经常忽视的一道JavaScript 面试题》
+
+《一行JS代码实现一个简单的模板字符串替换「实践」》
+
+《JS代码是如何被压缩的「前端高级进阶」》
+
+《前端开发规范：命名规范、html规范、css规范、js规范》
+
+《【规范篇】前端团队代码规范最佳实践》
+
+《100个原生JavaScript代码片段知识点详细汇总【实践】》
+
+《关于前端174道 JavaScript知识点汇总（一）》
+
+《关于前端174道 JavaScript知识点汇总（二）》
+
+《关于前端174道 JavaScript知识点汇总（三）》
+
+《几个非常有意思的javascript知识点总结【实践】》
+
+《都2020年了，你还不会JavaScript 装饰器？》
+
+《JavaScript实现图片合成下载》
+
+《70个JavaScript知识点详细总结（上）【实践】》
+
+《70个JavaScript知识点详细总结（下）【实践】》
+
+《开源了一个 JavaScript 版敏感词过滤库》
+
+《送你 43 道 JavaScript 面试题》
+
+《3个很棒的小众JavaScript库，你值得拥有》
+
+《手把手教你深入巩固JavaScript知识体系【思维导图】》
+
+《推荐7个很棒的JavaScript产品步骤引导库》
+
+《Echa哥教你彻底弄懂 JavaScript 执行机制》
+
+《一个合格的中级前端工程师需要掌握的 28 个 JavaScript 技巧》
+
+《深入解析高频项目中运用到的知识点汇总【JS篇】》
+
+《JavaScript 工具函数大全【新】》
+
+《从JavaScript中看设计模式(总结)》
+
+《身份证号码的正则表达式及验证详解(JavaScript，Regex)》
+
+《浏览器中实现JavaScript计时器的4种创新方式》
+
+《Three.js 动效方案》
+
+《手把手教你常用的59个JS类方法》
+
+《127个常用的JS代码片段，每段代码花30秒就能看懂-【上】》
+
+《深入浅出讲解 js 深拷贝 vs 浅拷贝》
+
+《手把手教你JS开发H5游戏【消灭星星】》
+
+《深入浅出讲解JS中this/apply/call/bind巧妙用法【实践】》
+
+《手把手教你全方位解读JS中this真正含义【实践】》
+
+《书到用时方恨少，一大波JS开发工具函数来了》
+
+《干货满满!如何优雅简洁地实现时钟翻牌器(支持JS/Vue/React)》
+
+《手把手教你JS 异步编程六种方案【实践】》
+
+《让你减少加班的15条高效JS技巧知识点汇总【实践】》
+
+《手把手教你JS开发H5游戏【黄金矿工】》
+
+《手把手教你JS实现监控浏览器上下左右滚动》
+
+《JS 经典实例知识点整理汇总【实践】》
+
+《2.6万字JS干货分享，带你领略前端魅力【基础篇】》
+
+《2.6万字JS干货分享，带你领略前端魅力【实践篇】》
+
+《简单几步让你的 JS 写得更漂亮》
+
+《恭喜你获得治疗JS this的详细药方》
+
+《谈谈前端关于文件上传下载那些事【实践】》
+
+《面试中教你绕过关于 JavaScript 作用域的 5 个坑》
+
+《Jquery插件（常用的插件库）》
+
+《【JS】如何防止重复发送ajax请求》
+
+《JavaScript+Canvas实现自定义画板》
+
+《Continuation 在 JS 中的应用「前端篇」》

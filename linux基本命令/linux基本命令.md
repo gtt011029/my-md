@@ -150,8 +150,10 @@ https://blog.gtwang.org/linux/unix-linux-find-command-examples/
 
 ```typescript
 // 在当前目录底下寻找某个文件
-find . -name gtwang.txt     // 这边find会列出所有名字叫这个的档案列表
+find . -name gtwang.txt     // 这边find会列出所有名字叫这个的档案列表(.表示当前目录)
+
 find /home -name gtwang.txt  // 在home目录底下，找文件名为gtwang.txt的文件
+
 find /home -iname gtwang.txt  //在home目录下面，找该文件，文件名不区分大小写 
 find ./react -name react.md
 ```
@@ -299,6 +301,8 @@ dpkg命令是Debian Linux 系统用来安装、创建、和管理软件包的实
 
 
 ### ps: 查看进程信息
+
+（process status）用于显示当前进程的状态，类似于windows的任务管理器
 
  查看进程信息并通过less分页显示
 

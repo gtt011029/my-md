@@ -13,7 +13,7 @@ import {
   animations: [
     trigger('pageAnimations', [
       transition(':enter', [
-        query('.')
+        query('.'),
         style({
           opacity: 0,
           transform: 'translateY(-100px)'

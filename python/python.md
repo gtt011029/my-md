@@ -940,3 +940,20 @@ with open('data.json', 'r') as f:
 ```
 enumerate
 ```
+
+
+
+
+
+
+
+
+
+# os文档
+
+https://docs.python.org/zh-cn/3/library/os.html
+
+
+
+
+

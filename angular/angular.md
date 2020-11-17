@@ -1,5 +1,7 @@
 # 简介
 
+https://zhuanlan.zhihu.com/p/24000979   开源的angular项目
+
 angular的口号是“一套框架，多种平台”。同时适用于手机与桌面，即angular是支持开发夸平台的应用。比如web应用、移动web应用、原生移动应用和原生桌面应用等。
 
 为了支持跨平台，通过抽象封装了不同平台的差异，统一了api接口。还定义了一下引用类型；
@@ -575,7 +577,19 @@ testObservable2() {
 
 
 
-### RxJS库
+## 服务与依赖注入
+
+对于一些与特定视图无关的，并希望跨组件共享的数据或逻辑，可以创建服务类。
+
+服务类的定义通常紧跟在“@Injectable()”，装饰器之后。
+
+该装饰器提供的元数据可以让你的服务作为依赖被注入到客户组件中
+
+
+
+
+
+## RxJS库
 
 响应式编程是一种面向数据流和变更传播的异步编程范式。RxJS（响应式扩展的JavaScript版）是一个使用可观察对象进行响应式编程的库
 
@@ -966,3 +980,44 @@ https://www.366service.com/zh-tw/qa/22e1751ba5c4e9997800f6eacacb6550
 
 
 注意：app module中如果要插入新的组件的话，要重新编译，不然不会渲染。
+
+
+
+
+
+
+
+
+
+## UI组件
+
+material
+
+
+
+icon集合
+
+https://material.io/resources/icons/?icon=sd_storage&style=baseline
+
+
+
+
+
+
+
+
+
+## 显示pdf文件
+
+https://blog.csdn.net/weixin_44917045/article/details/107595662
+
+
+
+
+
+
+
+
+
+
+
