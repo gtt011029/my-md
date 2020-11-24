@@ -518,7 +518,7 @@ def main（）：
 
 ```
 
-![img](/home/xyz/Pictures/object-annotation.png)
+![(/home/xyz/Pictures/object-annotation.png)
 
 
 
@@ -543,100 +543,118 @@ def main（）：
 
 
 
-```
-<!--<mat-list *ngFor="let params of dictParams | keyvalue" class="mat-list-padding-left">-->
-<!--  <mat-list-item *ngIf="params.value.type==='number'">-->
-<!--    <mat-form-field>-->
-<!--      <mat-icon-->
-<!--        *ngIf="params.value[language]"-->
-<!--        class="help-icon"-->
-<!--        i18n-matTooltip-->
-<!--        [matTooltip]="params.value[language]"-->
-<!--        matTooltipClass="help-tool-tip"-->
-<!--        matTooltipPosition="right"-->
-<!--      >help</mat-icon>-->
-<!--      <input matInput-->
-<!--             autocomplete="off"-->
-<!--             type="number"-->
-<!--             [ngModel]="params.value.value"-->
-<!--             (ngModelChange)="changeValue(params, $event)"-->
-<!--             placeholder="{{params.key}}">-->
-<!--    </mat-form-field>-->
-<!--    <span class="error-msg" *ngIf="!checkValue(params)" >range is [{{params.value.range}}]</span>-->
-<!--  </mat-list-item>-->
-
-<!--  <mat-list-item *ngIf="params.value.type==='string'">-->
-<!--    <mat-form-field>-->
-<!--      <mat-icon-->
-<!--        *ngIf="params.value[language]"-->
-<!--        class="help-icon"-->
-<!--        i18n-matTooltip-->
-<!--        [matTooltip]="params.value[language]"-->
-<!--        matTooltipClass="help-tool-tip"-->
-<!--        matTooltipPosition="right"-->
-<!--      >help</mat-icon>-->
-<!--      <input matInput-->
-<!--             autocomplete="off"-->
-<!--             type="text"-->
-<!--             [ngModel]="params.value.value"-->
-<!--             (ngModelChange)="changeValue(params, $event)"-->
-<!--             placeholder="{{params.key}}">-->
-<!--    </mat-form-field>-->
-<!--  </mat-list-item>-->
-
-<!--  <mat-list-item *ngIf="params.value.type==='boolean'" class="radio-container">-->
-<!--    <mat-icon-->
-<!--      *ngIf="params.value[language]"-->
-<!--      class="help-icon-radio"-->
-<!--      i18n-matTooltip-->
-<!--      [matTooltip]="params.value[language]"-->
-<!--      matTooltipClass="help-tool-tip"-->
-<!--      matTooltipPosition="right"-->
-<!--      >help</mat-icon>-->
-<!--    <div mat-line>{{params.key}}</div>-->
-<!--    <mat-radio-group mat-line-->
-<!--                     [ngModel]="params.value.value"-->
-<!--                     (ngModelChange)="changeValue(params, $event)">-->
-<!--      <mat-radio-button color="primary" [value]="true">True</mat-radio-button>-->
-<!--      <mat-radio-button color="primary" [value]="false">False</mat-radio-button>-->
-<!--    </mat-radio-group>-->
-<!--  </mat-list-item>-->
-
-<!--  <mat-list-item *ngIf="params.value.type==='select'">-->
-<!--    <mat-form-field>-->
-<!--        <mat-label>{{params.key}}</mat-label>-->
-<!--        <mat-icon-->
-<!--            *ngIf="params.value[language]"-->
-<!--            class="help-icon"-->
-<!--            i18n-matTooltip-->
-<!--            [matTooltip]="params.value[language]"-->
-<!--            matTooltipClass="help-tool-tip"-->
-<!--            matTooltipPosition="right"-->
-<!--          >help</mat-icon>-->
-<!--        <mat-select [ngModel]="params.value.value"-->
-<!--                    (ngModelChange)="changeValue(params, $event)">-->
-<!--          <mat-option *ngFor="let item of params.value.select"-->
-<!--                      [value]="item">-->
-<!--            {{ item }}-->
-<!--          </mat-option>-->
-<!--        </mat-select>-->
-<!--    </mat-form-field>-->
-<!--  </mat-list-item>-->
-
-<!--  <ng-container *ngIf="!params.value.value && !params.value.type">-->
-<!--    <h4>{{params.key}}</h4>-->
-<!--   <app-object-template [dictParams]="params.value" [validList]="validList"></app-object-template>-->
-<!--  </ng-container>-->
-<!--</mat-list>-->
-```
-
-
-
 
 
 更改电脑IP
 
 ```
 nmcli connection modify ToLan ipv4.addresses 192.168.1.192 ipv4.gateway 192.168.1.1 ipv4.method manual
+```
+
+
+
+
+
+### calibration 初始化出错：
+
+的情况下，可以看看这个包有没有装
+
+```
+sudo apt-get install ros-kinetic-genpy
+```
+
+
+
+
+
+
+
+
+
+### 个人总结xyz_apt使用方法：
+
+​	
+
+
+
+1、下载应用软件xyz_apt.zip并解压缩到/bin/底下
+
+https://drive.google.com/file/d/1MTy5h0DEeGpGg3A9BJeFozwwkLwZ4EFF/view
+
+```
+sudo mv xyz_apt /bin/
+```
+
+
+
+2、建立xyz_apt_server 安全连接与绑定
+
+```python
+sudo xyz_apt aet_up_account
+
+
+
+用户名： xyzuigroup
+密码：	robot2018sh
+url：  161.189.84.82:8003/release
+```
+
+
+
+
+
+3、更新apt
+
+```
+sudo xyz_apt update
+```
+
+
+
+
+
+4、安装指定包
+
+```
+sudo xyz_apt install {package name}
+
+这边安装的话，如果当前的包有依赖包的话，会询问是否一起安装，一般情况下一起安装
+
+sudo xyz_apt install {package name = version 版本号}
+```
+
+
+
+
+
+5、删除包
+
+```
+sudo xyz_apt remove {package name}
+
+删除指定包
+
+sudo xyz_apt autoremove {package name}
+
+删除包以及依赖包以及无用包
+```
+
+
+
+6、查看当前安装的xyz包
+
+```
+dpkg -l | grep xyz
+```
+
+
+
+7、查看想要安装包的版本号list
+
+```
+sudo xyz_apt list -a xyz-part-picking-vision
+
+
+这样就可以看到part picking现有的版本号
 ```
 

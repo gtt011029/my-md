@@ -503,6 +503,141 @@ export  *  from "methods"   导出全部
 
 
 
+# 包装对象
+
+对象是javaScript语言最主要的数据类型，三种原始类型的值----数值、字符串、布尔值，在一定条件下也会自动转为对象，也就是原始类型的“包装对象”（wrapper）
+
+
+
+**所谓“包装对象”，指的是与数值、字符串、布尔值分别相对应的Number、String、Boolean三个原生对象。这三个原生对象可以把原始类型的值变成（包装成）对象。**
+
+```javascript
+var v1 = new Number(123);
+var v2 = new String('abc');
+var v3 = new Boolean(true);
+
+typeof v1 // "object"
+typeof v2 // "object"
+typeof v3 // "object"
+
+v1 === 123 // false
+v2 === 'abc' // false
+v3 === true // false
+```
+
+目的：
+
+​		包装对象的设计目的，首先是是的“对象”这种类型可以覆盖javaScript所有的值，整门语言有一个通用的数据模型，其次是使得原始类型的值也有办法调自己的方法。
+
+
+
+自动换成包装对象：
+
+​	某些场合，原始类型的值会自动当做包装对象调用，即调用包装对象的属性和方法，这时javaScript引擎会自动将原始类型的值转为包装对象实例，并在使用后立刻销毁实例
+
+```javascript
+'abc'.length 
+
+// 3
+
+typeof 'abc'
+
+// string
+```
+
+
+
+被包装的对象并不等于真正的对象：
+
+```javascript
+var s1 = 'Hello World';
+s1.x = 123
+s1.x // undefined
+
+typeof s1  // string
+
+
+var s2 = new String('Hello World')
+s2.x = 123
+s2.x // 123
+
+typeof s2  // object
+```
+
+
+
+
+
+总结：javaScript的包装对象提供给开发者像操作对象一样操作string、number、boolean值的能力，体现了javaScript是一门面向对象的开发编程
+
+
+
+
+
+
+
+# 函数式编程
+
+函数式编程有一个概念，叫做柯里化（currying），意思是将多参数换成单参数的形式。
+
+
+
+```javascript
+function currying(fn, total) {
+    return function (num) {
+        return fn.call(this, num, total)
+    }
+}
+
+function tail(num, total) {
+  if (num===1) return total;
+  return tail(num-1, num*total)
+}
+
+const factorial = currying(tail,1)
+
+console.log(factorial(5))   // 120
+
+
+
+// 解析：发现 const factorial 赋值一个匿名函数，这个匿名函数带一个参数，return 一个函数；
+
+const factorial = function(num) {
+    return tail.call(this, num, 1);
+}
+
+
+// 再等于
+const factorial = function(num) {
+    return tail(num,1)
+}
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # 推荐JavaScript经典实例学习资料文章
 
 《可视化的 JS：动态图演示 - 事件循环 Event Loop的过程》
@@ -672,3 +807,13 @@ export  *  from "methods"   导出全部
 《JavaScript+Canvas实现自定义画板》
 
 《Continuation 在 JS 中的应用「前端篇」》
+
+
+
+
+
+
+
+企业级开源项目：
+
+https://blog.csdn.net/Mia_csdn/article/details/105701899

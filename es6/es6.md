@@ -159,7 +159,7 @@ let [d, e, f] = [4, 5, 6, 7]  // 不完全解构，但是可以成功
 
 console.log(a, b, c, d, e, f)  // 1, 2, undefined, 4, 5, 6
 
-let [foo] = 1   // 这边就会报错，（简单的说，右边只要是不可遍历的结构，就会报错）
+let [foo] = 1   // 这边就会报错，（简单的说，对于数组解构，右边只要是不可遍历的结构，就会报错）
 
 
 let [x, y, z] = new Set(['a', 'b', 'c'])  //对于set结构，也可以使用数组的解构赋值
@@ -210,21 +210,55 @@ let x;
 
 
 
-
-
-#### 提取json数据
+##### 提取json数据
 
 ![1564647005172](img/解构，提取json数据)
 
 
 
+#### 字符串的解构
 
+​	字符串也可以解构，此时，字符串被转换成了一个**类似数组的对象**。
+
+```javascript
+const [a, b, c, d] = 'hello'
+// a='h', b='e'...
+```
+
+
+
+#### 数值、布尔值的解构赋值
+
+解构父子，如果等号右边是数值和布尔值，则会先转为对象
+
+```javaScript
+let {toString: s} = 123;
+s === Number.prototype.toString // true
+
+let {toString: s} = true;
+s === Boolean.prototype.toString // true
+
+// 123、true被包装成对象
+```
+
+
+
+#### 函数参数的解构赋值
+
+```javascript
+function add([x, y]) {
+	return x + y
+}
+add([1, 2])
+```
 
 
 
 ### 三、字符串的扩展
 
 #### 1、字符串也可以遍历
+
+ES6为字符串添加了遍历接口（Iterator），使得字符串可以被for...of循环遍历
 
 ```js
 for (let item of 'abcd') {
@@ -234,9 +268,9 @@ for (let item of 'abcd') {
 
 #### 2、模板字符串
 
-键盘左上角   
+键盘左上角   （反引号）
 
-模板字符串中嵌入变量，需要将变量名写在`${}`之中。 
+如要嵌入变量，需要将变量名写在`${}`之中。 
 
 ```js
 rpc._delete(`accesskeys/${uuid}/backup-storage/${bs}`)
@@ -318,15 +352,40 @@ console.log(...[1, 2, 3])
 
 
 
+Number.parseInt()、Number.parseFloat()
+
+ES6将全局方法parseInt和parseFloat，转移到Number对象上，行为完全保持不变
+
+主要目的：逐步减少全局性方法，使得语言逐步模块化。
+
+
+
+
+
+
+
 ### 六、函数的扩展
 
 #### 1、函数参数添加默认值
 
 可以与解构结合
 
+
+
+```javascript
+function fn (x, y, z=2) {
+  console.log('haha')
+}
+
+console.log(fn.length) // 2
+// 函数的length属性，将返回没有指定默认值的参数的个数
+```
+
+
+
 #### 2、 reset参数 …
 
-多个参数变数组
+多个参数变数组，这样就不需要使用arguments对象了
 
 ```js
 function add(...values) {
@@ -340,6 +399,16 @@ function add(...values) {
 }
 
 add(2, 5, 3) // 10
+```
+
+```javascript
+function fn (...args) {
+  console.log(args)
+}
+
+fn(1, 2, 3, 4, 5, 'hah');
+
+// [1 ,2 ,3 ,4 ,5 ,"hah"]
 ```
 
 
@@ -384,9 +453,35 @@ function foo() {
 
 
 
+#### 3、尾调用优化解析
+
+尾调用之所以与其他调用不同，就在于它的特殊的调用位置。
+
+​		我们知道，函数调用会在内存形成一个“调用记录”，又称“调用帧”，保存调用位置和内部变量等信息，如果函数A的内部调用函数B，那么在A的调用帧上方还会形成一个B的调用帧。等到B运行结束，将结果返回到A，B的调用帧才会消失。如果B里面还调用了C，那就还有一个C的调用帧，所有的调用帧形成调用栈。
+
+​		尾调用由于是函数的最后一步操作，所以不需要保留外层函数的调用帧，因为调用位置、内部变量等信息不会再用到了。
+
+​		尾调用优化：只保留内层函数的调用帧。注意：目前只有safari浏览器支持尾调用优化，chrome、firefox都不支持。
+
+
+
+尾递归
+
+
+
+
+
+
+
 
 
 ### 七、数组的扩展
+
+
+
+#### 1、扩展运算符
+
+扩展运算符（spread）是三个点（...），好比reset参数的逆运算，将一个数组转化为用逗号分割的参数序列
 
 
 
@@ -444,7 +539,60 @@ const [...a2] = a1;
 
 
 
+扩展运算符内部调用的是iterator接口，因此只要具有iterator接口的对象，都可以使用扩展运算符，比如map结构。
+
+
+
+#### 2、Array.from()
+
+用于将（类似数组对象、可遍历对象）转为真正的数组
+
+
+
+```javaScript
+let arrayLike = {
+  0: 'a',
+  1: 'b',
+  2: 'c',
+  length: 3
+}
+console.log(arrayLike)
+
+// es5写法
+var arr1 = [].slice.call(arrayLike)
+
+// es6写法
+var arr3 = Array.from(arrayLike)
+console.log(arr1)
+console.log(arr3)
+
+
+
+
+
+//{
+//	0: "a" ,
+//	1: "b" ,
+//	2: "c" ,
+//	length: 3
+//}
+//["a" ,"b" ,"c"]
+
+```
+
+
+
+#### 3、Array.of()
+
+
+
+
+
+
+
 ### 八、对象的扩展
+
+
 
 #### 1、属性名表达式
 
@@ -465,6 +613,10 @@ target：目标对象
 source：源对象
 Object.assign可以用来处理数组，但会把数组视为对象
 ```
+
+
+
+
 
 #### 2、Object.assign 常见用途
 
@@ -516,6 +668,10 @@ y // 2
 z // { a: 3, b: 4 }
 ```
 
+
+
+
+
 #### 5、对象的扩展运算符…
 
  用于取出参数对象的所有可遍历属性，拷贝到当前对象之中。 
@@ -528,13 +684,17 @@ n // { a: 3, b: 4 }
 
 
 
-### 十三、Set 和 Map 数据解构
+
+
+### 十三、Set 和 Map 数据结构
+
+数据结构----存储数据的方式
 
 #### 1、set
 
 新的**数据结构**，类似于数组，但是成员的值是唯一的，没有重复的值
 
-Set本身是一个构造函数，用来生成Set数据结构
+**Set本身是一个构造函数，用来生成Set数据结构**
 
 ![1564650236329](img/Set)
 
@@ -550,15 +710,19 @@ s = new Set ();
 
 s.add()  //添加成员
 
-s.size()   //成员总数
+s.size()   //返回成员总数
 
 s.has()  //判断是否存在该成员
 
 s.delete()  //删除成员
 
+s.clear()  //清除所有成员，没有返回值
+
 
 
 Array.from方法可以将Set结构转化为数组
+
+
 
 ![1564651365210](img/set，数组去重)
 
@@ -568,7 +732,9 @@ Array.from方法可以将Set结构转化为数组
 
 可以遍历foreach
 
+##### 遍历操作
 
+set结构
 
 
 
@@ -740,3 +906,8 @@ console.log(pointColor)
 generator函数的语法糖
 
 就是将generator函数的*替换成async，yield替换成await
+
+
+
+
+

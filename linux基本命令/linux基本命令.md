@@ -46,6 +46,22 @@ vi filename 创建一个文件
 
 
 
+文件移动命令：
+
+```python
+mv [-fiv] source destination
+
+# 参数说明
+# -f：force，强制直接移动而不询问
+# -i：若目标文件（destination）已经存在，就会询问是否覆盖
+# -u：若目标文件已经存在，且源文件比较新，才会更新
+
+# 如将/test1目录下的file1复制到/test3目录，并将文件名改为file2，可以输入一下命令
+# mv /test1/files /test3/file2
+```
+
+
+
 ### rm：删除
 
 ：remove
