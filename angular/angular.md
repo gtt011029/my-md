@@ -489,6 +489,46 @@ Rxjs库里面的一个对象，可以用来处理异步事件，例如HTTP请求
 
 在被消费者subscribe（订阅）之前，订阅者函数不会被执行，直到subscribe函数被调用，该函数返回一个subscription对象，里面有个unsubscribe（）函数，消费者可以随时拒绝消息的接收。
 
+代码举例说明：
+
+```typescript
+public stepChangeSubscription: Subscription
+
+setStepChangeSubscription() {
+	this.stepChangeSubscription = this.calibrationStepService.stepChangeAnnounced$.subscribe((step: number) => {
+	if (SCAN_POSE_CALIBRATION_STEP === step) {
+        console.log('xxx')
+    }
+	})
+}
+
+
+// 注销组件的时候
+this.stepChangeSubscription.unsubscribe()  // 取消订阅
+```
+
+
+
+
+
+
+
+
+
+
+
+解析：
+
+作为发布者，你创建了Observable的实例foo，其中定义了一个订阅者（subscribe）函数。当有消费者调用subscribe（）方法时，这个函数就会被执行。
+
+在调用subscribe（）方法的时候，需要传入一个观察者（Observer），这是一个js对象，它定义了你收到这些消息的处理器（handler）。
+
+subscribe（）调用会返回一个Subscription对象，该对象具有一个unsubscribe（）方法，当调用该方法时，就会停止接收通知
+
+
+
+
+
 
 
 #### 回顾promise：
@@ -591,11 +631,124 @@ testObservable2() {
 
 ## RxJS库
 
+https://cn.rx.js.org/manual/overview.html
+
 响应式编程是一种面向数据流和变更传播的异步编程范式。RxJS（响应式扩展的JavaScript版）是一个使用可观察对象进行响应式编程的库
+
+Rxjs是一个库，它通过使用observable序列来编写异步和给予事件的程序，它提供一个核心的Observable。附属类型（Observer、Schedulers、Subjects）和受【Array#extras】启发的操作符（map、filter、reduce、every）等等，这些操作符可以把异步事件作为集合来处理
+
+ps：可以把Rxjs当做是用来处理事件的Lodash
+
+
+
+1、Observable（可观察对象）：表示一个概念，这个概念是一个可调用未来值或事件的集合
+
+2、Observer（观察者）：一个回调函数的集合，它知道如何去监听由Observable提供的值（next函数、error函数、complete函数）
+
+3、Subscription（订阅）：表示Observable的执行，只要用于取消Observable的执行
+
+4、Operators（操作符）：
+
+
+
+
+
+### 草稿笔记：
+
+拉取：js的函数都是拉取体系：由消费者决定何时获取数据
+
+推送：promise、Observable：由生产者决定何时推送数据
+
+Observable（可观察对象）是多个值的生产者，并将值”推送“给observer（观察者）（消费者）
+
+
+
+调用和订阅是独立的操作
+
+observables传递的值可以是同步的，就像函数一样
+
+Observable可以随时间退役”返回“多个值
+
+
+
+```typescript
+var foo = Rx.Observable.create(function (observer) {
+    console.log('Hello');
+    observer.next(42);
+    observer.next(100);
+    observer.next(200);
+    setTimeout(() => {
+        observer.next(300); // 异步执行
+    }, 1000);
+})
+console.log('before');
+foo.subscribe(function(x) {
+    console.log(x)
+})
+console.log('after');
+
+
+
+
+// 输出：
+// before
+// Hello
+// 42
+// 100
+// 200
+// after
+// 300
+```
+
+解析：发布者创建了一个可观察对象实例foo，这个可观察对象实例foo中定义了订阅者函数，当消费者调用了subscribe（）方法是，这个”订阅者函数就会被执行“
+
+
+
+
+
+创建操作符：of、from、interval
+
+
+
+在subScrible中用try、catch代码来包裹任意代码是个不错的注意，如果捕获到异常的话，会发送error通知
+
+
+
+观察者：一组回调函数的集合，每个回调函数对应一种Observable发送的通知类型。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
 Angular中的可观察对象
+
+
+
+
+
+#### async 、await 不适用http问题
+
+angular的this.http.post返回一个可观测的rxjs。然后调用this.http.post(...).subscribe(...)返回rxjs subscription对象。所以他们都没有承诺，所以不能在await中使用他们。
+
+如果想要await与可观测值一起使用的话，就必须使用toPromise()而不是subscribe()来返回一个由可观测值发出的第一个值解析的承诺（它在你内部为你调用subscribe并用Promise对象包装它）。
 
 
 

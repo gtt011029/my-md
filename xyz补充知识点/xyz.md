@@ -658,3 +658,36 @@ sudo xyz_apt list -a xyz-part-picking-vision
 这样就可以看到part picking现有的版本号
 ```
 
+
+
+
+
+
+
+
+
+![image-20201125131504628](/home/xyz/Documents/my-md/xyz补充知识点/image/image-20201125131504628.png)
+
+
+
+
+
+
+
+![image-20201125131550166](/home/xyz/Documents/my-md/xyz补充知识点/image/image-20201125131550166.png)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+1、yaml 文件 修改数据 方法

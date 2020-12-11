@@ -597,14 +597,14 @@ console.log(arr3)
 #### 1、属性名表达式
 
 ```javascript
-// 方法一
+// 方法一   直接用标识符作为属性名
 obj.foo = true;
 
-// 方法二
+// 方法二   用表达式作为属性名，要将表达式放在【】中
 obj['a' + 'bc'] = 123;
 ```
 
-上面代码的方法一是直接用标识符作为属性名，方法二是用表达式作为属性名，这时要将表达式放在方括号之内。
+
 
 ```
 Object.assign(target, ...sources)   //用于将所有可枚举属性的值从一个或多个源对象复制到目标对象，并返回目标对象
@@ -612,6 +612,66 @@ Object.assign(target, ...sources)   //用于将所有可枚举属性的值从一
 target：目标对象
 source：源对象
 Object.assign可以用来处理数组，但会把数组视为对象
+```
+
+
+
+#### 属性的可枚举性和遍历
+
+
+
+可枚举性：
+
+对象的每个属性都有一个描述对象（Descriptor），
+
+作用：用来控制该属性的行为。
+
+Object.getOwnPropertyDescriptor方法可以获取该属性的描述对象
+
+```javascript
+let obj = {ab: 'haha'}
+Object.getOwnPropertyDescriptor(obj, 'ab')
+
+
+得到的结果为：
+{
+  	value: "haha", writable: true, enumerable: true, configurable: true}
+	configurable: true
+	enumerable: true   // 可枚举性，如果该属性为false，就表示某些操作会忽略当前属性
+	value: "haha"
+	writable: true   // 是否可写
+}
+```
+
+目前，有四个操作会忽略enumerable为false的属性
+
+for..in循环
+
+Object.keys()   //返回键名的数组
+
+JSON.stringify()
+
+Object.assign()
+
+
+
+for in 使用方法：
+
+```js
+let obj = {
+  id: 1,
+  name: 'lego',
+  params: {
+    width: 12,
+    height: 20,
+    type: 'enviroment'
+  }
+}
+
+for (key in obj) {
+  console.log(key)
+  console.log(obj[key])
+}
 ```
 
 
@@ -655,7 +715,25 @@ SomeClass.prototype.anotherMethod = function () {
 
 指向当前对象的原型对象
 
-#### 4、对象的解构赋值…
+
+
+
+
+#### 4、对象的解构赋值… 
+
+理解什么叫解构赋值：将属性或者值从对象或者数组中取出来，赋值给其他的变量
+
+```js
+let obj = {
+  name: 'tina',
+  age: 24
+}
+
+let {name, age} = obj
+
+console.log(name)
+console.log(age)
+```
 
 从目标对象取值，组合成指定对象
 
@@ -674,6 +752,28 @@ z // { a: 3, b: 4 }
 
 #### 5、对象的扩展运算符…
 
+使用方法和数组类似
+
+这边要注意一点，如果新的对象中有一个key你是想自定义的，但是旧的对象中也有这个key，那你就应该把解构写在前面
+
+```js
+let obj = {
+  id: 1,
+  name: 'lego',
+  params: {
+    width: 12,
+    height: 20,
+    type: 'enviroment'
+  }
+}
+
+let newObj = {id: 2, ...obj}  //注意这边的id还是为1，因为后面的id把前面的id替换了
+
+let newObj = {...obj, id: 2}  // 这样的话 id才为2
+```
+
+
+
  用于取出参数对象的所有可遍历属性，拷贝到当前对象之中。 
 
 ```js
@@ -684,11 +784,58 @@ n // { a: 3, b: 4 }
 
 
 
+#### 链判断运算符？.
+
+ES2020
+
+以前如果使用对象的某个字段的话，要实现确定当前字段是否存在，如果存在了再用，不然的话会报错,
+
+以前都是一层一层判断，现在使用链判断运算符，就不需要那么麻烦了
+
+理解：相当于一种短路机制，如果不满足条件，就不会继续往下进行了
+
+```javascript
+  const obj = {
+      id: 1,
+      name: 'lego',
+      param: {
+        width: 23,
+        height: 21,
+        type: {
+          value: 'vision'
+        }
+      }
+    };
+
+    if (obj?.param?.type?.value) {
+      console.log('true');
+    }
+```
+
+
+
+#### Null判断运算符？？
+
+类似于||，它的意思就是只要左侧的值为null 或者undefined 就返回右侧的值
+
+```javascript
+let haha = null ?? 'haha'   //haha
+
+let hehe = null || 'hehe'   // hehe
+
+
+let huhu = false ?? 'huhu'  // false   从这边就可以看出来，？？只会在null 、undefined的时候才会返回右边的值，false它不管
+
+let xixi = false || 'xixi'  // xixi
+```
+
 
 
 ### 十三、Set 和 Map 数据结构
 
-数据结构----存储数据的方式
+数据结构----存储数据的方式（之前写的理解，现在看来也对，就是感觉有点虚，书本华）
+
+现在的理解（数据结构 = 数据类型 + 存储方式、组成方式）
 
 #### 1、set
 
@@ -736,16 +883,48 @@ Array.from方法可以将Set结构转化为数组
 
 set结构
 
+```javascript
+let set = new Set(['red', 'green', 'blue']);
+
+for (let item of set.keys()) {
+  console.log(item);
+}
+// red
+// green
+// blue
+
+for (let item of set.values()) {
+  console.log(item);
+}
+// red
+// green
+// blue
+
+for (let item of set.entries()) {
+  console.log(item);
+}
+// ["red", "red"]
+// ["green", "green"]
+// ["blue", "blue"]
+// entries 方法返回的遍历器，同事包括键名、键值，所以每次输出一个数组，它的两个成员完全相等
+```
+
 
 
 #### 2、WeakSet
 
-与set相似，也是不重复的，但成员只能是对象，其中的对象都是弱引用（即垃圾回收机制不会考虑它，如果该函对象在其他地方不在引用了，就会被回收，不管weakSet是否引用，所以这边规定weakSet不可遍历）
+与set相似，也是不重复的，但成员只能是对象，其中的对象都是弱引用（即垃圾回收机制不会考虑它，如果该函对象在其他地方不在引用了，就会被回收，不管weakSet是否引用，所以这边规定weakSet不可遍历，即不可迭， 也没有size属性）
+
+由于垃圾回收机制不会考虑它，那它能用来做什么呢：可以用来存储DOM节点，这样移除DOM时就不用担心内存泄露了。
 
 ```js
-const ws = new WeakSet([[1,2], [3,4]])
+const a = [[1,2], [3,4]]
+const ws = new WeakSet(a)
 console.log(ws)
 // index 为key  value为value
+
+// 这边可以看到， a是一个数组，它有两个成员，也都是数组，将a作为weakset的参数，a的成员会自动称为weakset的成员。
+// 注意：是a的成员是weakset的成员而不是a，这意味着weakset的成员只能是对象
 ```
 
 

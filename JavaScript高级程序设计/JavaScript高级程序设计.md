@@ -626,11 +626,33 @@ const factorial = function(num) {
 
 
 
+项目中含有大量图片，打包体积较大
+
+https://www.zhihu.com/question/353053823
 
 
 
 
 
+# 【数据结构】和【数据类型】两个概念的区别
+
+在javaScript中有8种数据类型，undefined、null、Boolean、Number、String、Object、Array、Symbol
+
+其中Array、Object又可以归为数据结构，那他们的区别在哪里呢
+
+
+
+用积木打比方：
+
+每一种积木都可以看作是一种“积木类型”
+
+把这些积木按照一定的规则拼在一起就有了“积木结构”
+
+所以置换一下
+
+数据类型就是对数据的抽象描述，数据结构一般是说计算机存储和组织数据的方式
+
+数据结构 = 数据类型 + 组成方式
 
 
 

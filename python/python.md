@@ -957,3 +957,106 @@ https://docs.python.org/zh-cn/3/library/os.html
 
 
 
+# yaml用法
+
+yaml是一种直观的能够被电脑识别的数据序列化合适，
+
+
+
+1、yaml.load（）：返回一个对象
+
+```python
+import yaml
+
+if os.path.exists(self.system_dimensions_file):
+   with open(self.system_dimensions_file, 'r') as stream:
+       self.dimension_data = yaml.load(stream, Loader=Loader)
+```
+
+
+
+2、yaml.dump()：讲一个python对象生成为一个yaml文档
+
+```python
+import yaml
+aproject = {'name': 'tina',
+           'race': 'human',
+           'traits': ['One_Hand', 'One_Eye']}
+
+print(yaml.dump(aproject,))
+
+
+# 这边的第二个参数一定要是一个打开的文本文件或二进制文件，yaml.dump会把生成的yaml文档写到文件里
+```
+
+
+
+
+
+
+
+# *args和 **kwargs详解
+
+*args以及**kwargs作为可变参数，总结一下它们的用法
+
+```python
+def foo(*args, **kwargs):
+    print 'args= ', args
+    print 'kwargs= ', kwarg
+    print '-------------------------------'
+ 
+if __name__ == '__main__':
+    foo(1, 2, 3, 4)
+    foo(a=1, b=2, c=3)
+    foo(1, 2, 3, 4, a=1, b-2, c=3)
+    foo('a', 1, None, a=1, b='2', c=3)
+    
+  
+
+以下是输出结果：
+ args = (1, 2, 3, 4)
+ kwargs =  {}
+ -----------------------
+ args = ()
+ kwargs =  {'a': 1, 'c': 3, 'b': 2}
+ -----------------------
+ args = (1, 2, 3, 4)
+ kwargs =  {'a': 1, 'c': 3, 'b': 2}
+ -----------------------
+ args = ('a', 1, None)
+ kwargs =  {'a': 1, 'c': 3, 'b': '2'}
+
+```
+
+由上面的代码可以看出
+
+*args表示任何多个无名参数，它是一个tuple（元组）
+
+**kwargs表示关键字参数，它是一个dict（字典）
+
+在同时使用\*args、**kwargs时，\*args必须在前面，像foo('a', 1, None, a=1, b='2', c=3)这样调用的话，会展示语法错误。
+
+
+
+
+
+
+
+
+
+
+
+# 装饰器
+
+多多使用装饰器，美化你的代码，提高工作效率
+
+
+
+
+
+
+
+# schema
+
+灵活使用schema
+
