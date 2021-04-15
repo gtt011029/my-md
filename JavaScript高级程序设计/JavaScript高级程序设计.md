@@ -839,3 +839,16 @@ https://www.zhihu.com/question/353053823
 企业级开源项目：
 
 https://blog.csdn.net/Mia_csdn/article/details/105701899
+
+
+
+
+
+禁止右键显示菜单
+
+```javascript
+document.oncontextmenu = function(){
+  return false;
+}
+```
+

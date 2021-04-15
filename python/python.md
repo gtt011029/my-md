@@ -135,6 +135,8 @@ inset(index, value) 插入
 
 pop() 尾部删除    array.pop(index)
 
+extend()延长，同比concat
+
 sort（）排序
 
 ```python
@@ -408,14 +410,6 @@ __XXX__ 这样的变量是特殊变量，可以直接被引用，但是有特殊
 
 
 
-
-
-
-
-
-
-
-
 # **面向对象编程：oop**
 
 把对象作为程序的基本单元
@@ -425,6 +419,93 @@ __XXX__ 这样的变量是特殊变量，可以直接被引用，但是有特殊
 class是一种抽象概念，比如我们定义的class-student
 
 实例（instance）是具体的
+
+
+
+在类中如果想要某个变量不想被外部所更改，定义的时候可以使用self.__name = name（两个下划线，就变成private的了）
+
+
+
+继承：继承的话就放在括号里
+
+```python
+class Animal(object):
+    def run(self):
+        print ('Animal is running')
+class Cat(Animal):
+    def eat(self):
+        print ('eating meat...')
+```
+
+```python
+__slots__ 用户限制实例的属性
+
+
+class Student(object):
+	__slots__ = ('name', 'age') # 表示只允许对Student实例添加name和age属性
+ 
+stu = Student()
+stu.name = 'haha' # 正常
+stu.score = 90 # 会报错
+
+
+dir(stu) # 看不到private的变量或者属性
+
+
+# @property装饰器就是负责把一个方法变成属性调用
+
+class Student(object):
+    @property
+    def score(self):
+        return self._score
+    
+    @score.setter
+    def score(self, value):
+        if not isinstance(value, int):
+            raise ValueError('score must be an interger!')
+        if value < 0 or value > 100:
+            raise ValueError('score must between 0 ` 100!')
+        self._score = value
+        
+# 解析一下 加上@property就把一个get方法变成属性，此时@property本身又创建了另一个@score.setter，负责把一个setter方法变成属性赋值
+
+
+>>> s = Student()
+>>> s.score = 60 # OK，实际转化为s.set_score(60)
+>>> s.score # OK，实际转化为s.get_score()
+60
+>>> s.score = 9999
+Traceback (most recent call last):
+  ...
+ValueError: score must between 0 ~ 100!
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    try:
+    except 
+    
+    都有哪些error
+    python的错误也是class，所有的错误类型都继承自BaseException，
+    
+    
+    raise语句抛出一个错误的实例
+    基本语法格式：
+    raise[exceptionName[(reason)]]
+    []抛出异常名称，以及异常信息的相关描述
+```
+
+
+
+
 
 # **面向对象高级编程**
 
@@ -567,6 +648,28 @@ TyprError
 
 
 
+assert（断言）
+
+logging （info， error， debug， warning）
+
+pdb（python调试器，让程序以单步运行，可以随时查看运行状态）
+
+```
+python -m pdb err.py
+```
+
+输入l 查看代码
+
+输入n单步执行代码
+
+
+
+
+
+
+
+
+
 
 
 
@@ -689,6 +792,12 @@ os.rename('text.txt', 'file.txt')
 # 删除文件
 os.remove('test.py')
 ```
+
+
+
+## 序列化
+
+我们把变量从内存中标称可存储或传输的过程成为序列化
 
 
 

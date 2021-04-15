@@ -575,6 +575,14 @@ sudo apt-get install ros-kinetic-genpy
 
 ​	
 
+先装这个
+
+注意：
+
+```
+apt install aptitude
+```
+
 
 
 1、下载应用软件xyz_apt.zip并解压缩到/bin/底下
@@ -608,10 +616,6 @@ url：  161.189.84.82:8003/release
 ```
 sudo xyz_apt update
 ```
-
-
-
-
 
 4、安装指定包
 
@@ -666,7 +670,7 @@ sudo xyz_apt list -a xyz-part-picking-vision
 
 
 
-![image-20201125131504628](/home/xyz/Documents/my-md/xyz补充知识点/image/image-20201125131504628.png)
+![image-20201125131504628](image/image-20201125131504628.png)
 
 
 
@@ -674,7 +678,13 @@ sudo xyz_apt list -a xyz-part-picking-vision
 
 
 
-![image-20201125131550166](/home/xyz/Documents/my-md/xyz补充知识点/image/image-20201125131550166.png)
+![image-20201125131550166](image/image-20201125131550166.png)
+
+
+
+
+
+
 
 
 
@@ -691,3 +701,384 @@ sudo xyz_apt list -a xyz-part-picking-vision
 
 
 1、yaml 文件 修改数据 方法
+
+
+
+
+
+
+
+
+
+## 更改pman
+
+终端中键入：
+
+```
+activate_app  配置包名
+再rebash一下
+```
+
+
+
+
+
+## 更改rosparam 参数
+
+```
+rosparam set vision_system_backend ''
+```
+
+
+
+
+
+
+
+
+
+终端获取三维视角数据：
+
+```
+rostopic echo /xyz_calibration_marker_array
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+```python
+def get_camera_index_in_local_config(self, camera_serial_num, tote_id):
+    resp = {
+        'state': False,
+        'index': 0
+    }
+    if not os.path.exists(self.workspace_config_file):
+        return resp
+
+    with open(self.workspace_config_file, 'r') as workspace_config_file:
+        workspaces_data = json.load(workspace_config_file)
+    try:
+        for workspace in workspaces_data['workspace_config']:
+            if int(workspace['id']) == int(tote_id):
+                for camera in workspace['cameras']:
+                    if camera['serial_number'] == camera_serial_num:
+                        resp['state'] = True,
+                        resp['index'] = camera['camera_idx']
+                        break
+                break
+    except KeyError:
+        return resp
+    return resp
+```
+
+
+
+
+
+
+
+
+
+
+
+rosparams_backend.json数据丢失情况
+
+先把ros关了，再去关setup tool 后端，在setup tool 后端关闭前，会去拿ros里的数据存入.json文件中，如果把ros关掉的情况下，就拿不到ros中的数据，这样的话json文件就是空的
+
+
+
+开机的时候会把文件夹里的数据存入ros params中
+
+
+
+
+
+save params的时候会用ros的数据把原来文件中的数据替换掉，
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+传感器
+
+
+
+
+
+```
+['drawLine', 'drawCircle', 'drawRect', 'removePoint', 'addPoint'];
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# app 指令合集
+
+add_app   [custom app name]  添加app
+
+
+
+del_app [app name]   删除app
+
+
+
+activate_app [app name]  切换app
+
+
+
+listapps    列举app
+
+
+
+
+
+
+
+rosrun xyz_part_picking_vision tote_depalletizer -c /home/xyz/xyz_app/catkin_ws/src/xyz_app_config/template_app/vision/vision_config.yml --offline
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# vision_config
+
+vision config中的sensor是在绑定相机的时候加进去的
+
+但是删除相机获取删除工作空间的时候不会去删除vision config 中sensor的数据
+
+
+
+
+
+
+
+
+
+
+
+# setup tool
+
+如果使用fakesingernal的话，机器人ip就是127.0.0.1
+
+
+
+示教器更改系统：备份与恢复改成2.24_1版本的
+
+
+
+
+
+
+
+### setup tool 后端代码安装依赖
+
+```
+pip install -r requirements.txt
+```
+
+
+
+
+
+
+
+
+
+
+
+```python
+    def add_combination_camera_info_to_workspace_json(self, data):
+        resp = {
+            'state': False,
+            'msg': ''
+        }
+        tote_file = app_path + '/ui/workspaces.json'
+        if not os.path.exists(tote_file):
+            resp['msg'] = 'can not find workspaces.json file'
+            return resp
+        try:
+            with open(tote_file, 'r') as tote_stream:
+                tote_info = json.load(tote_stream)
+            if 'all_combination_camera_list' not in tote_info:
+                tote_info['all_combination_camera_list'] = [data['Tuyang'] + '-' + data['hikvision']]
+            else:
+                for combination_camera in tote_info['all_combination_camera_list']:
+                    if combination_camera.split('-')[0] == data['Tuyang']:
+                        tote_info['all_combination_camera_list'].remove(combination_camera)
+                tote_info['all_combination_camera_list'].append(data['Tuyang'] + '-' + data['hikvision'])
+
+            target_workspace = {}
+            for workspace in tote_info['workspace_config']:
+                if int(workspace['id']) == int(data['workspaceId']):
+                    target_workspace = workspace
+                    break
+            if 'combination_camera' not in target_workspace:
+                target_workspace['combination_camera'] = [data['Tuyang'] + '-' + data['hikvision']]
+            else:
+                for item in target_workspace['combination_camera']:
+                    if item.split('-')[0] == data['Tuyang']:
+                        target_workspace['combination_camera'].remove(item)
+                target_workspace['combination_camera'].append(data['Tuyang'] + '-' + data['hikvision'])
+
+        except ValueError as e:
+            print ('except error: ', e)
+            resp['msg'] = 'workspaces.json file is empty'
+            return resp
+
+        with open(tote_file, 'w') as data_file:
+            json.dump(tote_info, data_file, indent=4)
+
+        resp['state'] = True
+        return resp
+```
+
+
+
+
+
+
+
+a、选择需要进行验证的相机。 
+
+b、移动机械臂使得整个标定板图案在相机视野中（若使用的是3D相机，则需同时能够看到标定板的点云）。 
+
+c、点击“显示”按钮可以看到2D相机图片和3D场景中出现的坐标轴“board_array”。 
+
+d、若2D相机图片中红色点和绿色点重合度较好（若使用 3D相机，则需依照2D图片中国显示的坐标轴和标定板图案的位置关系，来验证3D场景中的坐标轴“board_array”和标定板点云位置是否匹配），则可以初步说明标定结果满足需求。  
+
+ 
+
+
+
+```
+ipPattern = '^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$';
+
+
+(
+(
+[0-9]|
+[1-9][0-9]|
+1[0-9]{2}|
+2[0-4][0-9]|
+25[0-5]
+)\\.
+)
+{3}(
+[0-9]|
+[1-9][0-9]|
+1[0-9]{2}|
+2[0-4][0-9]|
+25[0-5])
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+## 跑part picking的时候记得装 xyz-learning-bridge
+
+
+
+
+
+### test_reset_camera
+
+
+
+
+
+
+
+
+
+## get|set rosparam
+
+rosparam get /vision_system_backend/vision_config_file

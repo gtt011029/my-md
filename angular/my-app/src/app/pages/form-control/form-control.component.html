@@ -6,26 +6,28 @@
   <p *ngIf="name.errors && name.errors.maxlength">当前输入不得高于{{name.errors.maxlength.requiredLength}}个字符</p>
   <p *ngIf="name.errors &&  name.errors.minlength">当前输入不得少于{{name.errors.minlength.requiredLength}}个字符</p>
   <div>
-<!--    <h1>控件组</h1>-->
-<!--    <form action="" [formGroup]="profileForm2" (ngSubmit)="onSubmit()">-->
-<!--      <div>profileForm 组件从用户那里获得输入，formGroup/ formBuilder指令</div>-->
-<!--      <label>firstName</label>-->
-<!--      <input type="text" formControlName="firstName" required="required"><br>-->
-
-<!--      <label>lastName</label>-->
-<!--      <input type="text" formControlName="lastName"><br>-->
-
-<!--      <button (click)="getFormControlValue()">获取控件组的内容</button><br>-->
-<!--      <button (click)="updateProfile()">更改控件组中的内容</button>-->
-<!--      <button (click)="getFirst()">打印firstName相关信息</button>-->
-<!--      <button type="submit">submit</button>-->
-<!--      <p>Form Status: {{ profileForm2.status }}</p>-->
-<!--    </form>-->
   </div>
 
   <div>
     <h1>动态生成表单开始:</h1>
     <span>所谓动态表单就是根据拿到的数据渲染表单</span>
     <app-dynamic-form [questions]="questions$ | async"></app-dynamic-form>
+  </div>
+
+  <div class="control-group">
+    <h1>控件组</h1>
+    <form action="" [formGroup]="profileForm" (ngSubmit)="onSubmit()">
+      <label>name</label>
+      <input type="text" formControlName="name" required="required"><br>
+
+      <label>age</label>
+      <input type="text" formControlName="age"><br>
+
+      <button (click)="getFormControlValue()">获取控件组的内容</button><br>
+      <button (click)="updateProfile()">更改name为aaaa</button>
+      <button (click)="getFirst()">打印firstName相关信息</button>
+      <button type="submit">submit</button>
+      <p>Form Status: {{ profileForm.status === 'INVALID' ? '无效的': '有效的'}}</p>
+    </form>
   </div>
 </div>

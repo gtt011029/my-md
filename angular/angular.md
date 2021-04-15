@@ -2,6 +2,8 @@
 
 https://zhuanlan.zhihu.com/p/24000979   开源的angular项目
 
+https://www.kancloud.cn/wujie520303/angular2_note/235041
+
 angular的口号是“一套框架，多种平台”。同时适用于手机与桌面，即angular是支持开发夸平台的应用。比如web应用、移动web应用、原生移动应用和原生桌面应用等。
 
 为了支持跨平台，通过抽象封装了不同平台的差异，统一了api接口。还定义了一下引用类型；
@@ -625,7 +627,13 @@ testObservable2() {
 
 该装饰器提供的元数据可以让你的服务作为依赖被注入到客户组件中
 
+依赖：是当类需要执行其功能时，所需要的服务或对象。DI是一种编码模式，其中的类会从外部资源中请求获取依赖而不是自己创建它们。
 
+Optional：加上@Optinal()注解，告知angular，该依赖是可选的。
+
+
+
+依赖提供者（通过配置提供者，可以把服务提供给哪些需要它们的应用部件）
 
 
 
@@ -746,9 +754,32 @@ Angular中的可观察对象
 
 #### async 、await 不适用http问题
 
-angular的this.http.post返回一个可观测的rxjs。然后调用this.http.post(...).subscribe(...)返回rxjs subscription对象。所以他们都没有承诺，所以不能在await中使用他们。
+angular的this.http.post返回一个可观测的rxjs。然后调用this.http.post(...).subscribe(...)返回rxjs subscription对象。所以他们都没有承诺（promise），所以不能在await中使用他们。
 
 如果想要await与可观测值一起使用的话，就必须使用toPromise()而不是subscribe()来返回一个由可观测值发出的第一个值解析的承诺（它在你内部为你调用subscribe并用Promise对象包装它）。
+
+
+
+
+
+subscribe转promise例子：
+
+```typescript
+async setVisionType(name: string) {
+    this.currentType = name;
+    const reqBody: ResponseData = {
+      vision_type: this.currentType
+    };
+    const resp: any = await this.commService.setVisionType(reqBody).toPromise();
+    console.log(resp);
+    if (resp.code === 0) {
+        this.snackBar.openFromComponent(MarkFeedbackSuccessComponent, {
+          duration: 3000,
+          panelClass: ['snackbar-success']
+        });
+      }
+  }
+```
 
 
 
@@ -775,6 +806,14 @@ angular的this.http.post返回一个可观测的rxjs。然后调用this.http.pos
 ps：感觉三大框架都差不多
 
 1、{ path: 'herp/:id', component: xxx }
+
+路由的惰性加载：
+
+```typescript
+const routers: Routers = [{
+    pathL 'cus'
+}]
+```
 
 
 
@@ -1167,6 +1206,42 @@ https://blog.csdn.net/weixin_44917045/article/details/107595662
 
 
 
+
+
+
+Web Worker 处理后台进程
+
+作用：允许在后台线程中运行cpu密集型计算，解放主线程以更新用户界面。如果你发现你的应用会进行很多计算，比如生成CAD图纸或进行繁重的几何计算，那么使用web worker可以帮助你提高应用的性能。
+
+
+
+
+
+
+
+
+
+使用webpack
+
+
+
+
+
+
+
+
+
+1、studio：物体注册原型图
+
+2、setup Tool： 添加“放置”类型的工作空间
+
+3、setup Tool：组合相机功能
+
+4、setup Tool：鼠标滚轮事件兼容火狐浏览器
+
+5、setup Tool：优化橡皮擦功能
+
+6、setup Tool：增加选择标注物体的记忆功能
 
 
 

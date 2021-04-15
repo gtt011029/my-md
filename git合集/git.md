@@ -335,6 +335,42 @@ git stash pop 让保存的代码重新进入工作区（移除单个存储单元
 
 git stash === git stash save
 
+注意：git stash命令会把以下修改存储到新堆栈中
+
+1、暂存区中的修改
+
+2、工作区中已经存在的文件的修改
+
+所以，默认情况下，git stash 不会存储下列文件
+
+1、工作区中新增的文件（untracked files）
+
+2、被版忽略的文件（.gitignore）
+
+如果想要存储 untracked files
+
+```
+git stash -u
+```
+
+如果既想存储untracked files文件，又想存储.gitignore文件
+
+```
+git stash -a
+```
+
+
+
+```
+// 平常情况下我们可以在stash的时候加个message，方便事后回想记忆
+
+git stash save '备注信息'
+```
+
+
+
+
+
 
 
 ### 24、push报错（the remote end hung up unexpectedly）
@@ -429,5 +465,15 @@ git remote remove origin
 
 ```
 git branch --set-upstream-to=origin/gw-refactor  gw-refactor
+```
+
+
+
+
+
+### 28、重写分支
+
+```
+git-filter-branch  - 重写分支
 ```
 

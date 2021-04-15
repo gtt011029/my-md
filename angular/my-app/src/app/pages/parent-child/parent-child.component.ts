@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {Router, ActivatedRoute} from '@angular/router';
 
 @Component({
   selector: 'app-parent-child',
@@ -9,7 +10,7 @@ export class ParentChildComponent implements OnInit {
   public data: object[];
   public list = ['haha', 'hehehe', 'hohoho', 'xixixixi'];
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit() {
     this.data = [{
@@ -22,5 +23,8 @@ export class ParentChildComponent implements OnInit {
   }
   childOk(child) {
     console.log(child);
+  }
+  intoCommonDemoPage() {
+    this.router.navigate(['/commonDemo'], {queryParams:  {name: 'haha'}});
   }
 }

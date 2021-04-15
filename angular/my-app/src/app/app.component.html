@@ -1,12 +1,18 @@
-<div style="height: 300px; border: 1px dashed #ccc">
-  <ul>
-    <li><a routerLink="parentChild">组件间的交互</a></li>
-    <li><a routerLink="canvas">canvas画布</a></li>
-    <li><a routerLink="ViewChild">ViewChild装饰器用法</a></li>
-    <li><a routerLink="FormControl">FormControl表单学习</a></li>
-    <li><a href="Observable">Observable可观察对象（异步类似promise）</a></li>
-    <li><a href="Annotation">Annotation Angular 动画</a></li>
-  </ul>
+<div class="main">
+  <div class="menu">
+    <h1 class="menu-title">MENU</h1>
+    <ul>
+      <li><a routerLink="parentChild" routerLinkActive="activate">组件间的交互</a></li>
+      <li><a routerLink="canvas" routerLinkActive="activate">canvas画布</a></li>
+      <li><a routerLink="ViewChild" routerLinkActive="activate">ViewChild装饰器用法</a></li>
+      <li><a routerLink="FormControl" routerLinkActive="activate">FormControl表单学习</a></li>
+      <li><a routerLink="Observable" routerLinkActive="activate">Observable可观察对象（异步类似promise）</a></li>
+      <li><a routerLink="Annotation" routerLinkActive="activate">Annotation Angular 动画</a></li>
+      <li><a routerLink="promise" routerLinkActive="activate">promise 练习</a></li>
+      <li><a routerLink="commonDemo" [queryParams]="{name: 'zhangsan', age: '18'}" routerLinkActive="activate">Common Demo</a></li>
+    </ul>
+  </div>
+  <div class="page">
+    <router-outlet></router-outlet>
+  </div>
 </div>
-
-<router-outlet></router-outlet>

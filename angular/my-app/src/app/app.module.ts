@@ -20,6 +20,8 @@ import { DynamicFormQuestionComponent } from './pages/form-control/dynamic-form-
 import { DynamicFormComponent } from './pages/form-control/dynamic-form/dynamic-form.component';
 import { ObservableComponent } from './pages/observable/observable.component';
 import { AnnotationComponent } from './pages/annotation/annotation.component';
+import { PromiseTestComponent } from './pages/promise-test/promise-test.component';
+import { CommonDemoComponent } from './pages/common-demo/common-demo.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +40,9 @@ import { AnnotationComponent } from './pages/annotation/annotation.component';
     DynamicFormQuestionComponent,
     DynamicFormComponent,
     ObservableComponent,
-    AnnotationComponent
+    AnnotationComponent,
+    PromiseTestComponent,
+    CommonDemoComponent
   ],
   imports: [
     BrowserModule,

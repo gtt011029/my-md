@@ -947,6 +947,36 @@ m.delete(o) // true
 m.has(o) // false
 ```
 
+##### 与其他数据结构的互换
+
+map转数组
+
+使用扩展运算符（...）
+
+```javascript
+const myMap = new Map().set(true, 7).set({foo: 3}, ['abc'])
+
+[...myMap]
+```
+
+
+
+#### 4、WeakMap
+
+区别：只能接受对象作为键名（null除外）
+
+没有遍历操作
+
+没有size属性
+
+用途： DOM节点作为键名
+
+键名对对象的引用是若引用，即垃圾回收机制不会将该引用考虑进去
+
+基本上，如果你想往对象上添加数据，又不想干扰垃圾回收机制，就可以使用WeakMap结构
+
+
+
 
 
 ### 十四、proxy 拦截
@@ -963,15 +993,181 @@ var  proxyExample = new  Proxy(target, handler);
 target：所要拦截的目标对象，原对象
 handler：也是一个对象，用来制定拦截行为（get、set）
 proxyExample： 生成的proxy的实例，这边写好之后，如果想要使用target对象，就用proxyExample
+
+
+let proxy = new Proxy({}, {
+  get (target, prokey) {
+    console.log('target: ', target)  // 目标对象
+    console.log('prokey: ', prokey)  // 所请求的key
+    return 35
+  }
+})
+
+console.log(proxy.haha)  // 35
 ```
+
+
+
+### Reflect
+
+与proxy一样，也是ES6为了操作对象而提供的新的API
 
 
 
 ### 十六、promise对象
 
+异步编程的一种解决方案
+
+解析原理：promise就是一个容器，里面存放着未来才会结束的事件（通常是一个异步操作）的结果
+
+特点：1、对象的状态不受外界的影响
+
+2、一旦状态改变，就不会再变
+
+缺点：无法取消promise，一旦建立就会立即执行，无法中途取消
+
+注意：调用resolve、reject并不会终结promise的参数函数的执行（就是说resolve后面如果还有代码的话，还是会继续执行的）
+
+```javascript
+console.log('start')
+const promise = new Promise(function(resolve, reject) {
+  setTimeout(() => {
+    resolve('success')
+  }, 2000)
+})
+
+promise.then((value) => {
+  console.log(value)
+}, (error) => {
+  console.log(error)
+})
+```
+
+从上面的小例子就可以看出，promise本身可以看出是一个包含着异步代码的容器，它里面的代码也是同步运行的，只是.then中可以获取resolve、reject传递的数据。
+
+
+
+用promise包装ajax
+
+现在看来，没有什么技术含量，就是ajax外面包了一层promise
+
+```javascript
+// 用 promise包装promise
+    const getJson = (url) => {
+      return new Promise((resolve, reject) => {
+        const handler = function() {
+          if (this.readyState !== 4) {
+            return;
+          }
+          if (this.status === 200) {
+            resolve(this.response);
+          } else {
+            reject(new Error(this.statusText));
+          }
+        };
+        const client = new XMLHttpRequest();
+        client.open('GET', url);
+        client.onreadystatechange = handler;
+        client.responseType = 'json';
+        client.setRequestHeader('Accept', 'application/json');
+        client.send();
+      });
+    };
+
+    getJson('http://localhost:7007/vision-type').then((value) => {
+      console.log(value);
+    }, (error) => {
+      console.log(error);
+    });
+```
+
+
+
+promise.prototype.catch()就等于第二个回调函数，捕获reject返回的数据
+
+
+
+promise.prototype.finally：不管promise最后是何状态，该方法都会执行，ES2018引入标准的
+
+
+
+
+
 手写promise
 
  https://www.jianshu.com/p/c633a22f9e8c 
+
+
+
+### Iterator和for...of循环
+
+由于现在表示集合的数据结构array、object、map、set比较多，就需要一个统一的接口机制，来处理不同的数据结构
+
+遍历器（Iterator）作用：
+
+1、为各种数据结构提供一个统一的、简便的接口，为各种数据结构提供统一的访问机制，
+
+2、是的数据结构成员有顺序
+
+3、可遍历：任何数据结构只要部署Iterator接口，就可以进行遍历，Iterator接口主要工for...of消费
+
+
+
+遍历器对象本质上就是一个指针对象
+
+
+
+以下数据结构原生具备了Iterator接口：
+
+1、Array
+
+2、Map
+
+3、Set
+
+4、String
+
+5、TypeArray
+
+6、函数的 arguements对象
+
+7、NodList对象
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

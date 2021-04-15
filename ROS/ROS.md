@@ -467,3 +467,152 @@ T2 = T(world) * T1;
 </html>
 ```
 
+
+
+
+
+
+
+## 可视化交互标记
+
+```html
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+
+<script type="text/javascript" src="http://cdn.robotwebtools.org/threejs/current/three.min.js"></script>
+<script type="text/javascript" src="http://cdn.robotwebtools.org/EventEmitter2/current/eventemitter2.min.js"></script>
+<script type="text/javascript" src="http://cdn.robotwebtools.org/roslibjs/current/roslib.min.js"></script>
+<script type="text/javascript" src="http://cdn.robotwebtools.org/ros3djs/current/ros3d.min.js"></script>
+
+<script type="text/javascript" type="text/javascript">
+  /**
+   * Setup all visualization elements when the page is loaded.
+   */
+  function init() {
+    // Connect to ROS.
+    var ros = new ROSLIB.Ros({
+      url : 'ws://localhost:9090'
+    });
+
+    // Create the main viewer. 创建一个ros3dviewer对象，用于放置内容
+    var viewer = new ROS3D.Viewer({
+      divID : 'markers',
+      width : 800,
+      height : 600,
+      antialias : true
+    });
+
+    // Setup a client to listen to TFs.创建一个TFClient
+    var tfClient = new ROSLIB.TFClient({
+      ros : ros,
+      angularThres : 0.01,
+      transThres : 0.01,
+      rate : 10.0,
+      fixedFrame : '/rotating_frame'
+    });
+
+    // Setup the marker client.用于显示交互内容
+    var imClient = new ROS3D.InteractiveMarkerClient({
+      ros : ros,
+      tfClient : tfClient,
+      topic : '/basic_controls',
+      camera : viewer.camera,
+      rootObject : viewer.selectableObjects
+    });
+  }
+</script>
+</head>
+
+<body onload="init()">
+  <h1>Simple Marker Example</h1>
+  <div id="markers"></div>
+</body>
+</html>
+
+```
+
+
+
+相机在机械臂上
+
+
+
+## 可视化点云
+
+```html
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+
+<script type="text/javascript" src="../include/threejs/three.js"></script>
+<script type="text/javascript" src="../include/EventEmitter2/eventemitter2.js"></script>
+<script type="text/javascript" src="../include/roslibjs/roslib.js"></script>
+<script type="text/javascript" src="../build/ros3d.js"></script>
+
+<script type="text/javascript" type="text/javascript">
+  /**
+   * Setup all visualization elements when the page is loaded.
+   */
+  function init() {
+    // Connect to ROS.
+    var ros = new ROSLIB.Ros({
+      url : 'ws://localhost:9090'
+    });
+
+    // Create the main viewer.
+    var viewer = new ROS3D.Viewer({
+      divID : 'viewer',
+      width : 800,
+      height : 600,
+      antialias : true
+    });
+
+    // Setup a client to listen to TFs.
+    var tfClient = new ROSLIB.TFClient({
+      ros : ros,
+      angularThres : 0.01,
+      transThres : 0.01,
+      rate : 10.0,
+      fixedFrame : '/camera_link'
+    });
+
+    // Setup Kinect DepthCloud stream获取点云数据
+    depthCloud = new ROS3D.DepthCloud({
+      url : 'http://'+window.location.hostname + ':9999/streams/depthcloud_encoded.webm',
+      f : 525.0
+    });
+    depthCloud.startStream();
+
+    // Create Kinect scene node增肌点云都场景节点，并构建TF变换
+    var kinectNode = new ROS3D.SceneNode({
+      frameID : '/camera_rgb_optical_frame',
+      tfClient : tfClient,
+      object : depthCloud
+    });
+    viewer.scene.add(kinectNode);
+  }
+</script>
+</head>
+
+<body onload="init()">
+  <h1>Simple DepthCloud Example</h1>
+  <p>Run the following commands in the terminal then go to http://localhost:9999/examples/depthcloud.html*.</p>
+  <ol>
+    <li><tt>roscore</tt></li>
+    <li><tt>roslaunch rosbridge_server rosbridge_websocket.launch</tt></li>
+    <li><tt>rosrun tf2_web_republisher tf2_web_republisher</tt></li>
+    <li><tt>roslaunch openni_launch openni.launch depth_registration:=true</tt></li>
+    <li><tt>rosrun ros_web_video ros_web_video _port:=9999 _framerate:=15 _bitrate:=250000 _profile:=best _www_file_server:=true _wwwroot:=<b>/path/to/ros3djs/</b></tt></li>
+    <li><tt>rosrun depthcloud_encoder depthcloud_encoder_node _depth:=/camera/depth_registered/image_rect _rgb:=/camera/rgb/image_rect_color</tt></li>
+  </ol>
+  <small>*Due to a bug in the current WebGL implementations, it is not possible to serve
+  this file and the video stream from a different host or port number, so we need ros_web_video
+  to serve the html file as well. If you use Apache, you can set it up to proxy port 9999 to a subdirectory.</small><br/>
+  <div id="viewer"></div>
+</body>
+</html>
+```
+

@@ -1,1 +1,23 @@
 *{padding:0;margin:0;}
+.main {
+  display: flex;
+}
+.menu-title {
+  margin-bottom: 40px;
+  text-align: center;
+}
+.menu {
+  height: 100vh;
+  flex: 1;
+  background-color: #ccc;
+  margin-right: 20px
+}
+ul {
+  list-style: none;
+}
+.page {
+  flex: 6;
+}
+.activate {
+  background-color: red;
+}
