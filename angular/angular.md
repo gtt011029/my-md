@@ -12,7 +12,7 @@ angular的口号是“一套框架，多种平台”。同时适用于手机与�
 
 ​		angular是一个用HTML、TypeScript构建的客户端应用的平台与框架。angular本身就是用TypeScript写成的。它将核心功能和可选功能作为一组ts库进行实现，可以把它们导入应用中。
 
-angular的基本构造块NgModule（用于配置注入器和编辑器，并帮你把那些相关的东西组织在一起），它为组件提供了编译上下文的环境。angular应用就是由一组NgModule定义出的。应用至少有一个用于引导的根模块，通常还会有很多特性模块。这项技术还能让你获得**惰性加载**(按需加载)的优点，可尽可能减小启动时按需加载的代码体积。
+==angular==的基本构造块==**NgModule**==（用于配置注入器和编辑器，并帮你把那些相关的东西组织在一起），它为组件提供了编译上下文的环境。angular应用就是由一组NgModule定义出的。应用至少有一个用于引导的根模块，通常还会有很多特性模块。这项技术还能让你获得**惰性加载**(按需加载)的优点，可尽可能减小启动时按需加载的代码体积。
 
 1. 组件定义**视图**。视图是一组可见的屏幕元素，angular可以根据你的程序逻辑和数据来选择和修改它们
 2. 组件使用**服务**(services)。服务会提供那些与视图**不直接相关的功能**。服务提供者可以作为依赖被注入到组件中，会让你的代码更加模块化、提高可复用性，更加高效
@@ -1227,25 +1227,29 @@ Web Worker 处理后台进程
 
 
 
+## flex layout
+
+https://juejin.cn/post/6844903893910962184
+
+https://blog.poychang.net/use-angular-flex-layout-package/
+
+![image-20210422094229760](/home/xyz/.config/Typora/typora-user-images/image-20210422094229760.png)
 
 
 
 
-1、studio：物体注册原型图
-
-2、setup Tool： 添加“放置”类型的工作空间
-
-3、setup Tool：组合相机功能
-
-4、setup Tool：鼠标滚轮事件兼容火狐浏览器
-
-5、setup Tool：优化橡皮擦功能
-
-6、setup Tool：增加选择标注物体的记忆功能
 
 
 
 
+
+```
+<!--      <div fxFlex="50" fxLayout="column" fxLayoutAlign="space-between start" style="height: 100%; width: 100%">
+      <div fxFlex="40" fxLayout="row" fxLayoutAlign="start start" class="refer-box">
+        <h2 fxFlex="20" class="bold-font">料箱操作示意</h2>
+        <img fxFlex="50" class="intro-img" src="assets/images/tote-calib.png">
+      </div>-->
+```
 
 
 

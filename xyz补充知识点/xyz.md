@@ -1082,3 +1082,216 @@ ipPattern = '^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-
 ## get|set rosparam
 
 rosparam get /vision_system_backend/vision_config_file
+
+
+
+
+
+
+
+
+
+
+
+
+
+```
+ <trans-unit id="a3c1591aa82820475fe316e1f9b1a18a95ed42ab" datatype="html">
+        <source> [ type：<x id="ICU" equiv-text="{workspace.type, select, passive {...} place {...}}"/> ]</source>
+	      <target> [ 类型：<x id="ICU" equiv-text="{workspace.type, select, passive {吸取（passive）} place {放置（place）}}"/> ]</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/pages/workspace-config/workspace-config.component.html</context>
+          <context context-type="linenumber">35</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="b063f0e3307db8d9346d6ce8e7929c90bc756f05" datatype="html">
+        <source>{VAR_SELECT, select, passive {pick (passive)} place {place (place)} }</source>
+	<target>{VAR_SELECT, select, passive {吸取 (passive)} place {放置 (place)} }</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/pages/workspace-config/workspace-config.component.html</context>
+          <context context-type="linenumber">35</context>
+        </context-group>
+      </trans-unit>
+    
+      <trans-unit id="a55c134d5a8f52fd4fa796553005092861640fc1" datatype="html">
+        <source>
+        DELETE WORKSPACE
+      </source>
+        <target>删除工作空间</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/pages/workspace-config/workspace-config.component.html</context>
+          <context context-type="linenumber">42</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="preset" datatype="html">
+        <source>Preset</source>
+        <target>预设配置</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/pages/workspace-config/camera-config-viewer/camera-config-viewer.component.html</context>
+          <context context-type="linenumber">4</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/pages/workspace-config/camera-config-viewer/camera-config-viewer.component.html</context>
+          <context context-type="linenumber">10</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="btn-load" datatype="html">
+        <source>LOAD</source>
+        <target>加载</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/pages/workspace-config/camera-config-viewer/camera-config-viewer.component.html</context>
+          <context context-type="linenumber">7</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="preset_list" datatype="html">
+        <source>
+            <x id="ICU" equiv-text="{preset.name, select, Object Detection {...} Object Pose Estimation {...} Object Placing {...} Object Detection and Pose Estimation {...} Object Detection(low-resolution) {...} Object Detection(high-resolution) {...}}"/>
+          </source>
+        <target><x id="ICU" equiv-text="{preset.name, select, Object Detection {物品检测} Object Pose Estimation {位姿估计} Object Placing {物品放置} Object Detection and Pose Estimation {物品检测和位姿估计} Object Detection(low-resolution) {物品检测(低分辨率)} Object Detection(high-resolution) {物品检测(高分辨率)}}"/></target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/pages/workspace-config/camera-config-viewer/camera-config-viewer.component.html</context>
+          <context context-type="linenumber">15</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="daac11eab54ba509d164017a17d581793d71ce86" datatype="html">
+        <source>{VAR_SELECT, select, Object Detection {Object Detection} Object Pose Estimation {Object Pose Estimation} Object Placing {Object Placing} Object Detection and Pose Estimation {Object Detection and Pose Estimation} Object Detection(low-resolution) {Object Detection(low-resolution)} Object Detection(high-resolution) {Object Detection(high-resolution)} }</source>
+        <target>{VAR_SELECT, select, Object Detection {物品检测} Object Pose Estimation {位姿估计} Object Placing {物品放置} Object Detection and Pose Estimation {物品检测和位姿估计} Object Detection(low-resolution) {物品检测(低分辨率)} Object Detection(high-resolution) {物品检测(高分辨率)}}</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/pages/workspace-config/camera-config-viewer/camera-config-viewer.component.html</context>
+          <context context-type="linenumber">16</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2333cf3ebeb1d4a05ca7b0b258afe5799b2df6c7" datatype="html">
+        <source>Camera Params Setting</source>
+        <target>相机参数设置</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/pages/workspace-config/camera-config-viewer/camera-config-viewer.component.html</context>
+          <context context-type="linenumber">31</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="a8f7fc792452986aa22e789b8af886591009144f" datatype="html">
+        <source>min depth (m)</source>
+        <target>最小深度值 (m)</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/pages/workspace-config/camera-config-viewer/camera-config-viewer.component.html</context>
+          <context context-type="linenumber">39</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5a0534cbc36c955ab6cb59625a4347f90c84b68e" datatype="html">
+        <source>max depth (m)</source>
+        <target>最大深度值 (m)</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/pages/workspace-config/camera-config-viewer/camera-config-viewer.component.html</context>
+          <context context-type="linenumber">51</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="9349055df63e7314598b8c612c08d56b380dcf9c" datatype="html">
+        <source>capture timeout (ms)</source>
+        <target>拍照延迟 (ms)</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/pages/workspace-config/camera-config-viewer/camera-config-viewer.component.html</context>
+          <context context-type="linenumber">63</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="a4b9a0e197a1bf570f5452146f58d59f940edc63" datatype="html">
+        <source>max failure number</source>
+        <target>最大失败尝试次数</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/pages/workspace-config/camera-config-viewer/camera-config-viewer.component.html</context>
+          <context context-type="linenumber">75</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="bdb96e7d1102617d7df5e396fcaa7f1331731415" datatype="html">
+        <source>camera on robot arm: </source>
+        <target>相机在机械臂上:</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/pages/workspace-config/camera-config-viewer/camera-config-viewer.component.html</context>
+          <context context-type="linenumber">88</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="true" datatype="html">
+        <source>True</source>
+        <target>是</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/pages/workspace-config/camera-config-viewer/camera-config-viewer.component.html</context>
+          <context context-type="linenumber">90</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="false" datatype="html">
+        <source>False</source>
+        <target>否</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/pages/workspace-config/camera-config-viewer/camera-config-viewer.component.html</context>
+          <context context-type="linenumber">91</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="36e9c104b731e457d20a5fb9df16658c65daec2d" datatype="html">
+        <source>SAVE FOREGROUND AND ROI LABELS</source>
+        <target>保存前景和ROI边缘标记点</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/pages/workspace-config/camera-config-viewer/camera-config-viewer.component.html</context>
+          <context context-type="linenumber">119</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="draw-line" datatype="html">
+        <source>
+      Draw Line
+    </source>
+	<target>画线</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/pages/workspace-config/camera-config-viewer/camera-config-viewer.component.html</context>
+          <context context-type="linenumber">127</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="draw-rect" datatype="html">
+        <source>
+      Draw Rect
+    </source>
+	<target>画矩形</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/pages/workspace-config/camera-config-viewer/camera-config-viewer.component.html</context>
+          <context context-type="linenumber">136</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="17ea888c41eab5a062cd4729827e695789eb4290" datatype="html">
+        <source>1: You can click the left mouse button on the camera image to draw lines to mark the foreground. Use &apos;ctrl + z&apos; to undo last operation and &apos;ctrl + x&apos; to close the figure.
+
+    2: You can click the left mouse button and move the mouse to draw a rectangle to mark the ROI. The new drawing result will replace the last one.</source>
+<target>1: 你可以在相机图片上左击鼠标画线去标记前景图。使用&apos;ctrl + z&apos; 撤销上一步画线操作，&apos;ctrl + x&apos; 闭合图形。
+2： 你可以按住鼠标左键加移动鼠标画矩形框去标记ROI的区域，新的矩形框会代替旧的矩形框 </target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/pages/workspace-config/camera-config-viewer/camera-config-viewer.component.html</context>
+          <context context-type="linenumber">142</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="244061e083ed60aeaea3f1adf82d52d5f44143cf" datatype="html">
+        <source>Add Camera</source>
+        <target>绑定相机</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/pages/workspace-config/dialog-add-camera/dialog-add-camera.component.html</context>
+          <context context-type="linenumber">1</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="a0eb92d01f6d3c2cbcaf63c5d9b16519e19120ff" datatype="html">
+        <source>customize camera name</source>
+	<target>自定义相机名称</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/pages/workspace-config/dialog-add-camera/dialog-add-camera.component.html</context>
+          <context context-type="linenumber">19</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4427ebfe84dc10b18c303b0fc905dbffbdc90a2b" datatype="html">
+        <source>CONFIRM</source>
+	<target>确定</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/pages/workspace-config/dialog-add-camera/dialog-add-camera.component.html</context>
+          <context context-type="linenumber">29</context>
+        </context-group>
+        <note priority="1" from="description">confirm</note>
+      </trans-unit>
+```
+
+
+
+
+
