@@ -4,6 +4,10 @@
 
 ## 二、开发中遇到的问题总结
 
+对非线性开发模式的强力支持（允许成千上万个并行开发的分支）
+
+完全分布式
+
 每次进行切换的时候，实际上是切换的HEAD指针的指向
 
 https://www.imooc.com/learn/208
@@ -477,3 +481,39 @@ git branch --set-upstream-to=origin/gw-refactor  gw-refactor
 git-filter-branch  - 重写分支
 ```
 
+
+
+
+
+
+
+### 29、get stash
+
+```
+git stash 
+git stash list
+git stash apply xxx
+git stash pop
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# 重温
+
+git  add （最好的理解：精确的将内容添加到下一次提交中）
+
+
+
+git diff --staged (比对已暂存的文件和最后一席提交的文件差异)

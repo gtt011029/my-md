@@ -220,3 +220,71 @@ div {
   </style>
 ```
 
+
+
+
+
+## scss特性
+
+css的预处理语言
+
+scss是sass3.0引入的语法，可以理解为是一个升级的版本
+
+
+
+### 特点：
+
+1.import 其他的css scss文件
+
+2.继承
+
+```scss
+.container {
+	padding:0;
+}
+
+.myText {
+	@extend .container;
+    font-size: 1rem;
+}
+```
+
+
+
+3.Scss 占位符 %
+
+没有被继承就不会被编译
+
+```
+%m5 {
+	background-color: 3px;
+}
+.p1 {
+	@extend %m5;
+}
+```
+
+
+
+
+
+4. @mixin   写一些公用的css ，别人就可以@include 这些样式
+
+   
+
+5. 可嵌套
+
+6. 可定义一些变量
+
+   1. ```scss
+      $no-0: 0;
+      $no-0p4: 0.4rem;
+      $no-0p7: 0.7rem;
+      $no-1: 1rem;
+      $no-2: 1.2rem;
+      $no-3: 1.5rem;
+      $no-4: 2rem;
+      $no-5: 3rem;
+      ```
+
+      
