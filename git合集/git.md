@@ -487,7 +487,7 @@ git-filter-branch  - 重写分支
 
 
 
-### 29、get stash
+### 29、git stash
 
 ```
 git stash 
@@ -500,13 +500,77 @@ git stash pop
 
 
 
+### 30、git  commit
+
+重新提交
+
+
+
+```
+git commit --amend 重新提交
+git commit -a -m '' 将所有被修改或者已删除的已经被Git管理的文档提交到仓库
+```
+
+
+
+### 31、Git remote
+
+```
+git remote -v 查看远端仓库url
+git remote show origin 查看远端仓库信息
+git remote add origin xxx 添加仓库
+git remote remove origin 删除与远端仓库的连接
+git remote rename pb paul 重命名，将pb改为paul
+```
+
+
+
+### 32、Git tag
+
+标签：（轻量标签：很像一个不会改变的分支，只是一个特定提交的引用；
+
+附注标签：存储在git数据库中的一个完整对象，它们是可以被校验的）
+
+```
+git tag 查看已经打的标签
+```
+
+
+
+### 33、git config
+
+就是对git 进行一些配置，这些配置都是写在配置文件中
+
+
+
+local：仓库级配置（.git/config）当前仓库有效（针对一个仓库）
+
+global：全局级配置（~/.gitconfig）用户目录下的配置文件有效（针对一个用户））
+
+system：系统级配置（/etc/gitconfig）对所有用户都普遍适用的配置
+
+```
+git config [--global | --local | --system] --list		查看当前生效的配置文件
+
+配置文件的增删改查：
+git [--global | --local | --system] --add section.name value		增
+git [--global | --local | --system] --unset | --unset-all section.name		删
+git [--global | --local | --system] setction.naem newValue		改
+
+别名：
+git config --global alias.co commit
+git config --global alias.st status
+```
 
 
 
 
 
+```
+git branch branchName		创建分支
 
-
+HEAD指向的是当前所在的本地分支
+```
 
 
 
