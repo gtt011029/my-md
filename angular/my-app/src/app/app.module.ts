@@ -23,6 +23,8 @@ import { ObservableComponent } from './pages/observable/observable.component';
 import { AnnotationComponent } from './pages/annotation/annotation.component';
 import { PromiseTestComponent } from './pages/promise-test/promise-test.component';
 import { CommonDemoComponent } from './pages/common-demo/common-demo.component';
+import { FilterTestComponent } from './pages/filter-test/filter-test.component';
+
 
 @NgModule({
   declarations: [
@@ -43,7 +45,8 @@ import { CommonDemoComponent } from './pages/common-demo/common-demo.component';
     ObservableComponent,
     AnnotationComponent,
     PromiseTestComponent,
-    CommonDemoComponent
+    CommonDemoComponent,
+    FilterTestComponent
   ],
   imports: [
     BrowserModule,
