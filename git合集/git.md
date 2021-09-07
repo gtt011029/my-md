@@ -490,10 +490,10 @@ git-filter-branch  - 重写分支
 ### 29、git stash
 
 ```
-git stash 
-git stash list
-git stash apply xxx
-git stash pop
+git stash    // stash 当前改动
+git stash list  // 展示所有的stash
+git stash apply xxx  // 应用那个stash
+git stash pop  // 应用最新的stash
 ```
 
 
@@ -571,6 +571,40 @@ git branch branchName		创建分支
 
 HEAD指向的是当前所在的本地分支
 ```
+
+
+
+### 34、git merge
+
+当前分支合并目标分支，最后当前分支可能增加commit
+
+![image-20210907174447714](./img/image-20210907174447714.png)
+
+![image-20210907174635416](./img/image-20210907174635416.png)
+
+![image-20210907174922816](.git合集/img/image-20210907174922816.png)
+
+```
+git merge dev    // 当前分支合并dev分支
+```
+
+
+
+### 35、git rebase
+
+
+
+### 36、分支开发工作流
+
+
+
+### 37、删除远程分支
+
+```
+git push origin --delete dev
+```
+
+
 
 
 
