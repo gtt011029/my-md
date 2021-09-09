@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
-import {FlexLayoutModule} from '@angular/flex-layout';
+// import {FlexLayoutModule} from '@angular/flex-layout';
 
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
@@ -54,7 +54,7 @@ import { FilterTestComponent } from './pages/filter-test/filter-test.component';
     ReactiveFormsModule,
     FormsModule,
     BrowserAnimationsModule,
-    FlexLayoutModule
+    // FlexLayoutModule
   ],
   providers: [],
   bootstrap: [AppComponent]
