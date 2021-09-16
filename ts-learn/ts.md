@@ -158,6 +158,8 @@ myData = 7   //这边都是ok的
 
 能合并众多类型声明至一个类型声明
 
+**可继承**
+
 例：
 
 ```js
@@ -311,6 +313,8 @@ let sum (x: number, y: number) => number = function (x: number, y: number): numb
 
 ### 6.3、用接口定义函数的形状
 
+Ps: 我咋给忘了呢，记住呀，多用这个试试
+
 ```tsx
 interface SearchFunc {
     (source: string, subString: string): boolean
@@ -333,6 +337,8 @@ mySearch = function(source: string, subString: string) {
 
 重载允许一个函数接受不同数量或类型的参数时，做出不同的处理
 
+***同一套函数有不同的类型规则***
+
 ps：自我感觉并不是什么大的新的概念，感觉就是声明合并
 
 ```js
@@ -344,6 +350,17 @@ function reverse(x: number | string): number | string {
     } else if (typeof x === 'string') {
         return x.split('').reverse().join('');
     }
+}
+
+举例，要么传字符串要么传数值怎么办
+fn(1, 2)
+fn('1', '2')
+
+// 只定义结构
+function fn (x: number, y: number)
+function fn(x: string, y: string)
+function fn(x: any, y: any) {
+  
 }
 ```
 
@@ -925,6 +942,16 @@ function createArray<T>(length: number, value: T): Array<T> {
 }
 
 createArray<string>(3, 'x'); // ['x', 'x', 'x']
+
+
+
+再举一个例子
+function getUser<T, U>(a: U) {
+  return new Array<T>();
+}
+
+const arr = getUser<{id: number, name: string}, string>('1');
+    console.log(arr);
 
 ```
 

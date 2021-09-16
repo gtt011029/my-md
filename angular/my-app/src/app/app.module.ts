@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
-import {FlexLayoutModule} from '@angular/flex-layout';
+// import {FlexLayoutModule} from '@angular/flex-layout';
 
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
@@ -23,6 +23,8 @@ import { ObservableComponent } from './pages/observable/observable.component';
 import { AnnotationComponent } from './pages/annotation/annotation.component';
 import { PromiseTestComponent } from './pages/promise-test/promise-test.component';
 import { CommonDemoComponent } from './pages/common-demo/common-demo.component';
+import { FilterTestComponent } from './pages/filter-test/filter-test.component';
+
 
 @NgModule({
   declarations: [
@@ -43,7 +45,8 @@ import { CommonDemoComponent } from './pages/common-demo/common-demo.component';
     ObservableComponent,
     AnnotationComponent,
     PromiseTestComponent,
-    CommonDemoComponent
+    CommonDemoComponent,
+    FilterTestComponent
   ],
   imports: [
     BrowserModule,
@@ -51,7 +54,7 @@ import { CommonDemoComponent } from './pages/common-demo/common-demo.component';
     ReactiveFormsModule,
     FormsModule,
     BrowserAnimationsModule,
-    FlexLayoutModule
+    // FlexLayoutModule
   ],
   providers: [],
   bootstrap: [AppComponent]
