@@ -474,7 +474,7 @@ tom.push(true) //这边就会报错，true为boolean类型，不属于 string、
 
 
 
-## ==11、枚举 enum（得加深了解）==
+## ==11、枚举 enum==
 
 ps：感觉脑袋里不怎么有枚举的概念呀，这边和字符串字面量类型有什么区别呢
 
@@ -990,7 +990,7 @@ function loggingIdentity<T extends Lengthwise>(arg: T): T {
 
 
 
-### ==14.3、泛型接口 （得加深了解）==
+### ==14.3、泛型接口==
 
 ```tsx
 interface CreateArrayFunc {
