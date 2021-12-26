@@ -1169,3 +1169,15 @@ if __name__ == '__main__':
 
 灵活使用schema
 
+
+
+
+
+
+
+# 进程和线程
+
+多进程（multiprocessing）
+
+Process
+
