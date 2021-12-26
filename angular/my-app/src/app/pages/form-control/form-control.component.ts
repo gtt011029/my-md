@@ -52,6 +52,10 @@ export class FormControlComponent implements OnInit {
     this.profileForm.patchValue({name: 'Aaaa'}); // 哇哦， 这边是可以的
   }
 
+  getFirst() {
+    console.log('qq');
+  }
+
   ngOnInit() {
   }
 

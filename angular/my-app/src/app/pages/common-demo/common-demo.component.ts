@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NumberValueAccessor } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { LoggerService } from 'src/app/shared/logger.service';
 
@@ -21,6 +22,7 @@ export class CommonDemoComponent implements OnInit {
               private router: ActivatedRoute) { }
 
   ngOnInit() {
+    this.letcode([2,8,7,11,15], 9);
     const arr = getUser<{id: number, name: string}, string>('1');
     console.log(arr);
     this.loggerService.getLogger();
@@ -32,6 +34,16 @@ export class CommonDemoComponent implements OnInit {
     });
     this.test();
     this.fn1(1, '1');
+  }
+
+  letcode(nums: number[], target: number): number[] {
+    for (let i = 0; i < nums.length -1 ; i++) {
+      for (let j = i+1; j < nums.length; j++) {
+        if (nums[i] + nums[j] === target) {
+          return [i, j];
+        }
+      }
+    }
   }
 
   fn() {

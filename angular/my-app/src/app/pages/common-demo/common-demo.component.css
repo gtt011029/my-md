@@ -1,0 +1,71 @@
+.main {
+    width: 200px;
+    height: 200px;
+    background-color: red;
+    margin-top: 20px;
+    margin-left: 20px;
+}
+
+.main-2 {
+    width: 200px;
+    /* height: 200px; */
+    margin-top: 60px;
+    background-color: firebrick;
+    border: 1px solid #cccccc;
+}
+
+/* .main-2::before {
+    display: inline-block;
+    content: '111111111';
+    width: 200px;
+    height: 20px;
+    background-color: green;
+} */
+
+.main-2::first-letter {
+    color: pink
+}
+/* .main-2::after { */
+    /* clear: both;
+} */
+
+.main-2 > span {
+    clear: both;
+    overflow: hidden;
+    height: 0px;
+}
+
+.one, .two, .three {
+    width: 40px;
+    height: 40px;
+    border: 1px solid black;
+    float: left;
+}
+
+.main-2::after {
+    content: '';
+    clear: both;
+    display: table;
+    overflow: hidden;
+}
+
+/* .four {
+    display: block;
+    height: 0px;
+    clear: both;
+    overflow: hidden;
+} */
+
+.in {
+    background-color: yellow;
+    width: 50px;
+    height: 50px;
+    margin-left: 20px;
+    margin-top: 20px;
+}
+
+.main-3 {
+    width: 300px;
+    height: 300px;
+    border: 1px solid red;
+}
